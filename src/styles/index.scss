@@ -1,0 +1,353 @@
+$white: rgb(255, 255, 255);
+$black: rgb(0, 0, 0);
+
+$color-blue-100: rgb(16, 20, 27);
+$color-blue-300: rgb(28, 31, 37);
+$color-blue-400: rgb(76, 83, 91);
+$color-blue-500: rgb(0, 140, 204);
+$color-blue-700: rgb(100, 208, 228);
+$color-blue-900: rgb(208, 211, 212);
+
+$color-red-100: rgb(111, 29, 70);
+$color-red-300: rgb(170, 0, 80);
+$color-red-500: rgb(213, 0, 88);
+$color-red-700: rgb(234, 108, 176);
+$color-red-900: rgb(238, 190, 220);
+
+$color-basic-88: rgb(224, 224, 244);
+$color-basic-80: rgb(204, 204, 204);
+$color-basic-36: rgb(91, 91, 91);
+$color-basic-32: rgb(81, 81, 81);
+$color-basic-28: rgb(71, 71, 71);
+$color-basic-24: rgb(61, 61, 61);
+$color-basic: rgb(51, 51, 51);
+$color-basic-16: rgb(40, 40, 40);
+$color-basic-12: rgb(30, 30, 30);
+$color-basic-8: rgb(20, 20, 20);
+$color-basic-4: rgb(10, 10, 10);
+
+$color-primary: rgb(0, 102, 255);
+$color-accent: rgb(255, 51, 204);
+$color-accent-light: rgb(255, 153, 255);
+$color-block-editor: rgba(0, 0, 0, .5);
+
+$video-controls-height: 64px;
+$progress-bar-height: 16px;
+$block-controls-width: 48px;
+
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+}
+
+.top-pane {
+  height: 60vh;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.bottom-pane {
+  bottom: 0;
+  height: 40vh;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+.player {
+  background-color: $color-blue-300;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 50%;
+}
+
+.video {
+  background-color: $black;
+  height: calc(100% - #{$video-controls-height});
+  position: relative;
+
+  &__view {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.video-controls {
+  height: $video-controls-height;
+  min-height: $video-controls-height;
+  position: relative;
+  text-align: center;
+  width: 100%;
+
+  &__button {
+    background: transparent;
+    background-repeat: no-repeat;
+    border: 0;
+    height: 24px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    width: 24px;
+
+    &--play {
+      background-image: url('../assets/icons/ic_play.svg');
+    }
+
+    &--pause {
+      background-image: url('../assets/icons/ic_pause.svg');
+    }
+
+    &--mute {
+      background-image: url('../assets/icons/ic_volume_mute.svg');
+    }
+
+    &--unmute {
+      background-image: url('../assets/icons/ic_volume_up.svg');
+    }
+  }
+}
+
+.timeline {
+  background-color: $color-blue-100;
+  height: calc(100% - #{$progress-bar-height});
+  left: $block-controls-width;
+  position: absolute;
+  top: $progress-bar-height;
+  width: calc(100% - #{$block-controls-width});
+}
+
+.progress-bar {
+  background-color: $color-blue-400;
+  height: $progress-bar-height;
+  left: $block-controls-width;
+  min-height: $progress-bar-height;
+  position: absolute;
+  top: 0;
+  width: calc(100% - #{$block-controls-width});
+
+  &__indicator {
+    background-color: $color-blue-500;
+    border-bottom-left-radius: 3.2px;
+    border-bottom-right-radius: 3.2px;
+    height: $progress-bar-height;
+    min-height: $progress-bar-height;
+    position: relative;
+    width: 10px;
+  }
+
+  &__indicator-line {
+    background-color: inherit;
+    height: calc(100vh - #{$progress-bar-height});
+    left: 4.5px;
+    position: absolute;
+    top: $progress-bar-height;
+    width: 1px;
+    z-index: 99999;
+  }
+}
+
+
+.block {
+  background-color: $color-red-500;
+  color: $white;
+  display: inline-block;
+  height: 40%;
+  position: absolute;
+  top: 5%;
+
+  &--selected {
+    background-color: $color-red-900;
+
+    &:hover {
+      cursor: move;
+    }
+  }
+
+  &__timer {
+    background-color: #e6f71b;
+    content: '';
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 2px;
+
+    &--before {
+      left: 0;
+
+      &:hover {
+        cursor: w-resize;
+      }
+    }
+
+    &--after {
+      right: 0;
+
+      &:hover {
+        cursor: e-resize;
+      }
+    }
+  }
+}
+
+.block-editor {
+  background-color: $color-block-editor;
+  border-color: $color-blue-500;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  bottom: 30px;
+  left: 50%;
+  margin: 0 auto;
+  position: absolute;
+  transform: translateX(-50%);
+
+  &__textarea {
+    background: transparent;
+    border: 0;
+    color: $white;
+    font-size: 24px;
+    min-width: 60px;
+    resize: none;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.block-controls {
+  background-color: $color-blue-300;
+  height: 100%;
+  left: 0;
+  min-width: $block-controls-width;
+  position: absolute;
+  top: 0;
+  width: $block-controls-width;
+
+  &__button {
+    background: transparent;
+    border: 0;
+    height: 36px;
+    margin: 6px;
+    width: 36px;
+
+    &--add {
+      background-image: url('../assets/icons/ic-add.svg');
+    }
+
+    &--delete {
+      background-image: url('../assets/icons/ic-delete.svg');
+    }
+
+    &--clear {
+      background-image: url('../assets/icons/ic-clear.svg');
+    }
+  }
+}
+
+.block-table {
+  background-color: $color-basic-16;
+  border-collapse: collapse;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  table-layout: fixed;
+  top: 0;
+  width: 50%;
+
+  &__header {
+    background-color: $color-basic-12;
+  }
+
+  &__body {
+    display: block;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  &__row {
+    color: $color-basic-32;
+
+    &--header {
+      color: $color-basic-88;
+      display: block;
+      position: relative;
+    }
+  }
+
+  &__item {
+    border-color: $color-basic-24;
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+
+    &:nth-child(1) { max-width: 30px; min-width: 30px; }
+    &:nth-child(2) { max-width: 100px; min-width: 100px; }
+    &:nth-child(3) { max-width: 100px; min-width: 100px; }
+    &:nth-child(4) { width: 100%; }
+
+    &--header {
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
+  }
+}
+
+.resizer {
+  background-color: $black;
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: 9999;
+
+  &--horizontal {
+    cursor: e-resize;
+    height: 100%;
+    left: 100px;
+    width: 2px;
+  }
+
+  &--vertical {
+    cursor: n-resize;
+    height: 2px;
+    width: 100%;
+  }
+}
+
+.tutorial {
+  background-color: $color-blue-300;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  z-index: 99999;
+
+  &__context {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__icon {
+    height: 72px;
+    margin: 0 auto;
+    width: 72px;
+
+    &--load {
+      background-image: url('../assets/icons/ic_file_load.svg');
+    }
+  }
+
+  &__text {
+    color: $white;
+    font-size: 32px;
+  }
+}
