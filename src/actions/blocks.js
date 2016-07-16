@@ -1,24 +1,49 @@
 import * as types from './types';
 
-export const addBlock = (startTime, endTime) => {
+export const addBlockFirst = (startTime, endTime) => {
   return {
-    type: types.ADD_BLOCK,
+    type: types.ADD_BLOCK_FIRST,
     startTime,
     endTime
   };
 };
 
-export const deleteBlock = (block) => {
+export const addBlockLast = (startTime, endTime) => {
   return {
-    type: types.DELETE_BLOCK,
-    block
+    type: types.ADD_BLOCK_LAST,
+    startTime,
+    endTime
   };
 };
 
-export const clearBlock = (block) => {
+export const addBlockOver = (startTime, endTime) => {
+  return {
+    type: types.ADD_BLOCK_OVER,
+    startTime,
+    endTime
+  };
+};
+
+export const addBlockBetween = (startTime, endTime, nextBlockId) => {
+  return {
+    type: types.ADD_BLOCK_BETWEEN,
+    startTime,
+    endTime,
+    nextBlockId
+  };
+};
+
+export const deleteBlock = (id) => {
+  return {
+    type: types.DELETE_BLOCK,
+    id
+  };
+};
+
+export const clearBlock = (id) => {
   return {
     type: types.CLEAR_BLOCK,
-    block
+    id
   };
 };
 
@@ -29,9 +54,10 @@ export const selectBlock = (id) => {
   };
 };
 
-export const cancelBlock = () => {
+export const currentBlock = (id) => {
   return {
-    type: types.CANCEL_BLOCK
+    type: types.CURRENT_BLOCK,
+    id
   };
 };
 

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Actions from '../actions';
 import classNames from 'classnames';
+import Ink from 'react-ink';
 
 class Block extends Component {
   constructor(props) {
@@ -9,14 +10,26 @@ class Block extends Component {
     this.state = {
       position: this.props.startTime / this.props.duration * 100,
       length: this.props.endTime - this.props.startTime,
-      width: (this.props.endTime - this.props.startTime) / this.props.duration * 100
+      width: (this.props.endTime - this.props.startTime) / this.props.duration * 100,
+      hover: false
     };
+  }
+
+  handleBlockOver(e) {
+    e.stopPropagation();
+    this.setState({ hover: true });
+  }
+
+  handleBlockOut(e) {
+    e.stopPropagation();
+    this.setState({ hover: false });
   }
 
   handleBlockDown(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.props.isSelected ? undefined : this.props.onSelect(this.props.id);
+    if(!this.props.isSelected)
+      this.props.selectBlock(this.props.id);
 
 
     let timelineWidth = e.currentTarget.parentNode.offsetWidth;
@@ -60,7 +73,8 @@ class Block extends Component {
   handleTimerDown(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.props.isSelected ? undefined : this.props.onSelect(this.props.id);
+    if(!this.props.isSelected)
+      this.props.selectBlock(this.props.id);
 
     let timer = e.currentTarget;
     let timelineWidth = timer.parentNode.parentNode.offsetWidth;
@@ -124,6 +138,14 @@ class Block extends Component {
     document.addEventListener('mouseup', timerUpListener);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      position: nextProps.startTime / nextProps.duration * 100,
+      length: nextProps.endTime - nextProps.startTime,
+      width: (nextProps.endTime - nextProps.startTime) / nextProps.duration * 100,
+    });
+  }
+
   render() {
     let blockClass = classNames({
       'block': true,
@@ -134,41 +156,53 @@ class Block extends Component {
       <div
         className={blockClass}
         style={{ left: this.state.position + '%', width: this.state.width + '%' }}
-        onMouseDown={this.handleBlockDown.bind(this)}>
-        <div className="block__timer block__timer--before" onMouseDown={this.handleTimerDown.bind(this)}></div>
-        <div>{this.props.id}</div>
-        <div>{this.props.startTime} -> {this.props.endTime}</div>
-        <div>{this.props.subtitle}</div>
-        <div className="block__timer block__timer--after" onMouseDown={this.handleTimerDown.bind(this)}></div>
+        onMouseDown={this.handleBlockDown.bind(this)}
+        onMouseOver={this.handleBlockOver.bind(this)}
+        onMouseOut={this.handleBlockOut.bind(this)}>
+        <Ink />
+        <div
+          style={{ transform: 'scaleX(' + (this.props.isCurrent ? 1 : 0) + ')', width: (this.props.currentTime - this.props.startTime) / (this.props.endTime - this.props.startTime) * 100 + '%' }}
+          className="block__progress"></div>
+        <div
+          style={{ display: this.state.hover ? 'block' : 'none' }}
+          className="block__timer block__timer--before"
+          onMouseDown={this.handleTimerDown.bind(this)}></div>
+        <div className="block__wrapper">
+          <p className="block__text block__text--time">{this.props.id}　{this.props.startTime} → {this.props.endTime}</p>
+          <p className="block__text block__text--subtitle">{this.props.subtitle}</p>
+        </div>
+        <div
+          style={{ display: this.state.hover ? 'block' : 'none' }}
+          className="block__timer block__timer--after"
+          onMouseDown={this.handleTimerDown.bind(this)}></div>
       </div>
     );
   }
 }
 
 Block.propTypes = {
-  onSelect: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  selectBlock: PropTypes.func.isRequired,
   updateBlockTime: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   startTime: PropTypes.number.isRequired,
   endTime: PropTypes.number.isRequired,
   subtitle: PropTypes.string.isRequired,
+  isCurrent: PropTypes.bool.isRequired,
   isSelected: PropTypes.bool.isRequired,
+  currentTime: PropTypes.number,
   duration: PropTypes.number,
-  timelineWidth: PropTypes.number
 };
 
 const mapStateToProps = (state) => {
   return {
-    duration: state.player.duration,
-    timelineWidth: state.player.timelineWidth
+    currentTime: state.player.currentTime,
+    duration: state.player.duration
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSelect: (id) => dispatch(Actions.selectBlock(id)),
-    onCancel: () => dispatch(Actions.cancelBlock()),
+    selectBlock: (id) => dispatch(Actions.selectBlock(id)),
     updateBlockTime: (startTime, endTime) => dispatch(Actions.updateBlockTime(startTime, endTime))
   };
 };

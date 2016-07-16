@@ -36,6 +36,11 @@ var config = {
         test: /\.svg$/,
         loaders: ['svg-url'],
         exclude: /node_modules/
+      },
+      {
+        test: /\.woff$/,
+        loaders: ['file', 'url'],
+        exclude: /node_modules/
       }
     ]
   },

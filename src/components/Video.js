@@ -15,9 +15,9 @@ class Video extends Component {
     let currentBlock = this.props.blocks.find((block) => block.startTime <= e.target.currentTime && block.endTime >= e.target.currentTime);
 
     if(currentBlock) {
-      this.props.selectBlock(currentBlock.id);
+      this.props.currentBlock(currentBlock.id);
     } else {
-      this.props.cancelBlock();
+      this.props.currentBlock(null);
     }
     this.props.onUpdateCurrentTime(e.target.currentTime);
   }
@@ -70,8 +70,7 @@ Video.propTypes = {
   onUpdateCurrentTime: PropTypes.func.isRequired,
   onEndPlay: PropTypes.func.isRequired,
   onEndSeek: PropTypes.func.isRequired,
-  selectBlock: PropTypes.func.isRequired,
-  cancelBlock: PropTypes.func.isRequired,
+  currentBlock: PropTypes.func.isRequired,
   blocks: PropTypes.array.isRequired,
   playing: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired,
@@ -104,8 +103,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateCurrentTime: (currentTime) => dispatch(Actions.updateCurrentTime(currentTime)),
     onEndPlay: () => dispatch(Actions.endPlay()),
     onEndSeek: () => dispatch(Actions.endSeek()),
-    selectBlock: (id) => dispatch(Actions.selectBlock(id)),
-    cancelBlock: () => dispatch(Actions.cancelBlock())
+    currentBlock: (id) => dispatch(Actions.currentBlock(id))
   };
 };
 

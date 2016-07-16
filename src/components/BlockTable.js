@@ -18,8 +18,8 @@ class BlockTable extends Component {
           </tr>
         </thead>
         <tbody className="block-table__body">
-          {this.props.blocks.map((block) =>
-            <tr key={block.id} className="block-table__row">
+          {this.props.blocks.map((block, index) =>
+            <tr key={index} className="block-table__row">
               <td className="block-table__item">{block.id}</td>
               <td className="block-table__item">{block.startTime}</td>
               <td className="block-table__item">{block.endTime}</td>

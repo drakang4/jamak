@@ -15,10 +15,9 @@ class BlockEditor extends Component {
           className="block-editor__textarea"
           type="text"
           name="editor"
-          placeholder="Edit subtitle of a block"
-          value={this.props.selectedBlockId!=null ? this.props.blocks[this.props.selectedBlockId - 1].subtitle : ''}
+          value={this.props.currentBlockId!=null ? this.props.blocks[this.props.currentBlockId - 1].subtitle : ''}
           onChange={this.handleChange.bind(this)}
-          disabled={this.props.selectedBlockId==null}
+          disabled={this.props.currentBlockId==null}
           autoFocus></textarea>
       </div>
     );
@@ -28,13 +27,13 @@ class BlockEditor extends Component {
 BlockEditor.propTypes = {
   onBlockChange: PropTypes.func.isRequired,
   blocks: PropTypes.array.isRequired,
-  selectedBlockId: PropTypes.number
+  currentBlockId: PropTypes.number
 };
 
 const mapStateToProps = (state) => {
   return {
     blocks: state.blocks.blocks,
-    selectedBlockId: state.blocks.selectedBlockId
+    currentBlockId: state.blocks.currentBlockId
   };
 };
 

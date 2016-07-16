@@ -5,28 +5,48 @@ import Actions from '../actions';
 class BlockControls extends Component {
   handleAddClick(e) {
     e.preventDefault();
-    let id, startTime, endTime;
+    let startTime, endTime;
 
     /**
      * 현재 위치보다 앞에 있는 블록과 뒤에 있는 블록의 아이디를 구함
      * 없으면 null?
      */
-    let currentBlock = this.props.blocks.find((block) => block.startTime <= e.target.currentTime && block.endTime >= e.target.currentTime);
-
-    if(currentBlock) {
-      this.props.selectBlock(currentBlock.id);
-    } else {
-      this.props.cancelBlock();
-    }
 
 
     /**
-     * 블록을 만들 때 기본 길이는 3초
-     * 타임라인 끝을 초과하는 것을 방지
+     * 1. 맨 처음 또는 아무것도 없을 때 추가
+     * 3. 어떤 블록 위에서 추가
+     * 2. 블록 사이 간격에서 추가
+     * 4. 맨 마지막 블록 뒤에서 추가
      */
-    startTime = this.props.currentTime > 0 ? this.props.currentTime : 0;
-    endTime = this.props.currentTime + 3 > this.props.duration ? this.props.duration : this.props.currentTime + 3;
-    this.props.onAddBlock(startTime, endTime);
+
+    startTime = this.props.currentTime;
+    endTime = this.props.currentTime + 3;
+
+    if(!this.props.currentBlockId) {
+      if(this.props.blocks.length == 0 || this.props.blocks[0].startTime > this.props.currentTime) {
+        endTime = endTime < this.props.blocks[0].startTime ? endTime : this.props.blocks[0].startTime;
+        this.props.onAddBlockFirst(startTime, endTime);
+      } else if(this.props.blocks[this.props.blocks.length - 1].endTime < this.props.currentTime) {
+        endTime = endTime < this.props.duration ? endTime : this.props.duration;
+        this.props.onAddBlockLast(startTime, endTime);
+      } else {
+        for(var i = 0; i < this.props.blocks.length - 1; i++) {
+          if(this.props.blocks[i].endTime < this.props.currentTime && this.props.blocks[i + 1].startTime > this.props.currentTime) {
+            endTime = endTime < this.props.blocks[i + 1].startTime ? endTime : this.props.blocks[i + 1].startTime;
+            this.props.onAddBlockBetween(startTime, endTime, i + 2);
+            break;
+          }
+        }
+      }
+    } else {
+      if(this.props.blocks.length == this.props.currentBlockId) {
+        endTime = endTime < this.props.duration ? endTime : this.props.duration;
+      } else {
+        endTime = endTime < this.props.blocks[this.props.currentBlockId].startTime ? endTime : this.props.blocks[this.props.currentBlockId].startTime;
+      }
+      this.props.onAddBlockOver(startTime, endTime);
+    }
   }
 
   handleClearClick(e) {
@@ -60,19 +80,27 @@ class BlockControls extends Component {
 }
 
 BlockControls.propTypes = {
-  onAddBlock: PropTypes.func.isRequired,
+  onAddBlockFirst: PropTypes.func.isRequired,
+  onAddBlockLast: PropTypes.func.isRequired,
+  onAddBlockOver: PropTypes.func.isRequired,
+  onAddBlockBetween: PropTypes.func.isRequired,
   onClearBlock: PropTypes.func.isRequired,
   onDeleteBlock: PropTypes.func.isRequired,
+
+  blocks: PropTypes.array.isRequired,
+  currentBlockId: PropTypes.number,
+  selectedBlockId: PropTypes.number,
   url: PropTypes.string.isRequired,
   currentTime: PropTypes.number,
   duration: PropTypes.number,
-  selectedBlockId: PropTypes.number
 };
 
 const mapStateToProps = (state) => {
   return {
-    url: state.player.url,
+    blocks: state.blocks.blocks,
+    currentBlockId: state.blocks.currentBlockId,
     selectedBlockId: state.blocks.selectedBlockId,
+    url: state.player.url,
     currentTime: state.player.currentTime,
     duration: state.player.duration
   };
@@ -80,7 +108,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddBlock: (startTime, endTime) => dispatch(Actions.addBlock(startTime, endTime)),
+    onAddBlockFirst: (startTime, endTime) => dispatch(Actions.addBlockFirst(startTime, endTime)),
+    onAddBlockLast: (startTime, endTime) => dispatch(Actions.addBlockLast(startTime, endTime)),
+    onAddBlockOver: (startTime, endTime) => dispatch(Actions.addBlockOver(startTime, endTime)),
+    onAddBlockBetween: (startTime, endTime, nextBlockId) => dispatch(Actions.addBlockBetween(startTime, endTime, nextBlockId)),
     onClearBlock: (block) => dispatch(Actions.clearBlock(block)),
     onDeleteBlock: (block) => dispatch(Actions.deleteBlock(block))
   };

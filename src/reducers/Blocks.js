@@ -1,9 +1,12 @@
 import {
-  ADD_BLOCK,
+  ADD_BLOCK_FIRST,
+  ADD_BLOCK_LAST,
+  ADD_BLOCK_OVER,
+  ADD_BLOCK_BETWEEN,
   DELETE_BLOCK,
   CLEAR_BLOCK,
   SELECT_BLOCK,
-  CANCEL_BLOCK,
+  CURRENT_BLOCK,
   UPDATE_BLOCK_TEXT,
   UPDATE_BLOCK_TIME,
   LOAD_BLOCK_FILE,
@@ -16,17 +19,31 @@ const initialState = {
   blocks: [],
   selectedBlockId: null,
   currentBlockId: null,
-  beforeBlockId: null,
-  afterBlockId: null,
   blockFilePath: null,
   blockFileSaved: false
 };
 
 export default function blocks(state = initialState, action) {
   switch (action.type) {
-    // 새 블록 추가
-    // push 말고 splice로 하기
-    case ADD_BLOCK:
+    case ADD_BLOCK_FIRST:
+      return update(state, {
+        blocks: {
+          $unshift: [{
+            id: 1,
+            subtitle: '',
+            startTime: action.startTime,
+            endTime: action.endTime
+          }],
+          $apply: (blocks) => {
+            return blocks.map((block, index) => {
+              var obj = block;
+              obj.id = index + 1;
+              return obj;
+            });
+          }
+        }
+      });
+    case ADD_BLOCK_LAST:
       return update(state, {
         blocks: {
           $push: [{
@@ -35,6 +52,49 @@ export default function blocks(state = initialState, action) {
             startTime: action.startTime,
             endTime: action.endTime
           }]
+        }
+      });
+    case ADD_BLOCK_OVER:
+      return update(state, {
+        blocks: {
+          [state.currentBlockId - 1]: {
+            endTime: { $set: action.startTime}
+          },
+          $splice: [[
+            state.currentBlockId, 0, {
+              id: state.currentBlockId + 1,
+              subtitle: '',
+              startTime: action.startTime,
+              endTime: action.endTime
+            }
+          ]],
+          $apply: (blocks) => {
+            return blocks.map((block, index) => {
+              var obj = block;
+              obj.id = index + 1;
+              return obj;
+            });
+          }
+        }
+      });
+    case ADD_BLOCK_BETWEEN:
+      return update(state, {
+        blocks: {
+          $splice: [[
+            action.nextBlockId - 1, 0, {
+              id: action.nextBlockId,
+              subtitle: '',
+              startTime: action.startTime,
+              endTime: action.endTime
+            }
+          ]],
+          $apply: (blocks) => {
+            return blocks.map((block, index) => {
+              var obj = block;
+              obj.id = index + 1;
+              return obj;
+            });
+          }
         }
       });
     // 선택된 블록 삭제
@@ -53,34 +113,26 @@ export default function blocks(state = initialState, action) {
       return update(state, {
         blocks: {
           [state.selectedBlockId - 1]: {
-            subtitle: {
-              $set: ''
-            }
+            subtitle: { $set: '' }
           }
         }
       });
     // 블록 하나 선택
     case SELECT_BLOCK:
       return update(state, {
-        selectedBlockId: {
-          $set: state.blocks[action.id - 1].id
-        }
+        selectedBlockId: { $set: action.id }
       });
-    // 블록 선택 취소
-    case CANCEL_BLOCK:
+    // 현재 재생 위치에 있는 블록
+    case CURRENT_BLOCK:
       return update(state, {
-        selectedBlockId: {
-          $set: null
-        }
+        currentBlockId: { $set: action.id }
       });
     // 선택된 블록 자막 수정
     case UPDATE_BLOCK_TEXT:
       return update(state, {
         blocks: {
           [state.selectedBlockId - 1]: {
-            subtitle: {
-              $set: action.subtitle
-            }
+            subtitle: { $set: action.subtitle }
           }
         }
       });
@@ -89,41 +141,27 @@ export default function blocks(state = initialState, action) {
       return update(state, {
         blocks: {
           [state.selectedBlockId - 1]: {
-            startTime: {
-              $set: action.startTime
-            },
-            endTime: {
-              $set: action.endTime
-            }
+            startTime: { $set: action.startTime },
+            endTime: { $set: action.endTime }
           }
         }
       });
     // 자막 파일 블록으로 불러오기
     case LOAD_BLOCK_FILE:
       return update(state, {
-        blocks: {
-          $set: action.blocks
-        }
+        blocks: { $set: action.blocks }
       });
     // 한 번 이상 저장된 자막 파일로 설정
     case SAVED_BLOCK_FILE:
       return update(state, {
-        blockFilePath: {
-          $set: action.path
-        },
-        blockFileSaved: {
-          $set: true
-        }
+        blockFilePath: { $set: action.path },
+        blockFileSaved: { $set: true }
       });
     // 저장되지 않은 자막 파일로 설정
     case UNSAVED_BLOCK_FILE:
       return update(state, {
-        blockFilePath: {
-          $set: null
-        },
-        blockFileSaved: {
-          $set: false
-        }
+        blockFilePath: { $set: null },
+        blockFileSaved: { $set: false }
       });
 
     default:

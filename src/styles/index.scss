@@ -1,16 +1,18 @@
 $white: rgb(255, 255, 255);
 $black: rgb(0, 0, 0);
 
-$color-blue-100: rgb(16, 20, 27);
-$color-blue-300: rgb(28, 31, 37);
+// 블루 컬러
+$color-blue-100: rgb(20, 28, 32);
+$color-blue-300: rgb(32, 40, 44);
 $color-blue-400: rgb(76, 83, 91);
 $color-blue-500: rgb(0, 140, 204);
 $color-blue-700: rgb(100, 208, 228);
-$color-blue-900: rgb(208, 211, 212);
+$color-blue-900: rgb(236, 246, 249);
 
+// 레드 컬러
 $color-red-100: rgb(111, 29, 70);
-$color-red-300: rgb(170, 0, 80);
-$color-red-500: rgb(213, 0, 88);
+$color-red-300: rgb(224, 72, 128);
+$color-red-500: rgb(255, 102, 175);
 $color-red-700: rgb(234, 108, 176);
 $color-red-900: rgb(238, 190, 220);
 
@@ -26,9 +28,7 @@ $color-basic-12: rgb(30, 30, 30);
 $color-basic-8: rgb(20, 20, 20);
 $color-basic-4: rgb(10, 10, 10);
 
-$color-primary: rgb(0, 102, 255);
-$color-accent: rgb(255, 51, 204);
-$color-accent-light: rgb(255, 153, 255);
+// 특수 컬러
 $color-block-editor: rgba(0, 0, 0, .5);
 
 $video-controls-height: 64px;
@@ -37,6 +37,7 @@ $block-controls-width: 48px;
 
 html,
 body {
+  font-family: 'Spoqa Han Sans';
   height: 100vh;
   overflow: hidden;
   width: 100vw;
@@ -156,6 +157,7 @@ body {
 
 .block {
   background-color: $color-red-500;
+  box-shadow: 0 0 0 2px $color-red-300 inset;
   color: $white;
   display: inline-block;
   height: 40%;
@@ -164,9 +166,33 @@ body {
 
   &--selected {
     background-color: $color-red-900;
+    z-index: 10000;
 
     &:hover {
       cursor: move;
+    }
+  }
+
+  &__wrapper {
+    padding: 8px;
+    padding-top: 24px;
+    white-space: nowrap;
+  }
+
+  &__text {
+    color: $black;
+    font-size: 18px;
+    margin: 0;
+    overflow: hidden;
+
+    &--time {
+      font-weight: 400;
+      margin-bottom: 12px;
+      opacity: .5;
+    }
+
+    &--subtitle {
+      font-weight: 400;
     }
   }
 
@@ -194,14 +220,18 @@ body {
       }
     }
   }
+
+  &__progress {
+    background-color: $color-red-900;
+    height: 4px;
+    left: 0;
+    max-width: 100%;
+    position: absolute;
+    transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  }
 }
 
 .block-editor {
-  background-color: $color-block-editor;
-  border-color: $color-blue-500;
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 1px;
   bottom: 30px;
   left: 50%;
   margin: 0 auto;
@@ -212,11 +242,23 @@ body {
     background: transparent;
     border: 0;
     color: $white;
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 400;
     min-width: 60px;
     resize: none;
     text-align: center;
+    text-shadow: 1px 1px 0 $black, 1px -1px 0 $black, -1px 1px 0 $black, -1px -1px 0 $black;
     width: 100%;
+
+    &:focus {
+      background-color: $color-block-editor;
+      border-color: $color-blue-500;
+      border-radius: 4px;
+      border-style: solid;
+      border-width: 1px;
+      outline: 0;
+      text-shadow: none;
+    }
   }
 }
 
@@ -251,7 +293,7 @@ body {
 }
 
 .block-table {
-  background-color: $color-basic-16;
+  background-color: $color-blue-300;
   border-collapse: collapse;
   height: 100%;
   position: absolute;
@@ -261,7 +303,7 @@ body {
   width: 50%;
 
   &__header {
-    background-color: $color-basic-12;
+    background-color: $color-blue-100;
   }
 
   &__body {

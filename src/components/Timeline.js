@@ -29,15 +29,16 @@ class Timeline extends Component {
 
   render() {
     return (
-      <div ref={(ref) => this.timeline = ref} className="timeline">
-        {this.props.blocks.map((block) =>
+      <div onMouseDown={() => this.props.selectBlock(null)} className="timeline">
+        {this.props.blocks.map((block, index) =>
           <Block
-            key={block.id}
+            key={index}
             id={block.id}
             startTime={block.startTime}
             endTime={block.endTime}
             subtitle={block.subtitle}
-            isSelected={this.props.selectedBlockId == block.id ? true : false} />
+            isSelected={this.props.selectedBlockId == block.id ? true : false}
+            isCurrent={this.props.currentBlockId == block.id ? true : false}/>
         )}
       </div>
     );
@@ -49,7 +50,10 @@ Timeline.propTypes = {
   loadBlockFile: PropTypes.func.isRequired,
   savedBlockFile: PropTypes.func.isRequired,
   unsavedBlockFile: PropTypes.func.isRequired,
+  selectBlock: PropTypes.func.isRequired,
+  cancelBlock: PropTypes.func.isRequired,
   blocks: PropTypes.array.isRequired,
+  currentBlockId: PropTypes.number,
   selectedBlockId: PropTypes.number,
   blockFilePath: PropTypes.string,
   blockFileSaved: PropTypes.bool.isRequired
@@ -58,6 +62,7 @@ Timeline.propTypes = {
 const mapStateToProps = (state) => {
   return {
     blocks: state.blocks.blocks,
+    currentBlockId: state.blocks.currentBlockId,
     selectedBlockId: state.blocks.selectedBlockId,
     blockFilePath: state.blocks.blockFilePath,
     blockFileSaved: state.blocks.blockFileSaved
@@ -69,7 +74,9 @@ const mapDispatchToProps = (dispatch) => {
     newBlockFile: () => dispatch(Actions.newBlockFile()),
     loadBlockFile: (blocks) => dispatch(Actions.loadBlockFile(blocks)),
     savedBlockFile: (path) => dispatch(Actions.savedBlockFile(path)),
-    unsavedBlockFile: () => dispatch(Actions.unsavedBlockFile())
+    unsavedBlockFile: () => dispatch(Actions.unsavedBlockFile()),
+    selectBlock: (id) => dispatch(Actions.selectBlock(id)),
+    cancelBlock: () => dispatch(Actions.cancelBlock())
   };
 };
 
