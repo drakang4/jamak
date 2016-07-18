@@ -1,4 +1,6 @@
 /* Block action types */
+export const RESET_BLOCK_ID = 'RESET_BLOCK_ID';
+export const SORT_BLOCKS = 'SORT_BLOCKS';
 export const ADD_BLOCK_FIRST = 'ADD_BLOCK_FIRST';
 export const ADD_BLOCK_LAST = 'ADD_BLOCK_LAST';
 export const ADD_BLOCK_OVER = 'ADD_BLOCK_OVER';

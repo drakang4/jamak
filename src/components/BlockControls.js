@@ -24,7 +24,10 @@ class BlockControls extends Component {
     endTime = this.props.currentTime + 3;
 
     if(!this.props.currentBlockId) {
-      if(this.props.blocks.length == 0 || this.props.blocks[0].startTime > this.props.currentTime) {
+      if(this.props.blocks.length == 0) {
+        endTime = endTime < this.props.duration ? endTime : this.props.duration;
+        this.props.onAddBlockFirst(startTime, endTime);
+      } else if(this.props.blocks[0].startTime > this.props.currentTime) {
         endTime = endTime < this.props.blocks[0].startTime ? endTime : this.props.blocks[0].startTime;
         this.props.onAddBlockFirst(startTime, endTime);
       } else if(this.props.blocks[this.props.blocks.length - 1].endTime < this.props.currentTime) {
@@ -47,6 +50,7 @@ class BlockControls extends Component {
       }
       this.props.onAddBlockOver(startTime, endTime);
     }
+    this.props.onResetBlockId();
   }
 
   handleClearClick(e) {
@@ -57,6 +61,16 @@ class BlockControls extends Component {
   handleDeleteClick(e) {
     e.preventDefault();
     this.props.onDeleteBlock(this.props.selectedBlockId);
+    this.props.onResetBlockId();
+
+    // 삭제 후 현재 블록의 ID를 다시 구해야 함.
+    let currentBlock = this.props.blocks.find((block) => block.startTime <= this.props.currentTime && block.endTime >= this.props.currentTime);
+
+    if(currentBlock) {
+      this.props.onCurrentBlock(currentBlock.id);
+    } else {
+      this.props.onCurrentBlock(null);
+    }
   }
 
   render() {
@@ -86,6 +100,8 @@ BlockControls.propTypes = {
   onAddBlockBetween: PropTypes.func.isRequired,
   onClearBlock: PropTypes.func.isRequired,
   onDeleteBlock: PropTypes.func.isRequired,
+  onResetBlockId: PropTypes.func.isRequired,
+  onCurrentBlock: PropTypes.func.isRequired,
 
   blocks: PropTypes.array.isRequired,
   currentBlockId: PropTypes.number,
@@ -113,7 +129,9 @@ const mapDispatchToProps = (dispatch) => {
     onAddBlockOver: (startTime, endTime) => dispatch(Actions.addBlockOver(startTime, endTime)),
     onAddBlockBetween: (startTime, endTime, nextBlockId) => dispatch(Actions.addBlockBetween(startTime, endTime, nextBlockId)),
     onClearBlock: (block) => dispatch(Actions.clearBlock(block)),
-    onDeleteBlock: (block) => dispatch(Actions.deleteBlock(block))
+    onDeleteBlock: (block) => dispatch(Actions.deleteBlock(block)),
+    onResetBlockId: () => dispatch(Actions.resetBlockId()),
+    onCurrentBlock: (id) => dispatch(Actions.currentBlock(id))
   };
 };
 

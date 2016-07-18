@@ -1,4 +1,6 @@
 import {
+  RESET_BLOCK_ID,
+  SORT_BLOCKS,
   ADD_BLOCK_FIRST,
   ADD_BLOCK_LAST,
   ADD_BLOCK_OVER,
@@ -25,15 +27,10 @@ const initialState = {
 
 export default function blocks(state = initialState, action) {
   switch (action.type) {
-    case ADD_BLOCK_FIRST:
+    // Reset blocks' ID with index.
+    case RESET_BLOCK_ID:
       return update(state, {
         blocks: {
-          $unshift: [{
-            id: 1,
-            subtitle: '',
-            startTime: action.startTime,
-            endTime: action.endTime
-          }],
           $apply: (blocks) => {
             return blocks.map((block, index) => {
               var obj = block;
@@ -43,6 +40,38 @@ export default function blocks(state = initialState, action) {
           }
         }
       });
+    // Sort blocks by value of startTime
+    case SORT_BLOCKS:
+      var sortedBlocks = state.blocks.slice().sort(function(a, b) {
+        if(a.startTime > b.startTime) {
+          return 1;
+        } else if(a.startTime < b.startTime) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      return update(state, {
+        blocks: {
+          $set: sortedBlocks
+        }
+      });
+    // 첫번째 블록을 만들거나 맨 앞 부분에 새 블록을 추가
+    case ADD_BLOCK_FIRST:
+      return update(state, {
+        blocks: {
+          $unshift: [{
+            id: 1,
+            subtitle: '',
+            startTime: action.startTime,
+            endTime: action.endTime
+          }]
+        },
+        currentBlockId: { $set: 1 },
+        selectedBlockId: { $set: 1 }
+      });
+    // 맨 마지막에 새 블록 추가
     case ADD_BLOCK_LAST:
       return update(state, {
         blocks: {
@@ -52,8 +81,11 @@ export default function blocks(state = initialState, action) {
             startTime: action.startTime,
             endTime: action.endTime
           }]
-        }
+        },
+        currentBlockId: { $set: state.blocks.length + 1 },
+        selectedBlockId: { $set: state.blocks.length + 1 }
       });
+    // 어떤 블록 위에서 새 블록 추가
     case ADD_BLOCK_OVER:
       return update(state, {
         blocks: {
@@ -67,16 +99,12 @@ export default function blocks(state = initialState, action) {
               startTime: action.startTime,
               endTime: action.endTime
             }
-          ]],
-          $apply: (blocks) => {
-            return blocks.map((block, index) => {
-              var obj = block;
-              obj.id = index + 1;
-              return obj;
-            });
-          }
-        }
+          ]]
+        },
+        currentBlockId: { $set: state.currentBlockId + 1 },
+        selectedBlockId: { $set: state.currentBlockId + 1 }
       });
+    // 블록을 두 블록 사이에 새 블록 추가
     case ADD_BLOCK_BETWEEN:
       return update(state, {
         blocks: {
@@ -87,32 +115,27 @@ export default function blocks(state = initialState, action) {
               startTime: action.startTime,
               endTime: action.endTime
             }
-          ]],
-          $apply: (blocks) => {
-            return blocks.map((block, index) => {
-              var obj = block;
-              obj.id = index + 1;
-              return obj;
-            });
-          }
-        }
+          ]]
+        },
+        currentBlockId: { $set: action.nextBlockId },
+        selectedBlockId: { $set: action.nextBlockId }
       });
     // 선택된 블록 삭제
     // update를 이용해 리턴하는 것으로 만들기
     case DELETE_BLOCK:
-      return Object.assign({}, state, {
-        blocks: state.blocks.filter(block => block.id !== state.selectedBlockId).map((block, index) => {
-          return Object.assign({}, block, {
-            id: index + 1
-          });
-        }),
-        selectedBlockId: null
+      return update(state, {
+        blocks: {
+          $splice: [[
+            action.id - 1, 1
+          ]]
+        },
+        selectedBlockId: { $set: null }
       });
     // 선택된 블록 초기화
     case CLEAR_BLOCK:
       return update(state, {
         blocks: {
-          [state.selectedBlockId - 1]: {
+          [action.id - 1]: {
             subtitle: { $set: '' }
           }
         }
@@ -131,7 +154,7 @@ export default function blocks(state = initialState, action) {
     case UPDATE_BLOCK_TEXT:
       return update(state, {
         blocks: {
-          [state.selectedBlockId - 1]: {
+          [state.currentBlockId - 1]: {
             subtitle: { $set: action.subtitle }
           }
         }
@@ -140,7 +163,7 @@ export default function blocks(state = initialState, action) {
     case UPDATE_BLOCK_TIME:
       return update(state, {
         blocks: {
-          [state.selectedBlockId - 1]: {
+          [action.id - 1]: {
             startTime: { $set: action.startTime },
             endTime: { $set: action.endTime }
           }

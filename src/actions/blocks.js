@@ -1,5 +1,17 @@
 import * as types from './types';
 
+export const resetBlockId = () => {
+  return {
+    type: types.RESET_BLOCK_ID
+  };
+};
+export const sortBlocks = (blocks) => {
+  return {
+    type: types.SORT_BLOCKS,
+    blocks
+  };
+};
+
 export const addBlockFirst = (startTime, endTime) => {
   return {
     type: types.ADD_BLOCK_FIRST,
@@ -68,9 +80,10 @@ export const updateBlockText = (subtitle) => {
   };
 };
 
-export const updateBlockTime = (startTime, endTime) => {
+export const updateBlockTime = (id, startTime, endTime) => {
   return {
     type: types.UPDATE_BLOCK_TIME,
+    id,
     startTime,
     endTime
   };

@@ -15,6 +15,35 @@ class Block extends Component {
     };
   }
 
+  handleFinish() {
+    for(var i = 0; i < this.props.blocks.length; i++) {
+      let block = this.props.blocks[i];
+
+      // 현재 블록이 앞의 블록을 덮었을 때
+      if(this.props.startTime < block.startTime && this.props.endTime > block.endTime) {
+        this.props.deleteBlock(i + 1);
+      } else if(this.props.startTime > block.startTime && this.props.startTime < block.endTime && this.props.endTime > block.endTime) {
+        this.props.updateBlockTime(i + 1, block.startTime, this.props.startTime);
+      } else if (this.props.endTime > block.startTime && this.props.endTime < block.endTime && this.props.startTime < block.startTime) {
+        this.props.updateBlockTime(i + 1, this.props.endTime, block.endTime);
+      } else {
+        // 움직인 블록이 긴 블록에 들어가 있는 경우
+        // 긴 블록을 두 조각 내야 한다.
+      }
+    }
+
+    this.props.sortBlocks();
+    this.props.resetBlockId();
+    // 삭제 후 현재 블록의 ID를 다시 구해야 함.
+    let currentBlock = this.props.blocks.find((block) => block.startTime <= this.props.currentTime && block.endTime >= this.props.currentTime);
+
+    if(currentBlock) {
+      this.props.currentBlock(currentBlock.id);
+    } else {
+      this.props.currentBlock(null);
+    }
+  }
+
   handleBlockOver(e) {
     e.stopPropagation();
     this.setState({ hover: true });
@@ -58,10 +87,11 @@ class Block extends Component {
       let startTime = Number((this.state.position / 100 * this.props.duration).toFixed(6));
       let endTime = Number((startTime + this.state.length).toFixed(6));
 
-      this.props.updateBlockTime(startTime, endTime);
+      this.props.updateBlockTime(this.props.id, startTime, endTime);
     };
 
     let blockUpListener = (e) => {
+      this.handleFinish();
       document.removeEventListener('mousemove', blockMoveListener);
       document.removeEventListener('mouseup', blockUpListener);
     };
@@ -126,11 +156,12 @@ class Block extends Component {
         }
 
         this.setState({ position: position, width: width, length: endTime - startTime });
-        this.props.updateBlockTime(startTime, endTime);
+        this.props.updateBlockTime(this.props.id, startTime, endTime);
       }
     };
 
     let timerUpListener = (e) => {
+      this.handleFinish();
       document.removeEventListener('mousemove', timerMoveListener);
       document.removeEventListener('mouseup', timerUpListener);
     };
@@ -181,8 +212,13 @@ class Block extends Component {
 }
 
 Block.propTypes = {
+  deleteBlock: PropTypes.func.isRequired,
   selectBlock: PropTypes.func.isRequired,
+  currentBlock: PropTypes.func.isRequired,
   updateBlockTime: PropTypes.func.isRequired,
+  resetBlockId: PropTypes.func.isRequired,
+  sortBlocks: PropTypes.func.isRequired,
+  blocks: PropTypes.array.isRequired,
   id: PropTypes.number.isRequired,
   startTime: PropTypes.number.isRequired,
   endTime: PropTypes.number.isRequired,
@@ -195,6 +231,7 @@ Block.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    blocks: state.blocks.blocks,
     currentTime: state.player.currentTime,
     duration: state.player.duration
   };
@@ -202,8 +239,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteBlock: (id) => dispatch(Actions.deleteBlock(id)),
     selectBlock: (id) => dispatch(Actions.selectBlock(id)),
-    updateBlockTime: (startTime, endTime) => dispatch(Actions.updateBlockTime(startTime, endTime))
+    currentBlock: (id) => dispatch(Actions.currentBlock(id)),
+    updateBlockTime: (id, startTime, endTime) => dispatch(Actions.updateBlockTime(id, startTime, endTime)),
+    resetBlockId: () => dispatch(Actions.resetBlockId()),
+    sortBlocks: (blocks) => dispatch(Actions.sortBlocks(blocks))
   };
 };
 
