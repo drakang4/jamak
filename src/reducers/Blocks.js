@@ -21,7 +21,7 @@ const initialState = {
   blocks: [],
   selectedBlockId: null,
   currentBlockId: null,
-  blockFilePath: null,
+  blockFilePath: '',
   blockFileSaved: false
 };
 
@@ -183,7 +183,7 @@ export default function blocks(state = initialState, action) {
     // 저장되지 않은 자막 파일로 설정
     case UNSAVED_BLOCK_FILE:
       return update(state, {
-        blockFilePath: { $set: null },
+        blockFilePath: { $set: '' },
         blockFileSaved: { $set: false }
       });
 

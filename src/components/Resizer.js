@@ -15,7 +15,7 @@ class Resizer extends Component {
         if(left < 200)
           left = 200;
         if(document.body.clientWidth - left < 200) {
-          top = document.body.clientWidth - 200;
+          left = document.body.clientWidth - 200;
         }
 
         this.props.onResizerMoveHor(left);

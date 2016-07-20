@@ -9,6 +9,7 @@ import BlockEditor from './BlockEditor.js';
 class Video extends Component {
   handleLoadedData(e) {
     this.props.onUpdateDuration(e.target.duration);
+    this.props.onUpdateCurrentTime(0);
   }
 
   handleTimeUpdate(e) {

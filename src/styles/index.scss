@@ -150,7 +150,7 @@ body {
     position: absolute;
     top: $progress-bar-height;
     width: 1px;
-    z-index: 99999;
+    z-index: 10000;
   }
 }
 
@@ -166,7 +166,7 @@ body {
 
   &--selected {
     background-color: $color-red-900;
-    z-index: 10000;
+    z-index: 1000;
 
     &:hover {
       cursor: move;
@@ -347,7 +347,7 @@ body {
   left: 0;
   position: absolute;
   top: 0;
-  z-index: 9999;
+  z-index: 10000;
 
   &--horizontal {
     cursor: e-resize;
@@ -371,11 +371,16 @@ body {
   width: 100%;
   z-index: 99999;
 
-  &__context {
+
+  &__wrapper {
+    top: 50%;
     left: 50%;
     position: absolute;
-    top: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  &__context {
+    margin-bottom: 100px;
   }
 
   &__icon {
@@ -392,4 +397,30 @@ body {
     color: $white;
     font-size: 32px;
   }
+
+  &__button {
+    background-color: $color-blue-500;
+    border: 0;
+    color: $white;
+    font-size: 18px;
+    font-weight: 200;
+    outline: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  &__stepper {
+
+  }
+
+  &__stepper-circle {
+    fill: $white;
+
+    &--active {
+      fill: $color-blue-500;
+    }
+  }
+
 }

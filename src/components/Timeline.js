@@ -55,7 +55,7 @@ Timeline.propTypes = {
   blocks: PropTypes.array.isRequired,
   currentBlockId: PropTypes.number,
   selectedBlockId: PropTypes.number,
-  blockFilePath: PropTypes.string,
+  blockFilePath: PropTypes.string.isRequired,
   blockFileSaved: PropTypes.bool.isRequired
 };
 
