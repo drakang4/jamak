@@ -12,17 +12,17 @@ class ProgressBar extends Component {
     e.stopPropagation();
 
     let progressWidth = e.currentTarget.offsetWidth;
-    let progressLeft = e.currentTarget.offsetLeft;
-    let progressCoord = e.clientX - progressLeft;
+    let progressLeft = e.currentTarget.parentNode.parentNode.offsetLeft;
+    let progressScroll = e.currentTarget.parentNode.parentNode.scrollLeft;
+    let progressCoord = e.clientX + progressScroll - progressLeft;
     let progressRate = progressCoord / progressWidth;
-
     this.props.onProgressDown(progressRate);
 
     let mouseMoveListener = (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      progressCoord = e.clientX - progressLeft;
+      progressCoord = e.clientX + progressScroll - progressLeft;
       progressRate = progressCoord / progressWidth;
 
       if(progressRate < 0) {

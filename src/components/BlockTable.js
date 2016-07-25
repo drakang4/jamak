@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { playerToSrt } from '../utils/timeParser';
 
 class BlockTable extends Component {
   render() {
@@ -21,8 +22,8 @@ class BlockTable extends Component {
           {this.props.blocks.map((block, index) =>
             <tr key={index} className="block-table__row">
               <td className="block-table__item">{block.id}</td>
-              <td className="block-table__item">{block.startTime}</td>
-              <td className="block-table__item">{block.endTime}</td>
+              <td className="block-table__item">{playerToSrt(block.startTime)}</td>
+              <td className="block-table__item">{playerToSrt(block.endTime)}</td>
               <td className="block-table__item">{block.subtitle}</td>
             </tr>
           )}

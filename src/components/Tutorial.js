@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+import TutorialContext from './TutorialContext';
+import TutorialStepper from './TutorialStepper';
 
 class Tutorial extends Component {
   constructor(props) {
@@ -8,6 +9,13 @@ class Tutorial extends Component {
     this.state = {
       step: 1
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.state.step == 1 && nextProps.url != '')
+      this.setState({step: 2});
+    if(this.state.step == 2 && nextProps.blockFilePath != '')
+      this.setState({step: 3});
   }
 
   render() {
@@ -18,20 +26,8 @@ class Tutorial extends Component {
     return (
       <div className="tutorial" style={style}>
         <div className="tutorial__wrapper">
-          <div className="tutorial__context">
-            <p className="tutorial__text">Drop your video file here</p>
-            <p className="tutorial__text">to create or edit subtitle</p>
-            <div className="tutorial__icon tutorial__icon--load"></div>
-            <p className="tutorial__text">Or</p>
-            <button className="tutorial__button ">Choose file</button>
-          </div>
-          <div className="tutorial__stepper">
-            <svg width="40" height="8">
-              <circle className={classNames({'tutorial__stepper-circle': true, 'tutorial__stepper-circle--active': this.state.step == 1})} cx="4" cy="4" r="4" />
-              <circle className={classNames({'tutorial__stepper-circle': true, 'tutorial__stepper-circle--active': this.state.step == 2})} cx="20" cy="4" r="4" />
-              <circle className={classNames({'tutorial__stepper-circle': true, 'tutorial__stepper-circle--active': this.state.step == 3})} cx="36" cy="4" r="4" />
-            </svg>
-          </div>
+          <TutorialContext step={this.state.step} />
+          <TutorialStepper step={this.state.step} />
         </div>
       </div>
     );

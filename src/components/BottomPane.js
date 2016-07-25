@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import BlockControls from './BlockControls';
-import ProgressBar from './ProgressBar';
+import TimeBar from './TimeBar';
 import Timeline from './Timeline';
 
 class BottomPane extends Component {
@@ -12,8 +12,8 @@ class BottomPane extends Component {
 
     return (
       <div className="bottom-pane" style={style}>
-        <ProgressBar />
         <BlockControls />
+        <TimeBar />
         <Timeline />
       </div>
     );

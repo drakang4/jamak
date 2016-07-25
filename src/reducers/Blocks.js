@@ -11,6 +11,7 @@ import {
   CURRENT_BLOCK,
   UPDATE_BLOCK_TEXT,
   UPDATE_BLOCK_TIME,
+  NEW_BLOCK_FILE,
   LOAD_BLOCK_FILE,
   SAVED_BLOCK_FILE,
   UNSAVED_BLOCK_FILE
@@ -168,6 +169,11 @@ export default function blocks(state = initialState, action) {
             endTime: { $set: action.endTime }
           }
         }
+      });
+    // 자막 파일 초기화
+    case NEW_BLOCK_FILE:
+      return update(state, {
+        blocks: { $set : [] }
       });
     // 자막 파일 블록으로 불러오기
     case LOAD_BLOCK_FILE:

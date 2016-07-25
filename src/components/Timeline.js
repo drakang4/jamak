@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ipcRenderer } from 'electron';
 import Actions from '../actions';
-import Block from './Block';
-import { fromSrt, toSrt } from '../utils/srtParser.js';
+import ProgressBar from './ProgressBar';
+import TimelineBlocks from './TimelineBlocks';
+import { fromSrt, toSrt } from '../utils/srtParser';
 
 class Timeline extends Component {
   componentDidMount() {
@@ -29,17 +30,13 @@ class Timeline extends Component {
 
   render() {
     return (
-      <div onMouseDown={() => this.props.selectBlock(null)} className="timeline">
-        {this.props.blocks.map((block, index) =>
-          <Block
-            key={index}
-            id={block.id}
-            startTime={block.startTime}
-            endTime={block.endTime}
-            subtitle={block.subtitle}
-            isSelected={this.props.selectedBlockId == block.id ? true : false}
-            isCurrent={this.props.currentBlockId == block.id ? true : false}/>
-        )}
+      <div className="timeline">
+        <div onMouseDown={() => this.props.selectBlock(null)} className="timeline__wrapper" style={{width: '100%'}}>
+          <ProgressBar />
+          <div className="timeline__contents">
+            <TimelineBlocks />
+          </div>
+        </div>
       </div>
     );
   }
@@ -51,10 +48,7 @@ Timeline.propTypes = {
   savedBlockFile: PropTypes.func.isRequired,
   unsavedBlockFile: PropTypes.func.isRequired,
   selectBlock: PropTypes.func.isRequired,
-  cancelBlock: PropTypes.func.isRequired,
   blocks: PropTypes.array.isRequired,
-  currentBlockId: PropTypes.number,
-  selectedBlockId: PropTypes.number,
   blockFilePath: PropTypes.string.isRequired,
   blockFileSaved: PropTypes.bool.isRequired
 };
@@ -62,8 +56,6 @@ Timeline.propTypes = {
 const mapStateToProps = (state) => {
   return {
     blocks: state.blocks.blocks,
-    currentBlockId: state.blocks.currentBlockId,
-    selectedBlockId: state.blocks.selectedBlockId,
     blockFilePath: state.blocks.blockFilePath,
     blockFileSaved: state.blocks.blockFileSaved
   };
@@ -76,7 +68,6 @@ const mapDispatchToProps = (dispatch) => {
     savedBlockFile: (path) => dispatch(Actions.savedBlockFile(path)),
     unsavedBlockFile: () => dispatch(Actions.unsavedBlockFile()),
     selectBlock: (id) => dispatch(Actions.selectBlock(id)),
-    cancelBlock: () => dispatch(Actions.cancelBlock())
   };
 };
 

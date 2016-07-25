@@ -32,6 +32,7 @@ $color-basic-4: rgb(10, 10, 10);
 $color-block-editor: rgba(0, 0, 0, .5);
 
 $video-controls-height: 64px;
+$time-bar-height: 32px;
 $progress-bar-height: 16px;
 $block-controls-width: 48px;
 
@@ -115,23 +116,71 @@ body {
   }
 }
 
+.time-bar {
+  background-color: $color-blue-300;
+  height: $time-bar-height;
+  width: calc(100% - #{$block-controls-width});
+  position: absolute;
+  top: 0;
+  left: $block-controls-width;
+
+  &__time {
+    line-height: $time-bar-height;
+    font-size: 16px;
+    color: $white;
+    position: absolute;
+
+    &--left {
+      left: 16px;
+    }
+
+    &--right {
+      right: 16px;
+    }
+  }
+}
+
 .timeline {
   background-color: $color-blue-100;
-  height: calc(100% - #{$progress-bar-height});
-  left: $block-controls-width;
-  position: absolute;
-  top: $progress-bar-height;
+  height: calc(100% - #{$time-bar-height});
   width: calc(100% - #{$block-controls-width});
+  position: absolute;
+  overflow-x: auto;
+  overflow-y: hidden;
+  top: $time-bar-height;
+  left: $block-controls-width;
+
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  &__contents {
+    position: absolute;
+    top: $progress-bar-height;
+    left: 0;
+    height: calc(100% - #{$progress-bar-height});
+    width: 100%;
+  }
+
+  &__blocks {
+    position: absolute;
+    height: 40%;
+    width: 100%;
+    top: 5%;
+  }
 }
 
 .progress-bar {
   background-color: $color-blue-400;
   height: $progress-bar-height;
-  left: $block-controls-width;
+  width: 100%;
   min-height: $progress-bar-height;
-  position: absolute;
   top: 0;
-  width: calc(100% - #{$block-controls-width});
+  left: 0;
+  position: absolute;
 
   &__indicator {
     background-color: $color-blue-500;
@@ -160,9 +209,8 @@ body {
   box-shadow: 0 0 0 2px $color-red-300 inset;
   color: $white;
   display: inline-block;
-  height: 40%;
+  height: 100%;
   position: absolute;
-  top: 5%;
 
   &--selected {
     background-color: $color-red-900;

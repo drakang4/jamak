@@ -1,16 +1,14 @@
 'use strict';
 
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
-const fs = require('fs');
-const path = require('path');
-
+const file = require('./src/utils/file');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1024, height: 800});
+  mainWindow = new BrowserWindow({width: 1200, height: 800});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -63,7 +61,7 @@ let template = [
         accelerator: 'CmdOrCtrl+N',
         click: (item, focusedWindow) => {
           if (focusedWindow) {
-            fileNew();
+            file.fileNew();
           }
         }
       },
@@ -75,11 +73,24 @@ let template = [
             dialog.showOpenDialog({
               properties: ['fileOpen'],
               filters: [
-                { name: 'Caption Files', extensions: ['srt', 'smi', 'vtt'] },
-                { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg']},
-                { name: 'All Files', extensions: ['*'] }
+                { name: 'Caption Files', extensions: ['srt', 'smi', 'vtt'] }
               ]}, (filenames) => {
-              fileOpen(filenames);
+              file.fileOpen(filenames);
+            });
+          }
+        }
+      },
+      {
+        label: 'Open Video',
+        accelerator: 'CmdOrCtrl+Shift+O',
+        click: (item, focusedWindow) => {
+          if(focusedWindow) {
+            dialog.showOpenDialog({
+              properties: ['fileOpen'],
+              filters: [
+                { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg'] }
+              ]}, (filenames) => {
+              file.fileOpen(filenames);
             });
           }
         }
@@ -94,14 +105,14 @@ let template = [
               if(state == 'unsaved') {
                 dialog.showSaveDialog({
                   filters: [
-                    { name: 'SubRip file', extensions: ['srt'] },
-                    { name: 'WebVTT file', extensions: ['vtt'] },
+                    { name: 'SubRip', extensions: ['srt'] },
+                    { name: 'WebVTT', extensions: ['vtt'] },
                     { name: 'SAMI', extensions: ['smi'] }
                   ]}, (filename) => {
-                  fileSave(filename);
+                  file.fileSave(filename);
                 });
               } else if(state == 'saved') {
-                fileSave(filename);
+                file.fileSave(filename);
               }
             });
           }
@@ -114,11 +125,11 @@ let template = [
           if (focusedWindow) {
             dialog.showSaveDialog({
               filters: [
-                { name: 'SubRip file', extensions: ['srt'] },
-                { name: 'WebVTT file', extensions: ['vtt'] },
+                { name: 'SubRip', extensions: ['srt'] },
+                { name: 'WebVTT', extensions: ['vtt'] },
                 { name: 'SAMI', extensions: ['smi'] }
               ]}, (filename) => {
-              fileSave(filename);
+              file.fileSave(filename);
             });
           }
         }
@@ -283,48 +294,4 @@ if (process.platform == 'darwin') {
       role: 'front'
     }
   );
-}
-
-function fileNew() {
-  mainWindow.webContents.send('file-new');
-}
-
-function fileOpen(filenames) {
-  if (filenames === undefined) return;
-
-  var filename = filenames[0];
-  var type = path.extname(filename);
-
-  switch (type) {
-    case '.srt':
-      fs.readFile(filename, 'utf-8', (err, data) => {
-        if (err) throw err;
-        mainWindow.webContents.send('file-open', data, filename);
-      });
-      break;
-    case '.smi':
-      break;
-    case '.vtt':
-      break;
-    case '.mp4':
-      mainWindow.webContents.send('video-open', filename);
-      break;
-    case '.webm':
-      break;
-    case '.ogg':
-      break;
-    default:
-      break;
-  }
-}
-
-function fileSave(filename) {
-  if (filename === undefined) return;
-
-  mainWindow.webContents.send('file-save-req', filename);
-  ipcMain.on('file-save-res', (event, data) => {
-    fs.writeFile(filename, data, 'utf8', (err) => {
-      if (err) throw err;
-    });
-  });
 }

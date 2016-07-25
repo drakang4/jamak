@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Actions from '../actions';
 import classNames from 'classnames';
 import Ink from 'react-ink';
+import { playerToSrt } from '../utils/timeParser';
 
 class Block extends Component {
   constructor(props) {
@@ -199,7 +200,7 @@ class Block extends Component {
           className="block__timer block__timer--before"
           onMouseDown={this.handleTimerDown.bind(this)}></div>
         <div className="block__wrapper">
-          <p className="block__text block__text--time">{this.props.id}　{this.props.startTime} → {this.props.endTime}</p>
+          <p className="block__text block__text--time">{this.props.id}　{playerToSrt(this.props.startTime)} → {playerToSrt(this.props.endTime)}</p>
           <p className="block__text block__text--subtitle">{this.props.subtitle}</p>
         </div>
         <div
