@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
 import TutorialContext from './TutorialContext';
 import TutorialStepper from './TutorialStepper';
+const { fileOpen } = require('../utils/file');
 
 class Tutorial extends Component {
   constructor(props) {
@@ -9,6 +11,18 @@ class Tutorial extends Component {
     this.state = {
       step: 1
     };
+  }
+
+  handleDrop(file) {
+    // On drop a video file.
+    if(this.state.step == 1) {
+      fileOpen(file[0].path);
+    }
+
+    // On drop a subtitle file.
+    if(this.state.step == 2) {
+      fileOpen(file[0].path);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,23 +34,29 @@ class Tutorial extends Component {
 
   render() {
     let style = {
-      display: this.props.url == '' || this.props.blockFilePath == '' ? 'block' : 'none'
+      display: this.props.url === null || this.props.blockFilePath === null ? 'block' : 'none'
     };
 
     return (
-      <div className="tutorial" style={style}>
+      <Dropzone
+        className="tutorial"
+        activeClassName="tutorial--active"
+        style={style}
+        onDrop={this.handleDrop.bind(this)}
+        disableClick
+        multiple={false} >
         <div className="tutorial__wrapper">
           <TutorialContext step={this.state.step} />
           <TutorialStepper step={this.state.step} />
         </div>
-      </div>
+      </Dropzone>
     );
   }
 }
 
 Tutorial.propTypes = {
-  url: PropTypes.string.isRequired,
-  blockFilePath: PropTypes.string.isRequired
+  url: PropTypes.string,
+  blockFilePath: PropTypes.string
 };
 
 const mapStateToProps = (state) => {

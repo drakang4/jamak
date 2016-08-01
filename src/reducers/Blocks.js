@@ -22,7 +22,7 @@ const initialState = {
   blocks: [],
   selectedBlockId: null,
   currentBlockId: null,
-  blockFilePath: '',
+  blockFilePath: null,
   blockFileSaved: false
 };
 

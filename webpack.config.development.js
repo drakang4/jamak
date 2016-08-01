@@ -9,8 +9,8 @@ export default {
   devtool: 'cheap-module-eval-source-map',
 
   entry: [
-    'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr&reload=true',
-    './src/index'
+    'webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr',
+    './src/index.js'
   ],
 
   output: {
@@ -21,7 +21,27 @@ export default {
   module: {
     ...baseConfig.module,
     loaders: [
-      ...baseConfig.module.loaders
+      ...baseConfig.module.loaders,
+      {
+        test   : /\.css$/,
+        loaders: ['style', 'css', 'resolve-url'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'resolve-url', 'sass?sourceMap'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.svg$/,
+        loaders: ['svg-url'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.woff$/,
+        loaders: ['file', 'url'],
+        exclude: /node_modules/
+      }
     ]
   },
 

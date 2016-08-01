@@ -39,3 +39,6 @@ export const DOWN_RESIZER = 'DOWN_RESIZER';
 export const MOVE_RESIZER_HOR = 'MOVE_RESIZER_HOR';
 export const MOVE_RESIZER_VER = 'MOVE_RESIZER_VER';
 export const UP_RESIZER = 'UP_RESIZER';
+
+/* Timeine action types */
+export const SET_MULTIPLE = 'SET_MULTIPLE';

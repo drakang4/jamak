@@ -5,7 +5,7 @@ import Actions from '../actions';
 
 class ProgressBar extends Component {
   handleProgressDown(e) {
-    if(this.props.url=='') {
+    if(this.props.url === null) {
       return;
     }
     e.preventDefault();
@@ -65,7 +65,7 @@ ProgressBar.propTypes = {
   onProgressDown: PropTypes.func.isRequired,
   onProgressMove: PropTypes.func.isRequired,
   onProgressUp: PropTypes.func.isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   seeking: PropTypes.bool.isRequired,
   progressRate: PropTypes.number
 };

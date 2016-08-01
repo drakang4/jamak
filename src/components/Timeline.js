@@ -7,9 +7,40 @@ import TimelineBlocks from './TimelineBlocks';
 import { fromSrt, toSrt } from '../utils/srtParser';
 
 class Timeline extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scalable: false
+    };
+  }
+
+  handleKeydown(e) {
+    if(!this.state.scalable) {
+      this.setState({ scalable: true });
+    }
+  }
+
+  handleKeyup(e) {
+    if(this.state.scalable) {
+      this.setState({ scalable: false });
+    }
+  }
+
+  handleWheel(e) {
+    e.preventDefault();
+    if(this.state.scalable) {
+      e.deltaY > 0 ? this.props.setMultiple(this.props.multiple - 10) : this.props.setMultiple(this.props.multiple + 10);
+    }
+  }
+
   componentDidMount() {
+    document.addEventListener('keydown', (e) => this.handleKeydown(e));
+    document.addEventListener('keyup', (e) => this.handleKeyup(e));
+    this.refs.timeline.addEventListener('wheel', (e) => this.handleWheel(e));
+
     ipcRenderer.on('file-new', (event) => {
       this.props.newBlockFile();
+      this.props.unsavedBlockFile();
     });
     ipcRenderer.on('file-open', (event, data, filename) => {
       this.props.loadBlockFile(fromSrt(data));
@@ -28,10 +59,20 @@ class Timeline extends Component {
     });
   }
 
+  componentWillUnmount() {
+    document.addEventListener('keydown', (e) => this.handleKeydown(e));
+    document.addEventListener('keyup', (e) => this.handleKeyup(e));
+    this.refs.timeline.removeEventListener('wheel', (e) => this.handleWheel(e));
+  }
+
   render() {
     return (
-      <div className="timeline">
-        <div onMouseDown={() => this.props.selectBlock(null)} className="timeline__wrapper" style={{width: '100%'}}>
+      <div
+        className="timeline"
+        ref="timeline"
+        onKeyDown={(e) => this.handleKeyDown(e)}
+        onKeyUp={(e) => this.handleKeyUp(e)}>
+        <div onMouseDown={() => this.props.selectBlock(null)} className="timeline__wrapper" style={{width: this.props.multiple + '%'}}>
           <ProgressBar />
           <div className="timeline__contents">
             <TimelineBlocks />
@@ -48,16 +89,19 @@ Timeline.propTypes = {
   savedBlockFile: PropTypes.func.isRequired,
   unsavedBlockFile: PropTypes.func.isRequired,
   selectBlock: PropTypes.func.isRequired,
+  setMultiple: PropTypes.func.isRequired,
   blocks: PropTypes.array.isRequired,
-  blockFilePath: PropTypes.string.isRequired,
-  blockFileSaved: PropTypes.bool.isRequired
+  blockFilePath: PropTypes.string,
+  blockFileSaved: PropTypes.bool.isRequired,
+  multiple: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     blocks: state.blocks.blocks,
     blockFilePath: state.blocks.blockFilePath,
-    blockFileSaved: state.blocks.blockFileSaved
+    blockFileSaved: state.blocks.blockFileSaved,
+    multiple: state.timeline.multiple
   };
 };
 
@@ -68,6 +112,7 @@ const mapDispatchToProps = (dispatch) => {
     savedBlockFile: (path) => dispatch(Actions.savedBlockFile(path)),
     unsavedBlockFile: () => dispatch(Actions.unsavedBlockFile()),
     selectBlock: (id) => dispatch(Actions.selectBlock(id)),
+    setMultiple: (multiple) => dispatch(Actions.setMultiple(multiple))
   };
 };
 

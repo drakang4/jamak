@@ -79,15 +79,15 @@ class BlockControls extends Component {
         <button
           className="block-controls__button block-controls__button--add"
           onClick={this.handleAddClick.bind(this)}
-          disabled={this.props.url==''}></button>
+          disabled={this.props.url === null}></button>
         <button
           className="block-controls__button block-controls__button--delete"
           onClick={this.handleDeleteClick.bind(this)}
-          disabled={this.props.url=='' || this.props.selectedBlockId==null}></button>
+          disabled={this.props.url === null || this.props.selectedBlockId === null}></button>
         <button
         className="block-controls__button block-controls__button--clear"
         onClick={this.handleClearClick.bind(this)}
-        disabled={this.props.url=='' || this.props.selectedBlockId==null}></button>
+        disabled={this.props.url === null || this.props.selectedBlockId === null}></button>
       </div>
     );
   }
@@ -106,7 +106,7 @@ BlockControls.propTypes = {
   blocks: PropTypes.array.isRequired,
   currentBlockId: PropTypes.number,
   selectedBlockId: PropTypes.number,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   currentTime: PropTypes.number,
   duration: PropTypes.number,
 };

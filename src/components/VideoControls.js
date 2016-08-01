@@ -32,11 +32,11 @@ class VideoControls extends Component {
         <button
           className={playButtonClass}
           onClick={this.handleTogglePlay.bind(this)}
-          disabled={this.props.url==''}></button>
+          disabled={this.props.url === null}></button>
         <button
           className={muteButtonClass}
           onClick={this.handleClickMute.bind(this)}
-          disabled={this.props.url==''}></button>
+          disabled={this.props.url === null}></button>
       </div>
     );
   }
@@ -45,7 +45,7 @@ class VideoControls extends Component {
 VideoControls.propTypes = {
   onTogglePlay: PropTypes.func.isRequired,
   onToggleMute: PropTypes.func.isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   playing: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired
 };

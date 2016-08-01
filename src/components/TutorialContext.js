@@ -1,15 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-const { dialog } = require('electron').remote;
+import { remote } from 'electron';
+const { dialog } = remote;
 const { fileOpen, fileNew } = require('../utils/file');
 
 class TutorialContext extends Component {
-  handleSubtitleOpen(filenames) {
-
-  }
-
-  handleVideoOpen(filenames) {
-    fileOpen(filenames);
+  handleNewSubtitle() {
+    fileNew();
   }
 
   handleChooseVideo() {
@@ -19,7 +16,7 @@ class TutorialContext extends Component {
         { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg']},
         { name: 'All Files', extensions: ['*'] }
       ]}, (filenames) => {
-      fileOpen(filenames);
+      fileOpen(filenames[0]);
     });
   }
 
@@ -44,7 +41,7 @@ class TutorialContext extends Component {
           <p className="tutorial__text">Drop your subtitle file here</p>
           <div className="tutorial__icon tutorial__icon--load"></div>
           <p className="tutorial__text">Or</p>
-          <button className="tutorial__button" onClick={this.handleNewFile}>New file</button>
+          <button className="tutorial__button" onClick={this.handleNewSubtitle}>New file</button>
         </div>
       );
     } else if(this.props.step == 3) {

@@ -419,6 +419,9 @@ body {
   width: 100%;
   z-index: 99999;
 
+  &--active {
+    background-color: $color-blue-700;
+  }
 
   &__wrapper {
     top: 50%;

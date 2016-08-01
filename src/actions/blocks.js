@@ -109,7 +109,7 @@ export const savedBlockFile = (path) => {
   };
 };
 
-export const unsavedBlockFIle = () => {
+export const unsavedBlockFile = () => {
   return {
     type: types.UNSAVED_BLOCK_FILE
   };

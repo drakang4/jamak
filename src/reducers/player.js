@@ -13,7 +13,7 @@ import {
 import update from 'react-addons-update';
 
 const initialState = {
-  url: '',
+  url: null,
   playing: false,
   muted: false,
   duration: null,

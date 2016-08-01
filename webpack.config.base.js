@@ -1,4 +1,3 @@
-import webpack from 'webpack';
 import path from 'path';
 
 export default {
@@ -14,13 +13,21 @@ export default {
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
+        test: /\.json/,
+        loaders: ['json'],
         exclude: /node_modules/
       }
     ]
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json'],
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+  },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+
+  ],
+  externals: [
+    // put your node 3rd party libraries which can't be built with webpack here
+    // (mysql, mongodb, and so on..)
   ]
 };

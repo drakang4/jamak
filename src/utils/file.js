@@ -2,7 +2,6 @@ const { ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
-
 function getBrowserWindow() {
   if(process.type == 'browser') {
     const { BrowserWindow } = require('electron');
@@ -12,20 +11,19 @@ function getBrowserWindow() {
     return BrowserWindow;
   }
   else {
-    console.log('err');
+    console.error('err');
   }
 }
 
 exports.fileNew = () => {
-  var mainWindow = getBrowserWindow().getFocusedWindow();
+  var mainWindow = getBrowserWindow().getAllWindows()[0];
   mainWindow.webContents.send('file-new');
 };
 
-exports.fileOpen = (filenames) => {
-  var mainWindow = getBrowserWindow().getFocusedWindow();
-  if (filenames === undefined) return;
+exports.fileOpen = (filename) => {
+  var mainWindow = getBrowserWindow().getAllWindows()[0];
+  if (filename === undefined) return;
 
-  var filename = filenames[0];
   var type = path.extname(filename);
 
   switch (type) {
@@ -46,13 +44,16 @@ exports.fileOpen = (filenames) => {
       break;
     case '.ogg':
       break;
+    case '.mkv':
+      mainWindow.webContents.send('video-open', filename);
+      break;
     default:
       break;
   }
 };
 
 exports.fileSave = (filename) => {
-  var mainWindow = getBrowserWindow().getFocusedWindow();
+  var mainWindow = getBrowserWindow().getAllWindows()[0];
   if (filename === undefined) return;
 
   mainWindow.webContents.send('file-save-req', filename);

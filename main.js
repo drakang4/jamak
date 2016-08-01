@@ -75,7 +75,7 @@ let template = [
               filters: [
                 { name: 'Caption Files', extensions: ['srt', 'smi', 'vtt'] }
               ]}, (filenames) => {
-              file.fileOpen(filenames);
+              file.fileOpen(filenames[0]);
             });
           }
         }
