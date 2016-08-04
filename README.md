@@ -1,12 +1,8 @@
 # Jamak
 > A subtitle editor built with Electron, React and Redux.
 
-
+![screenshot](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot.PNG?raw=true)
 Currently in development
-
-
-## Overview
-gif 움짤 넣고 설명하기
 
 ## Features
 * Make subtitle in a non-linear editor like environment
