@@ -1,5 +1,5 @@
-# Subtle Subtitle
-> A simple subtitle editor based on Electron, React and Redux
+# Jamak
+> A subtitle editor built with Electron, React and Redux.
 
 
 Currently in development
@@ -9,9 +9,9 @@ Currently in development
 gif 움짤 넣고 설명하기
 
 ## Features
-* Add or edit subtitles in the timeline which provides an environment silmilar to any non-linear editor
-* Preview subtitles with video live
-* Global shortcuts
+* Make subtitle in a non-linear editor like environment
+* Live preview subtitle with video
+* It's free!
 
 ## Current supported platforms
 * Windows (later than Windows 7)
