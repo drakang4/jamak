@@ -91,6 +91,7 @@ body {
   width: 100%;
 
   &__button {
+    outline: 0;
     background: transparent;
     background-repeat: no-repeat;
     border: 0;
@@ -116,6 +117,35 @@ body {
     &--unmute {
       background-image: url('../assets/icons/ic_volume_up.svg');
     }
+  }
+
+  &__volume {
+    top: -8px;
+
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: 0;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: $color-blue-500;
+      margin-top: -6px;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 4px;
+      width: 100px;
+      background-color: $color-blue-900;
+      border: 0;
+      border-radius: 4px;
+    }
+
   }
 }
 
@@ -368,7 +398,7 @@ body {
   }
 
   &__row {
-    color: $color-basic-32;
+    color: $color-basic-80;
 
     &--header {
       color: $color-blue-900;
@@ -466,6 +496,11 @@ body {
     padding-bottom: 8px;
     padding-left: 60px;
     padding-right: 60px;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+
+    &:hover {
+      background-color: $color-blue-700;
+    }
   }
 
   &__stepper {

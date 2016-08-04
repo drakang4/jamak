@@ -37,6 +37,12 @@ class VideoControls extends Component {
           className={muteButtonClass}
           onClick={this.handleClickMute.bind(this)}
           disabled={this.props.url === null}></button>
+        <input
+          className="video-controls__volume"
+          type="range"
+          min={0}
+          max={1}
+          step={0.01} />
       </div>
     );
   }
@@ -54,6 +60,7 @@ const mapStateToProps = (state) => {
   return {
     url: state.player.url,
     playing: state.player.playing,
+    volume: state.player.volume,
     muted: state.player.muted
   };
 };
