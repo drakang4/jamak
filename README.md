@@ -15,8 +15,8 @@ gif 움짤 넣고 설명하기
 
 ## Current supported platforms
 * Windows (later than Windows 7)
-* <del>MacOS (not tested yet)</del>
-* <del>Linux (not tested yet)</del>
+* <del>MacOS</del> (not tested yet)
+* <del>Linux</del> (not tested yet)
 
 ## License
 MIT
