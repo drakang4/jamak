@@ -1,7 +1,7 @@
 {
-  "name": "subtle-subtitle",
-  "description": "Simple subtitle editor.",
+  "name": "jamak",
+  "description": "Jamak - Subtitle Editor.",
   "author": "Heeryong Kang <drakang4@gmail.com>",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "main": "./main.js"
 }
