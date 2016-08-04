@@ -29,7 +29,7 @@ class Timeline extends Component {
   handleWheel(e) {
     e.preventDefault();
     if(this.state.scalable) {
-      e.deltaY > 0 ? this.props.setMultiple(this.props.multiple - 10) : this.props.setMultiple(this.props.multiple + 10);
+      e.deltaY > 0 ? this.props.setMultiple(this.props.multiple - 50) : this.props.setMultiple(this.props.multiple + 50);
     }
   }
 

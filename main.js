@@ -11,7 +11,11 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({width: 1200, height: 800});
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL('file://' + __dirname + '/src/index.html');
+  } else if (process.env.NODE_ENV === 'production') {
+    mainWindow.loadURL('file://' + __dirname + '/index.html');
+  }
 
   // Open the DevTools.
   if (process.env.NODE_ENV === 'development') {
@@ -90,7 +94,7 @@ let template = [
               filters: [
                 { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg'] }
               ]}, (filenames) => {
-              file.fileOpen(filenames);
+              file.fileOpen(filenames[0]);
             });
           }
         }

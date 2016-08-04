@@ -1,4 +1,6 @@
 import webpack from 'webpack';
+import path from 'path';
+import htmlWebpackPlugin from 'html-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
 export default {
@@ -8,14 +10,11 @@ export default {
 
   devtool: 'cheap-module-eval-source-map',
 
-  entry: [
-    'webpack-hot-middleware/client?path=http://localhost:8080/__webpack_hmr',
-    './src/index.js'
-  ],
+  entry: './src/index.js',
 
   output: {
-    ...baseConfig.output,
-    publicPath: 'http://localhost:8080/built/'
+    path: path.join(__dirname, 'app'),
+    filename: 'bundle.js'
   },
 
   module: {
@@ -47,13 +46,22 @@ export default {
 
   plugins: [
     ...baseConfig.plugins,
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-      __DEV__: true,
+      __DEV__: false,
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
+        NODE_ENV: JSON.stringify('production')
       }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
+    new htmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'src/index.html',
+      inject: false
     })
   ],
 
