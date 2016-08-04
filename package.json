@@ -10,11 +10,16 @@
     "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "compile": "npm run build-main && npm run build-renderer",
+    "pack": "build --dir",
     "dist": "build"
   },
   "build": {
     "appId": "com.heeryongkang.subtitle",
-    "app-category-type": "public.app-category.productivity"
+    "app-category-type": "public.app-category.productivity",
+    "win": {
+      "target": "squirrel",
+      "iconUrl": "https://raw.githubusercontent.com/Heeryong-Kang/jamak/master/build/icon.ico?token=AK9wHNbh7NK8Z736XSHVEW7qe3UTkRwtks5XrBmPwA%3D%3D"
+    }
   },
   "author": "Heeryong Kang",
   "license": "MIT",
