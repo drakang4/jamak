@@ -1,6 +1,6 @@
 {
   "name": "jamak",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "main": "main.js",
   "repository": "https://github.com/Heeryong-Kang/jamak",
   "scripts": {
@@ -19,6 +19,10 @@
     "win": {
       "target": "squirrel",
       "iconUrl": "https://raw.githubusercontent.com/Heeryong-Kang/jamak/master/build/icon.ico?token=AK9wHNbh7NK8Z736XSHVEW7qe3UTkRwtks5XrBmPwA%3D%3D"
+    },
+    "dmg": {},
+    "mac": {
+      "target": "default"
     }
   },
   "author": "Heeryong Kang",
@@ -34,13 +38,13 @@
     "babel-register": "^6.9.0",
     "concurrently": "^2.2.0",
     "cross-env": "^2.0.0",
-    "css-loader": "^0.23.1",
+    "css-loader": "^0.24.0",
     "devtron": "^1.1.2",
-    "electron-builder": "^5.20.0",
+    "electron-builder": "^6.3.1",
     "electron-prebuilt": "^1.1.0",
     "eslint": "^3.0.1",
     "eslint-plugin-import": "^1.8.0",
-    "eslint-plugin-react": "^5.2.2",
+    "eslint-plugin-react": "^6.2.0",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
@@ -50,7 +54,7 @@
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.0.11",
-    "remote-redux-devtools": "^0.3.4",
+    "remote-redux-devtools": "^0.4.6",
     "resolve-url-loader": "^1.4.3",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
@@ -64,6 +68,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "media-type": "^0.3.0",
     "react": "^15.0.1",
     "react-addons-update": "^15.1.0",
     "react-dom": "^15.0.1",
