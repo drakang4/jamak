@@ -9,6 +9,19 @@ class TutorialContext extends Component {
     fileNew();
   }
 
+  handleChooseSubtitle() {
+    dialog.showOpenDialog({
+      properties: ['fileOpen'],
+      filters: [
+        { name: 'Caption Files', extensions: ['srt', 'smi', 'vtt'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]}, (filenames) => {
+      if (filenames) {
+        fileOpen(filenames[0]);
+      }
+    });
+  }
+
   handleChooseVideo() {
     dialog.showOpenDialog({
       properties: ['fileOpen'],
@@ -16,12 +29,10 @@ class TutorialContext extends Component {
         { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg']},
         { name: 'All Files', extensions: ['*'] }
       ]}, (filenames) => {
-      fileOpen(filenames[0]);
+      if (filenames) {
+        fileOpen(filenames[0]);
+      }
     });
-  }
-
-  handleNewFile() {
-    fileNew();
   }
 
   getContext() {
@@ -42,6 +53,7 @@ class TutorialContext extends Component {
           <div className="tutorial__icon tutorial__icon--load"></div>
           <p className="tutorial__text">Or</p>
           <button className="tutorial__button" onClick={this.handleNewSubtitle}>New file</button>
+          <button className="tutorial__button" onClick={this.handleChooseSubtitle}>Choose file</button>
         </div>
       );
     } else if(this.props.step == 3) {

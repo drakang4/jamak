@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import TutorialContext from './TutorialContext';
 import TutorialStepper from './TutorialStepper';
+import path from 'path';
 const { fileOpen } = require('../utils/file');
 
 class Tutorial extends Component {
@@ -14,6 +15,7 @@ class Tutorial extends Component {
   }
 
   handleDrop(file) {
+    path.extname(file[0].path);
     // On drop a video file.
     if(this.state.step == 1) {
       fileOpen(file[0].path);
@@ -23,6 +25,18 @@ class Tutorial extends Component {
     if(this.state.step == 2) {
       fileOpen(file[0].path);
     }
+  }
+
+  componentWillMount() {
+    document.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    document.addEventListener('drop', (e) => {
+      e.preventDefault();
+      this.handleDrop.bind(this);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
