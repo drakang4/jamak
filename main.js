@@ -77,9 +77,12 @@ let template = [
             dialog.showOpenDialog({
               properties: ['fileOpen'],
               filters: [
-                { name: 'Caption Files', extensions: ['srt', 'smi', 'vtt'] }
+                { name: 'Caption Files', extensions: ['srt', 'smi', 'vtt'] },
+                { name: 'All Files', extensions: ['*'] }
               ]}, (filenames) => {
-              file.fileOpen(filenames[0]);
+              if (filenames) {
+                file.fileOpen(filenames[0]);
+              }
             });
           }
         }
@@ -92,9 +95,12 @@ let template = [
             dialog.showOpenDialog({
               properties: ['fileOpen'],
               filters: [
-                { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg'] }
+                { name: 'Video Files', extensions: ['mp4', 'webm', 'ogg'] },
+                { name: 'All Files', extensions: ['*'] }
               ]}, (filenames) => {
-              file.fileOpen(filenames[0]);
+              if (filenames) {
+                file.fileOpen(filenames[0]);
+              }
             });
           }
         }
@@ -201,19 +207,6 @@ let template = [
           if (focusedWindow)
             focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
         }
-      },
-      {
-        label: 'Toggle Developer Tools',
-        accelerator: (() => {
-          if (process.platform == 'darwin')
-            return 'Alt+Command+I';
-          else
-            return 'Ctrl+Shift+I';
-        })(),
-        click: (item, focusedWindow) => {
-          if (focusedWindow)
-            focusedWindow.toggleDevTools();
-        }
       }
     ]
   },
@@ -238,8 +231,8 @@ let template = [
     role: 'help',
     submenu: [
       {
-        label: 'Learn More',
-        click: () => { require('electron').shell.openExternal('http://electron.atom.io'); }
+        label: 'GitHub',
+        click: () => { require('electron').shell.openExternal('https://github.com/Heeryong-Kang/jamak'); }
       }
     ]
   }
@@ -296,6 +289,24 @@ if (process.platform == 'darwin') {
     {
       label: 'Bring All to Front',
       role: 'front'
+    }
+  );
+}
+
+if (process.env.NODE_ENV === 'development') {
+  template[2].submenu.push(
+    {
+      label: 'Toggle Developer Tools',
+      accelerator: (() => {
+        if (process.platform == 'darwin')
+          return 'Alt+Command+I';
+        else
+          return 'Ctrl+Shift+I';
+      })(),
+      click: (item, focusedWindow) => {
+        if (focusedWindow)
+          focusedWindow.toggleDevTools();
+      }
     }
   );
 }
