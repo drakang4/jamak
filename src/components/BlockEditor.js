@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import Actions from '../actions';
 
 class BlockEditor extends Component {
@@ -9,10 +10,15 @@ class BlockEditor extends Component {
   }
 
   render() {
+    let className = classNames({
+      'block-editor__textarea': true,
+      'block-editor__textarea--enable': this.props.currentBlockId!=null
+    });
+
     return (
       <div className="block-editor">
         <textarea
-          className="block-editor__textarea"
+          className={className}
           type="text"
           name="editor"
           value={this.props.currentBlockId!=null ? this.props.blocks[this.props.currentBlockId - 1].subtitle : ''}

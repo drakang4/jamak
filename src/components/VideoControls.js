@@ -37,12 +37,12 @@ class VideoControls extends Component {
           className={muteButtonClass}
           onClick={this.handleClickMute.bind(this)}
           disabled={this.props.url === null}></button>
-        <input
+        {/* <input
           className="video-controls__volume"
           type="range"
           min={0}
           max={1}
-          step={0.01} />
+          step={0.01} /> */}
       </div>
     );
   }
