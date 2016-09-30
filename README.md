@@ -2,7 +2,8 @@
 # Jamak
 > A subtitle editor built with Electron, React and Redux.
 
-![screenshot](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot.PNG?raw=true)
+![screenshot-windows](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot-windows.png?raw=true)
+![screenshot-macos](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot-macos.png?raw=true)
 Currently in development
 
 ## Features
@@ -11,8 +12,8 @@ Currently in development
 * It's free!
 
 ## Current supported platforms
-* Windows (later than Windows 7)
-* <del>MacOS</del> (not tested yet)
+* Windows
+* macOS
 * <del>Linux</del> (not tested yet)
 
 ## TODO
