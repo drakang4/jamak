@@ -1,7 +1,5 @@
-import * as types from './types';
+import { DRAG_INDICATOR } from '../constants/actionTypes';
 
-export const dragIndicator = () => {
-  return {
-    type: types.DRAG_INDICATOR
-  };
-};
+export const dragIndicator = () => ({
+  type: DRAG_INDICATOR,
+});

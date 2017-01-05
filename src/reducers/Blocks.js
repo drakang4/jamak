@@ -16,14 +16,13 @@ import {
   SAVED_BLOCK_FILE,
   UNSAVED_BLOCK_FILE
 } from '../actions/types';
-import update from 'react-addons-update';
 
 const initialState = {
   blocks: [],
   selectedBlockId: null,
   currentBlockId: null,
   blockFilePath: null,
-  blockFileSaved: false
+  blockFileSaved: false,
 };
 
 export default function blocks(state = initialState, action) {

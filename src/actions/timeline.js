@@ -1,8 +1,6 @@
-import * as types from './types';
+import { SET_MULTIPLE } from '../constants/actionTypes';
 
-export const setMultiple = (multiple) => {
-  return {
-    type: types.SET_MULTIPLE,
-    multiple
-  };
-};
+export const setMultiple = (multiple) => ({
+  type: SET_MULTIPLE,
+  multiple,
+});

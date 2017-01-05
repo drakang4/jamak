@@ -1,48 +1,31 @@
-import {
-  DOWN_RESIZER,
-  MOVE_RESIZER_HOR,
-  MOVE_RESIZER_VER,
-  UP_RESIZER
-} from '../actions/types';
-import update from 'react-addons-update';
+import { MOVE_RESIZER_HOR, MOVE_RESIZER_VER } from '../constants/actionTypes';
 
 const initialState = {
   top: 0,
-  left: 0
+  left: 0,
 };
 
-export default function resizer(state = initialState, action) {
+const resizer = (state = initialState, action) => {
   switch (action.type) {
-    /**
-     * 패널 리사이저 클릭
-     */
-    case DOWN_RESIZER:
-      return update(state, {});
     /**
      * 패널 리사이저 수평 이동
      */
     case MOVE_RESIZER_HOR:
-      return update(state, {
-        left: {
-          $set: action.left
-        }
-      });
+      return {
+        ...state,
+        left: action.left,
+      };
     /**
      * 패널 리사이저 수직 이동
      */
     case MOVE_RESIZER_VER:
-      return update(state, {
-        top: {
-          $set: action.top
-        }
-      });
-    /**
-     * 패널 리사이저 클릭 종료
-     */
-    case UP_RESIZER:
-      return update(state, {});
-
+      return {
+        ...state,
+        top: action.top,
+      };
     default:
       return state;
   }
-}
+};
+
+export default resizer;

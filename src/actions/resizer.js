@@ -1,27 +1,11 @@
-import * as types from './types';
+import { MOVE_RESIZER_HOR, MOVE_RESIZER_VER } from '../constants/actionTypes';
 
-export const downResizer = () => {
-  return {
-    type: types.DOWN_RESIZER
-  };
-};
+export const moveResizerHor = (left) => ({
+  type: MOVE_RESIZER_HOR,
+  left,
+});
 
-export const moveResizerHor = (left) => {
-  return {
-    type: types.MOVE_RESIZER_HOR,
-    left
-  };
-};
-
-export const moveResizerVer = (top) => {
-  return {
-    type: types.MOVE_RESIZER_VER,
-    top
-  };
-};
-
-export const upResizer = () => {
-  return {
-    type: types.UP_RESIZER
-  };
-};
+export const moveResizerVer = (top) => ({
+  type: MOVE_RESIZER_VER,
+  top,
+});
