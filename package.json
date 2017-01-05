@@ -5,8 +5,8 @@
   "repository": "https://github.com/Heeryong-Kang/jamak",
   "scripts": {
     "hot-server": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server --config webpack.config.dev.babel.js",
-    "hot-start": "cross-env NODE_ENV=development electron -r babel-register ./main",
-    "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run hot-start\"",
+    "hot-start": "cross-env NODE_ENV=development electron -r babel-register app/main",
+    "dev": "concurrently -k \"npm run hot-server\" \"npm run hot-start\"",
     "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "compile": "npm run build-main && npm run build-renderer",
@@ -50,6 +50,7 @@
     "html-webpack-plugin": "^2.22.0",
     "node-sass": "^4.1.1",
     "react-hot-loader": "^3.0.0-beta.6",
+    "redux-logger": "^2.7.4",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
