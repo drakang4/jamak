@@ -1,59 +1,26 @@
 {
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "env": {
-      "browser": true,
-      "commonjs": true,
-      "node": true,
-      "es6": true
-    },
-    "plugins": [
-      "react",
-      "import"
-    ],
-    "rules": {
-        "indent": [
-            "error",
-            2, {
-              "SwitchCase" : 1
-            }
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "spaced-comment": [
-            "error",
-            "always", {
-              "line": {
-                "markers": ["/"],
-                "exceptions": ["-", "+"]
-            },
-            "block": {
-                "markers": ["!"],
-                "exceptions": ["*"]
-            }
-        }],
-        "no-console": "off"
-    }
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "flowtype"
+  ],
+  "rules": {
+    "arrow-parens": ["error", "always"],
+    "no-console": ["error", { "allow": ["log"] }],
+    "object-shorthand": ["error", "consistent"],
+    "import/no-extraneous-dependencies": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }]
+  }
 }

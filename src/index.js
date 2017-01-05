@@ -1,31 +1,21 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 import App from './containers/App';
-import DevTools from './containers/DevTools';
-import configureStore from './store/configureStore';
 
-require ('./styles/index.scss');
+require('./styles/index.scss');
 
-const store = configureStore();
-
-if(process.env.NODE_ENV === 'development') {
-  render(
-    <Provider store={store}>
-      <div>
-        <App />
-        <DevTools />
-      </div>
-    </Provider>,
-   document.getElementById('root')
+const render = () => {
+  ReactDOM.render(
+    <AppContainer>
+      <App />
+    </AppContainer>,
+    document.getElementById('root'),
   );
-} else if(process.env.NODE_ENV === 'production') {
-  render(
-    <Provider store={store}>
-      <div>
-        <App />
-      </div>
-    </Provider>,
-   document.getElementById('root')
-  );
+};
+
+render();
+
+if (module.hot) {
+  module.hot.accept('./containers/App', render);
 }

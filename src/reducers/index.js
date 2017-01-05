@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   blocks,
   player,
   resizer,
-  timeline
+  timeline,
 });
 
 export default rootReducer;

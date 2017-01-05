@@ -1,24 +1,32 @@
-'use strict';
+import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
+import path from 'path';
+import url from 'url';
 
-const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
-const file = require('./src/utils/file');
+const file = require('../src/utils/file');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1200, height: 800});
+  mainWindow = new BrowserWindow({ width: 1200, height: 800 });
 
   // and load the index.html of the app.
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('file://' + __dirname + '/src/index.html');
-  } else if (process.env.NODE_ENV === 'production') {
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
-  }
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true,
+  }));
 
   // Open the DevTools.
   if (process.env.NODE_ENV === 'development') {
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+    installExtension(REDUX_DEVTOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
     mainWindow.webContents.openDevTools();
   }
 

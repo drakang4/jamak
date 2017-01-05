@@ -1,24 +1,21 @@
-
 import webpack from 'webpack';
-import baseConfig from './webpack.config.base';
+import path from 'path';
 
 export default {
-  ...baseConfig,
-
   devtool: 'source-map',
 
-  entry: './main.js',
+  entry: path.resolve(__dirname, 'app/main.js'),
 
   output: {
     path: __dirname,
-    filename: './app/main.js'
+    filename: path.resolve(__dirname, 'app/main.js'),
   },
 
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        warnings: false
-      }
+        warnings: false,
+      },
     }),
     // new webpack.BannerPlugin(
     //   'require("source-map-support").install();',
@@ -26,20 +23,15 @@ export default {
     // ),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    })
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
   ],
 
   target: 'electron-main',
 
   node: {
+    __filename: false,
     __dirname: false,
-    __filename: false
   },
-
-  externals: [
-    ...baseConfig.externals,
-    'source-map-support'
-  ]
 };

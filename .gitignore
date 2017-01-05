@@ -4,4 +4,6 @@ dist
 npm-debug.log
 
 app/*
+!app/index.html
+!app/main.js
 !app/package.json
