@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import {
   RESET_BLOCK_ID,
   SORT_BLOCKS,
@@ -14,8 +15,8 @@ import {
   NEW_BLOCK_FILE,
   LOAD_BLOCK_FILE,
   SAVED_BLOCK_FILE,
-  UNSAVED_BLOCK_FILE
-} from '../actions/types';
+  UNSAVED_BLOCK_FILE,
+} from '../constants/actionTypes';
 
 const initialState = {
   blocks: [],

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Actions from '../actions';
+import { togglePlay, toggleMute } from '../constants/actionTypes';
 import classNames from 'classnames';
 
 
@@ -53,7 +53,7 @@ VideoControls.propTypes = {
   onToggleMute: PropTypes.func.isRequired,
   url: PropTypes.string,
   playing: PropTypes.bool.isRequired,
-  muted: PropTypes.bool.isRequired
+  muted: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -61,14 +61,14 @@ const mapStateToProps = (state) => {
     url: state.player.url,
     playing: state.player.playing,
     volume: state.player.volume,
-    muted: state.player.muted
+    muted: state.player.muted,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTogglePlay: () => dispatch(Actions.togglePlay()),
-    onToggleMute: () => dispatch(Actions.toggleMute())
+    onTogglePlay: () => dispatch(togglePlay()),
+    onToggleMute: () => dispatch(toggleMute()),
   };
 };
 

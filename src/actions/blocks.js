@@ -1,116 +1,102 @@
-import * as types from './types';
+import {
+  RESET_BLOCK_ID,
+  SORT_BLOCKS,
+  ADD_BLOCK_FIRST,
+  ADD_BLOCK_LAST,
+  ADD_BLOCK_OVER,
+  ADD_BLOCK_BETWEEN,
+  DELETE_BLOCK,
+  CLEAR_BLOCK,
+  SELECT_BLOCK,
+  CURRENT_BLOCK,
+  UPDATE_BLOCK_TEXT,
+  UPDATE_BLOCK_TIME,
+  NEW_BLOCK_FILE,
+  LOAD_BLOCK_FILE,
+  SAVED_BLOCK_FILE,
+  UNSAVED_BLOCK_FILE,
+} from '../constants/actionTypes';
 
-export const resetBlockId = () => {
-  return {
-    type: types.RESET_BLOCK_ID
-  };
-};
-export const sortBlocks = (blocks) => {
-  return {
-    type: types.SORT_BLOCKS,
-    blocks
-  };
-};
+export const resetBlockId = () => ({
+  RESET_BLOCK_ID,
+});
 
-export const addBlockFirst = (startTime, endTime) => {
-  return {
-    type: types.ADD_BLOCK_FIRST,
-    startTime,
-    endTime
-  };
-};
+export const sortBlocks = (blocks) => ({
+  SORT_BLOCKS,
+  blocks,
+});
 
-export const addBlockLast = (startTime, endTime) => {
-  return {
-    type: types.ADD_BLOCK_LAST,
-    startTime,
-    endTime
-  };
-};
+export const addBlockFirst = (startTime, endTime) => ({
+  ADD_BLOCK_FIRST,
+  startTime,
+  endTime,
+});
 
-export const addBlockOver = (startTime, endTime) => {
-  return {
-    type: types.ADD_BLOCK_OVER,
-    startTime,
-    endTime
-  };
-};
+export const addBlockLast = (startTime, endTime) => ({
+  type: ADD_BLOCK_LAST,
+  startTime,
+  endTime,
+});
 
-export const addBlockBetween = (startTime, endTime, nextBlockId) => {
-  return {
-    type: types.ADD_BLOCK_BETWEEN,
-    startTime,
-    endTime,
-    nextBlockId
-  };
-};
+export const addBlockOver = (startTime, endTime) => ({
+  type: ADD_BLOCK_OVER,
+  startTime,
+  endTime,
+});
 
-export const deleteBlock = (id) => {
-  return {
-    type: types.DELETE_BLOCK,
-    id
-  };
-};
+export const addBlockBetween = (startTime, endTime, nextBlockId) => ({
+  type: ADD_BLOCK_BETWEEN,
+  startTime,
+  endTime,
+  nextBlockId,
+});
 
-export const clearBlock = (id) => {
-  return {
-    type: types.CLEAR_BLOCK,
-    id
-  };
-};
+export const deleteBlock = (id) => ({
+  type: DELETE_BLOCK,
+  id,
+});
 
-export const selectBlock = (id) => {
-  return {
-    type: types.SELECT_BLOCK,
-    id
-  };
-};
+export const clearBlock = (id) => ({
+  type: CLEAR_BLOCK,
+  id,
+});
 
-export const currentBlock = (id) => {
-  return {
-    type: types.CURRENT_BLOCK,
-    id
-  };
-};
+export const selectBlock = (id) => ({
+  type: SELECT_BLOCK,
+  id,
+});
 
-export const updateBlockText = (subtitle) => {
-  return {
-    type: types.UPDATE_BLOCK_TEXT,
-    subtitle
-  };
-};
+export const currentBlock = (id) => ({
+  type: CURRENT_BLOCK,
+  id,
+});
 
-export const updateBlockTime = (id, startTime, endTime) => {
-  return {
-    type: types.UPDATE_BLOCK_TIME,
-    id,
-    startTime,
-    endTime
-  };
-};
+export const updateBlockText = (subtitle) => ({
+  type: UPDATE_BLOCK_TEXT,
+  subtitle,
+});
 
-export const newBlockFile = () => {
-  return {
-    type: types.NEW_BLOCK_FILE
-  };
-};
+export const updateBlockTime = (id, startTime, endTime) => ({
+  type: UPDATE_BLOCK_TIME,
+  id,
+  startTime,
+  endTime,
+});
 
-export const loadBlockFile = (blocks) => {
-  return {
-    type: types.LOAD_BLOCK_FILE,
-    blocks
-  };
-};
+export const newBlockFile = () => ({
+  type: NEW_BLOCK_FILE,
+});
 
-export const savedBlockFile = (path) => {
-  return {
-    type: types.SAVED_BLOCK_FILE,
-    path
-  };
-};
+export const loadBlockFile = (blocks) => ({
+  type: LOAD_BLOCK_FILE,
+  blocks,
+});
 
-export const unsavedBlockFile = () => {
-  return {
-    type: types.UNSAVED_BLOCK_FILE
-  };
-};
+export const savedBlockFile = (path) => ({
+  type: SAVED_BLOCK_FILE,
+  path,
+});
+
+export const unsavedBlockFile = () => ({
+  type: UNSAVED_BLOCK_FILE,
+});

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import Actions from '../actions';
+import { updateBlockText } from '../constants/actionTypes';
 
 class BlockEditor extends Component {
   handleChange(e) {
@@ -45,7 +45,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onBlockChange: (block) => dispatch(Actions.updateBlockText(block))
+    onBlockChange: (block) => dispatch(updateBlockText(block))
   };
 };
 

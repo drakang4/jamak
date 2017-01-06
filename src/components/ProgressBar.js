@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Indicator from './Indicator';
-import Actions from '../actions';
+import {
+  downProgress,
+  moveProgress,
+  upProgress,
+} from '../constants/actionTypes';
 
 class ProgressBar extends Component {
   handleProgressDown(e) {
@@ -79,9 +83,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onProgressDown: (rate) => dispatch(Actions.downProgress(rate)),
-    onProgressMove: (rate) => dispatch(Actions.moveProgress(rate)),
-    onProgressUp: () => dispatch(Actions.upProgress())
+    onProgressDown: (rate) => dispatch(downProgress(rate)),
+    onProgressMove: (rate) => dispatch(moveProgress(rate)),
+    onProgressUp: () => dispatch(upProgress())
   };
 };
 

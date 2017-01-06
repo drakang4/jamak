@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import {
   LOAD_VIDEO,
   DOWN_PROGRESS,
@@ -9,8 +10,7 @@ import {
   END_PLAY,
   TOGGLE_PLAY,
   TOGGLE_MUTE
-} from '../actions/types';
-import update from 'react-addons-update';
+} from '../constants/actionTypes';
 
 const initialState = {
   url: null,

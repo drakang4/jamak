@@ -2,8 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { ipcRenderer } from 'electron';
-import Actions from '../actions';
-import BlockEditor from './BlockEditor.js';
+import BlockEditor from './BlockEditor';
+import {
+  loadVideo,
+  updateDuration,
+  updateCurrentTime,
+  endPlay,
+  endSeek,
+  currentBlock,
+} from '../actions/player';
 
 
 class Video extends Component {
@@ -80,7 +87,7 @@ Video.propTypes = {
   duration: PropTypes.number,
   seekTime: PropTypes.number,
   seeking: PropTypes.bool.isRequired,
-  url: PropTypes.string
+  url: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -93,18 +100,18 @@ const mapStateToProps = (state) => {
     duration: state.player.duration,
     seekTime: state.player.seekTime,
     seeking: state.player.seeking,
-    url: state.player.url
+    url: state.player.url,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadVideo: (url) => dispatch(Actions.loadVideo(url)),
-    onUpdateDuration: (duration) => dispatch(Actions.updateDuration(duration)),
-    onUpdateCurrentTime: (currentTime) => dispatch(Actions.updateCurrentTime(currentTime)),
-    onEndPlay: () => dispatch(Actions.endPlay()),
-    onEndSeek: () => dispatch(Actions.endSeek()),
-    currentBlock: (id) => dispatch(Actions.currentBlock(id))
+    loadVideo: (url) => dispatch(loadVideo(url)),
+    onUpdateDuration: (duration) => dispatch(updateDuration(duration)),
+    onUpdateCurrentTime: (currentTime) => dispatch(updateCurrentTime(currentTime)),
+    onEndPlay: () => dispatch(endPlay()),
+    onEndSeek: () => dispatch(endSeek()),
+    currentBlock: (id) => dispatch(currentBlock(id)),
   };
 };
 

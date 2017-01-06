@@ -1,9 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Actions from '../actions';
 import classNames from 'classnames';
 import Ink from 'react-ink';
 import { playerToSrt } from '../utils/timeParser';
+import {
+  deleteBlock,
+  selectBlock,
+  currentBlock,
+  updateBlockTime,
+  resetBlockId,
+  sortBlocks,
+} from '../constants/actionTypes';
 
 class Block extends Component {
   constructor(props) {
@@ -240,12 +247,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteBlock: (id) => dispatch(Actions.deleteBlock(id)),
-    selectBlock: (id) => dispatch(Actions.selectBlock(id)),
-    currentBlock: (id) => dispatch(Actions.currentBlock(id)),
-    updateBlockTime: (id, startTime, endTime) => dispatch(Actions.updateBlockTime(id, startTime, endTime)),
-    resetBlockId: () => dispatch(Actions.resetBlockId()),
-    sortBlocks: (blocks) => dispatch(Actions.sortBlocks(blocks))
+    deleteBlock: (id) => dispatch(deleteBlock(id)),
+    selectBlock: (id) => dispatch(selectBlock(id)),
+    currentBlock: (id) => dispatch(currentBlock(id)),
+    updateBlockTime: (id, startTime, endTime) => dispatch(updateBlockTime(id, startTime, endTime)),
+    resetBlockId: () => dispatch(resetBlockId()),
+    sortBlocks: (blocks) => dispatch(sortBlocks(blocks))
   };
 };
 

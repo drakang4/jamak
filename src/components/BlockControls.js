@@ -1,6 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Actions from '../actions';
+import {
+  addBlockFirst,
+  addBlockLast,
+  addBlockOver,
+  addBlockBetween,
+  clearBlock,
+  deleteBlock,
+  resetBlockId,
+  currentBlock,
+} from '../constants/actionTypes';
 
 class BlockControls extends Component {
   handleAddClick(e) {
@@ -124,14 +133,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddBlockFirst: (startTime, endTime) => dispatch(Actions.addBlockFirst(startTime, endTime)),
-    onAddBlockLast: (startTime, endTime) => dispatch(Actions.addBlockLast(startTime, endTime)),
-    onAddBlockOver: (startTime, endTime) => dispatch(Actions.addBlockOver(startTime, endTime)),
-    onAddBlockBetween: (startTime, endTime, nextBlockId) => dispatch(Actions.addBlockBetween(startTime, endTime, nextBlockId)),
-    onClearBlock: (block) => dispatch(Actions.clearBlock(block)),
-    onDeleteBlock: (block) => dispatch(Actions.deleteBlock(block)),
-    onResetBlockId: () => dispatch(Actions.resetBlockId()),
-    onCurrentBlock: (id) => dispatch(Actions.currentBlock(id))
+    onAddBlockFirst: (startTime, endTime) => dispatch(addBlockFirst(startTime, endTime)),
+    onAddBlockLast: (startTime, endTime) => dispatch(addBlockLast(startTime, endTime)),
+    onAddBlockOver: (startTime, endTime) => dispatch(addBlockOver(startTime, endTime)),
+    onAddBlockBetween: (startTime, endTime, nextBlockId) => dispatch(addBlockBetween(startTime, endTime, nextBlockId)),
+    onClearBlock: (block) => dispatch(clearBlock(block)),
+    onDeleteBlock: (block) => dispatch(deleteBlock(block)),
+    onResetBlockId: () => dispatch(resetBlockId()),
+    onCurrentBlock: (id) => dispatch(currentBlock(id))
   };
 };
 

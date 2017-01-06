@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "immutability-helper": "^2.1.0",
     "media-type": "^0.3.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",

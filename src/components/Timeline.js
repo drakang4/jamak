@@ -1,10 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ipcRenderer } from 'electron';
-import Actions from '../actions';
 import ProgressBar from './ProgressBar';
 import TimelineBlocks from './TimelineBlocks';
 import { fromSrt, toSrt } from '../utils/srtParser';
+import {
+  newBlockFile,
+  loadBlockFile,
+  savedBlockFile,
+  unsavedBlockFile,
+  selectBlock,
+  setMultiple,
+} from '../constants/actionTypes';
 
 class Timeline extends Component {
   constructor(props) {
@@ -107,12 +114,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    newBlockFile: () => dispatch(Actions.newBlockFile()),
-    loadBlockFile: (blocks) => dispatch(Actions.loadBlockFile(blocks)),
-    savedBlockFile: (path) => dispatch(Actions.savedBlockFile(path)),
-    unsavedBlockFile: () => dispatch(Actions.unsavedBlockFile()),
-    selectBlock: (id) => dispatch(Actions.selectBlock(id)),
-    setMultiple: (multiple) => dispatch(Actions.setMultiple(multiple))
+    newBlockFile: () => dispatch(newBlockFile()),
+    loadBlockFile: (blocks) => dispatch(loadBlockFile(blocks)),
+    savedBlockFile: (path) => dispatch(savedBlockFile(path)),
+    unsavedBlockFile: () => dispatch(unsavedBlockFile()),
+    selectBlock: (id) => dispatch(selectBlock(id)),
+    setMultiple: (multiple) => dispatch(setMultiple(multiple))
   };
 };
 

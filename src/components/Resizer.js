@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Actions from '../actions';
 import classNames from 'classnames';
+import {
+  moveResizerHor,
+  moveResizerVer,
+} from '../constants/actionTypes';
 
 class Resizer extends Component {
   handleResizerDown(e) {
@@ -75,22 +78,20 @@ Resizer.propTypes = {
   onResizerMoveVer: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   left: PropTypes.number.isRequired,
-  top: PropTypes.number.isRequired
+  top: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     top: state.resizer.top,
-    left: state.resizer.left
+    left: state.resizer.left,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onResizerDown: () => dispatch(Actions.downResizer()),
-    onResizerMoveHor: (left) => dispatch(Actions.moveResizerHor(left)),
-    onResizerMoveVer: (top) => dispatch(Actions.moveResizerVer(top)),
-    onResizerUp: () => dispatch(Actions.upResizer())
+    onResizerMoveHor: (left) => dispatch(moveResizerHor(left)),
+    onResizerMoveVer: (top) => dispatch(moveResizerVer(top)),
   };
 };
 
