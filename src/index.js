@@ -1,21 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+
 import App from './containers/App';
 
-require('./styles/index.scss');
-
-const render = () => {
+const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
-      <App />
+      <Component />
     </AppContainer>,
     document.getElementById('root'),
   );
 };
 
-render();
+render(App);
 
 if (module.hot) {
-  module.hot.accept('./containers/App', render);
+  module.hot.accept('./containers/App', () => {
+    const NextApp = require('./containers/App').default; // eslint-disable-line global-require
+    render(NextApp);
+  });
 }

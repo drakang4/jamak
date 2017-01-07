@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import DashboardPlugin from 'webpack-dashboard/plugin';
 
 export default {
@@ -16,15 +17,13 @@ export default {
     path: path.resolve(__dirname, 'app'),
     pathinfo: true,
     filename: 'bundle.js',
-    publicPath: '/',
+    publicPath: 'http://localhost:8080/',
   },
 
   devServer: {
     contentBase: path.resolve(__dirname, 'app'),
     hot: true,
-    inline: true,
     publicPath: 'http://localhost:8080/',
-    watchContentBase: true,
   },
 
   resolveLoader: {
@@ -85,12 +84,16 @@ export default {
   },
 
   plugins: [
+    new DashboardPlugin(),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: path.resolve(__dirname, 'app/index.html'),
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
-    new DashboardPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoErrorsPlugin(),
