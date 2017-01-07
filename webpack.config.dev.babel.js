@@ -1,29 +1,30 @@
 import webpack from 'webpack';
 import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import DashboardPlugin from 'webpack-dashboard/plugin';
 
 export default {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'cheap-eval-source-map',
 
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://0.0.0.0:8080',
+    'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     path.resolve(__dirname, 'src/index.js'),
   ],
 
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'app'),
     pathinfo: true,
     filename: 'bundle.js',
     publicPath: '/',
   },
 
   devServer: {
-    hot: true,
     contentBase: path.resolve(__dirname, 'app'),
-    publicPath: '/',
+    hot: true,
+    inline: true,
+    publicPath: 'http://localhost:8080/',
+    watchContentBase: true,
   },
 
   resolveLoader: {
@@ -84,20 +85,16 @@ export default {
   },
 
   plugins: [
-    new DashboardPlugin(),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.resolve(__dirname, 'app/index.html'),
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
+    new DashboardPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
 
-  target: 'electron',
+  target: 'electron-renderer',
 };
