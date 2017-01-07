@@ -1,4 +1,28 @@
 {
-  "presets": ["react-app"],
-  "plugins": ["react-hot-loader/babel"]
+  "presets": [
+    "latest",
+    "react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    "transform-class-properties",
+    ["transform-object-rest-spread", {
+      "useBuiltIns": true
+    }],
+    ["transform-react-jsx", {
+      "useBuiltIns": true
+    }],
+    "transform-react-jsx-source",
+    "transform-react-jsx-self",
+    "transform-es2015-parameters",
+    ["transform-runtime", {
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true,
+      "moduleName": "babel-runtime"
+    }],
+    ["transform-regenerator", {
+      "async": false
+    }]
+  ]
 }
