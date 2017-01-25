@@ -100,7 +100,7 @@ Timeline.propTypes = {
   blocks: PropTypes.array.isRequired,
   blockFilePath: PropTypes.string,
   blockFileSaved: PropTypes.bool.isRequired,
-  multiple: PropTypes.number.isRequired,
+  multiple: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -108,7 +108,7 @@ const mapStateToProps = (state) => {
     blocks: state.blocks.blocks,
     blockFilePath: state.blocks.blockFilePath,
     blockFileSaved: state.blocks.blockFileSaved,
-    multiple: state.timeline.multiple,
+    multiple: state.timeline.multiple
   };
 };
 
@@ -119,7 +119,7 @@ const mapDispatchToProps = (dispatch) => {
     savedBlockFile: (path) => dispatch(savedBlockFile(path)),
     unsavedBlockFile: () => dispatch(unsavedBlockFile()),
     selectBlock: (id) => dispatch(selectBlock(id)),
-    setMultiple: (multiple) => dispatch(setMultiple(multiple)),
+    setMultiple: (multiple) => dispatch(setMultiple(multiple))
   };
 };
 

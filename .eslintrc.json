@@ -20,8 +20,6 @@
     "arrow-parens": ["error", "always"],
     "no-console": ["error", { "allow": ["log"] }],
     "import/no-extraneous-dependencies": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/jsx-first-prop-new-line": ["error", "never"],
-    "react/jsx-closing-bracket-location": ["error", "after-props"]
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }]
   }
 }

@@ -26,6 +26,10 @@ export default {
     publicPath: 'http://localhost:8080/',
   },
 
+  resolveLoader: {
+    moduleExtensions: ['-loader'],
+  },
+
   module: {
     rules: [
       {
@@ -38,9 +42,9 @@ export default {
         ],
         use: [
           {
-            loader: 'url-loader',
+            loader: 'url',
             options: {
-              limit: 100000,
+              limit: 10000,
               name: '[name].[hash:8].[ext]',
             },
           },
@@ -51,36 +55,29 @@ export default {
         include: [
           path.resolve(__dirname, 'src'),
         ],
-        exclude: /node_modules/,
         use: [
-          'babel-loader',
+          { loader: 'babel' },
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: 'style' },
+          { loader: 'css' },
+          { loader: 'sass' },
         ],
       },
       {
         test: /\.css$/,
-        include: [
-          path.resolve(__dirname, 'src'),
-        ],
-        exclude: /node_modules/,
         use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
-            },
-          },
-          { loader: 'postcss-loader' },
+          { loader: 'style' },
+          { loader: 'css' },
         ],
       },
       {
         test: /\.svg$/,
-        exclude: /node_modules/,
         use: [
-          'file-loader',
+          { loader: 'file' },
         ],
       },
     ],
@@ -99,7 +96,7 @@ export default {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoErrorsPlugin(),
   ],
 
   target: 'electron-renderer',
