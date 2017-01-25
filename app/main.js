@@ -1,9 +1,9 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import path from 'path';
 import url from 'url';
 
-// import template from './menu';
+import configureMenu from './menu';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,6 +22,7 @@ const createWindow = () => {
 
   // Open the DevTools.
   if (process.env.NODE_ENV === 'development') {
+    require('devtron').install();
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name) => console.log(`Added Extension:  ${name}`))
       .catch((err) => console.log('An error occurred: ', err));
@@ -39,12 +40,13 @@ const createWindow = () => {
     mainWindow = null;
   });
 };
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', () => {
   createWindow();
-  // const menu = Menu.buildFromTemplate(template);
-  // Menu.setApplicationMenu(menu);
+  const menu = Menu.buildFromTemplate(configureMenu(app));
+  Menu.setApplicationMenu(menu);
 });
 
 // Quit when all windows are closed.

@@ -1,8 +1,16 @@
-// parse time data
-// from
-// HH:mm:ss,SSS (type: string)
-// to
-// s.SSSSSS (type: number)
+/**
+ * SRT Time
+ * {string} HH:mm:ss,SSS
+ *
+ * Player Time
+ * {number} s.SSSSSS
+ */
+
+/**
+ * Parse time data.
+ * @param time SRT Time
+ * @return number Player Time
+ */
 export const srtToPlayer = (time) => {
   const regex = /(\d+):(\d{2}):(\d{2}),(\d{3})/;
   const parts = regex.exec(time);
@@ -11,48 +19,46 @@ export const srtToPlayer = (time) => {
     return 0;
   }
 
-  for (var i = 1; i < 5; i++) {
-    parts[i] = parseInt(parts[i], 10);
-    if (isNaN(parts[i])) parts[i] = 0;
-  }
+  const cleanParts = parts.slice(1, 5);
+
+  cleanParts.forEach((match, index) => {
+    cleanParts[index] = parseInt(match, 10);
+  });
 
   // hours + minutes + seconds + ms
-  return parts[1] * 3600 + parts[2] * 60 + parts[3] + parts[4] * 0.001;
+  return (cleanParts[0] * 3600) + (cleanParts[1] * 60) + cleanParts[2] + (cleanParts[3] * 0.001);
 };
 
-// parse time data
-// from
-// s.SSSSSS (type: number)
-// to
-// HH.mm:ss,SSS (type: string)
+/**
+ * Parse time data.
+ * @param time Player Time
+ * @return string SRT Time
+ */
 export const playerToSrt = (time) => {
-  const timeObj = playerToTimecode(time);
-  for (var n in timeObj) {
-    if (timeObj[n].toString().length < 2) {
-      timeObj[n] = '0' + timeObj[n];
-    }
-  }
-  if(timeObj.milliSecond.toString().length < 3) {
-    timeObj.milliSecond = '0' + timeObj.milliSecond;
-  }
-  return (
-    timeObj.hour.toString() + ':' +
-    timeObj.minute.toString() + ':' +
-    timeObj.second.toString() + ',' +
-    timeObj.milliSecond.toString()
-  );
-};
+  let hour = Math.floor(time / 3600).toString();
+  let minute = Math.floor((time % 3600) / 60).toString();
+  let second = Math.floor((time % 3600) % 60).toString();
+  let milliSecond = Math.round(((time % 3600 % 60) - second) * 1000).toString();
 
-// parse time data
-// from
-// s.SSSSSS (type: number)
-// to
-// { hour, minute, second, milliSecond } (type: object of number)
-export const playerToTimecode = (time) => {
-  const hour = Math.floor(time / 3600);
-  const minute = Math.floor(time % 3600 / 60);
-  const second = Math.floor(time % 3600 % 60);
-  const milliSecond = Math.round((time % 3600 % 60 - second) * 1000);
+  if (hour.length < 2) {
+    hour = `0${hour}`;
+  }
 
-  return { hour, minute, second, milliSecond };
+  if (minute.length < 2) {
+    minute = `0${minute}`;
+  }
+
+  if (second.length < 2) {
+    second = `0${second}`;
+  }
+
+  if (milliSecond.length < 2) {
+    milliSecond = `0${milliSecond}`;
+  }
+
+  if (milliSecond.length < 3) {
+    milliSecond = `0${milliSecond}`;
+  }
+
+  return `${hour}:${minute}:${second},${milliSecond}`;
 };

@@ -1,0 +1,10 @@
+@import '../../styles/colors.css';
+
+.default {
+    border: none;
+    background-color: var(--blue-500);
+    color: var(--white);
+    font-size: 20px;
+    padding: 12px 24px;
+    margin: 0 24px;
+}
