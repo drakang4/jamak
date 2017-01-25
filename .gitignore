@@ -3,5 +3,5 @@ design
 dist
 npm-debug.log
 
-.idea
 .vscode
+.idea
