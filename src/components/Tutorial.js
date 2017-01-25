@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import TutorialContext from './TutorialContext';
 import TutorialStepper from './TutorialStepper';
 import path from 'path';
-const { fileOpen } = require('../utils/file');
+const { fileOpen } = require('../../app/file');
 
 class Tutorial extends Component {
   constructor(props) {

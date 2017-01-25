@@ -1,22 +1,34 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter, Match, Miss, Redirect } from 'react-router';
 import configureStore from '../store/configureStore';
 
-import Tutorial from '../components/Tutorial';
-import TopPane from '../components/TopPane';
-import BottomPane from '../components/BottomPane';
-import Resizer from '../components/Resizer';
+import Prepare from './Prepare';
+import Editor from './Editor';
+import NoMatch from './NoMatch';
+
+import '../styles/App.css';
 
 const store = configureStore();
 
+const ready = false;
+
 const App = () => (
   <Provider store={store}>
-    <div>
-      <Tutorial />
-      <TopPane />
-      <Resizer type="vertical" />
-      <BottomPane />
-    </div>
+    <MemoryRouter>
+      <div>
+        <Match exactly pattern="/" render={() => (
+          ready ? (
+            <Redirect to="/editor" />
+          ) : (
+            <Redirect to="/prepare" />
+          )
+        )} />
+        <Match pattern="/editor" component={Editor} />
+        <Match pattern="/prepare" component={Prepare} />
+        <Miss component={NoMatch} />
+      </div>
+    </MemoryRouter>
   </Provider>
 );
 

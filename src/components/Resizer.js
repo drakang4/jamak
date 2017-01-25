@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {
   moveResizerHor,
   moveResizerVer,
-} from '../constants/actionTypes';
+} from '../actions/resizer';
 
 class Resizer extends Component {
   handleResizerDown(e) {

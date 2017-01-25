@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { remote } from 'electron';
 const { dialog } = remote;
-const { fileOpen, fileNew } = require('../utils/file');
+const { fileOpen, fileNew } = require('../../app/file');
 
 class TutorialContext extends Component {
   handleNewSubtitle() {
