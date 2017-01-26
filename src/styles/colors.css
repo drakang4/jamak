@@ -6,5 +6,18 @@
     --blue-700: rgb(100, 208, 228);
     --blue-900: rgb(236, 246, 249);
 
-    --white: rgb(255, 255, 255);
+
+    --pink-50: #FCE4EC;
+    --pink-100: #F8BBD0;
+    --pink-200: #F48FB1;
+    --pink-300: #F06292;
+    --pink-400: #EC407A;
+    --pink-500: #E91E63;
+    --pink-600: #D81B60;
+    --pink-700: #C2185B;
+    --pink-800: #AD1457;
+    --pink-900: #880E4F;
+
+    --white: #ffffff;
+    --black: #000000;
 }

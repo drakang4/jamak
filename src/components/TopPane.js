@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import Tutorial from './Tutorial';
 import Player from './Player';
 import Resizer from './Resizer';
-import BlockTable from './BlockTable.js';
+
+import BlockTable from './BlockTable';
 
 class TopPane extends Component {
   render() {

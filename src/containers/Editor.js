@@ -1,11 +1,26 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-const Editor = (props) => {
-  return (
-    <div></div>
-  );
-};
+import TopPane from './TopPane';
+import BottomPane from './BottomPane';
+import Resizer from '../components/Resizer/Resizer';
 
-Editor.propTypes = {};
+class Editor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      left: 100,
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <TopPane />
+        <Resizer type="vertical" />
+        <BottomPane />
+      </div>
+    );
+  }
+}
 
 export default Editor;

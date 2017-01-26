@@ -70,12 +70,11 @@ const PrepareDropzone = ({ videoReady, subtitleReady, onVideoOpen, onSubtitleOpe
         </div>
         <div styleName="status-container">
           <div styleName="icon-container">
-            <i className="material-icons">check_circle</i>
-            <img styleName="icon" src={videoReady ? '../src/assets/icons/ic-ok-circle.svg' : '../src/assets/icons/ic-x-circle-o.svg'} alt="video ready" />
+            <i className="material-icons">{videoReady ? 'check_circle' : 'cancel'}</i>
             <span>비디오</span>
           </div>
           <div styleName="icon-container">
-            <img styleName="icon" src={subtitleReady ? '../src/assets/icons/ic-ok-circle.svg' : '../src/assets/icons/ic-x-circle-o.svg'} alt="subtitle ready" />
+            <i className="material-icons">{subtitleReady ? 'check_circle' : 'cancel'}</i>
             <span>자막</span>
           </div>
         </div>
