@@ -6,7 +6,7 @@ import rootReducer from '../reducers';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
 
-const configureStore = (preloadedState) => {
+const configureStore = (preloadedState = {}) => {
   const store = createStore(rootReducer, preloadedState, composeEnhancers(
     applyMiddleware(createLogger()),
   ));
@@ -14,7 +14,8 @@ const configureStore = (preloadedState) => {
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(rootReducer);
+      const nextRootReducer = require('../reducers').default;
+      store.replaceReducer(nextRootReducer);
     });
   }
   return store;

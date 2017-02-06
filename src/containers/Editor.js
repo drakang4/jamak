@@ -1,26 +1,34 @@
 import React, { Component, PropTypes } from 'react';
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Split from '../components/Split/Split';
 import TopPane from './TopPane';
 import BottomPane from './BottomPane';
-import Resizer from '../components/Resizer/Resizer';
 
 class Editor extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      left: 100,
-    };
-  }
-
   render() {
     return (
-      <div>
-        <TopPane />
-        <Resizer type="vertical" />
-        <BottomPane />
-      </div>
+      <Split type="horizontal">
+        <TopPane
+          blocks={this.props.blocks} />
+        {/*<BottomPane
+          blocks={this.props.blocks} />*/}
+        <div />
+      </Split>
     );
   }
 }
 
-export default Editor;
+Editor.propTypes = {
+  blocks: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  blocks: state.blocks.blocks,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators({ }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editor);

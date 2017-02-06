@@ -33,7 +33,7 @@
     width: 60px;
 }
 
-.status-container {
+.state-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -50,4 +50,12 @@
     & span {
         padding-left: 8px;
     }
+}
+
+.ready {
+    color: green;
+}
+
+.unready {
+    color: red;
 }

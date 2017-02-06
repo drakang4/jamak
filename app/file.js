@@ -1,13 +1,11 @@
-import { BrowserWindow, dialog, ipcMain, remote } from 'electron';
+import { BrowserWindow, dialog, ipcMain } from 'electron';
 import fs from 'fs';
 
 import { subtitleTypes, videoTypes } from '../src/constants/fileTypes';
 
 const readFileData = (filePath) => {
-  fs.readFile(filePath, (err, data) => {
-    if (err) throw err;
-    return data;
-  });
+  const data = fs.readFileSync(filePath, 'utf8');
+  return data;
 };
 
 const writeFileData = (data, filePath) => {
@@ -21,15 +19,18 @@ export const newFile = (browserWindow) => {
 };
 
 export const openFile = (browserWindow) => {
+  const filters = [
+    { name: 'Subtitle Files', extensions: subtitleTypes },
+  ];
+  if (process.platform === 'win32') {
+    filters.push({ name: 'All Files', extensions: ['*'] });
+  }
   dialog.showOpenDialog({
-    properties: ['fileOpen'],
-    filters: [
-      { name: 'Subtitle Files', extensions: subtitleTypes },
-      { name: 'All Files', extensions: ['*'] },
-    ],
+    properties: ['openFile'],
+    filters: filters,
   }, (filePaths) => {
     if (filePaths) {
-      browserWindow.webContents.send('open-file', readFileData(filePaths[0]));
+      browserWindow.webContents.send('open-file', filePaths[0], readFileData(filePaths[0]));
     }
   });
 };
@@ -43,12 +44,15 @@ export const saveAsFile = (browserWindow) => {
 };
 
 export const openVideo = (browserWindow) => {
+  const filters = [
+    { name: 'Video Files', extensions: videoTypes },
+  ];
+  if (process.platform === 'win32') {
+    filters.push({ name: 'All Files', extensions: ['*'] });
+  }
   dialog.showOpenDialog({
-    properties: ['fileOpen'],
-    filters: [
-      { name: 'Video Files', extensions: videoTypes },
-      { name: 'All Files', extensions: ['*'] },
-    ],
+    properties: ['openFile'],
+    filters: filters,
   }, (filePaths) => {
     if (filePaths) {
       browserWindow.webContents.send('open-video', filePaths[0]);
@@ -57,7 +61,7 @@ export const openVideo = (browserWindow) => {
 };
 
 ipcMain.on('ask-open-file', (event, filePath) => {
-  event.sender.send('open-file', readFileData(filePath));
+  event.sender.send('open-file', filePath, readFileData(filePath));
 });
 
 ipcMain.on('ask-open-video', (event, filePath) => {

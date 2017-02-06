@@ -1,0 +1,53 @@
+@import '../../styles/colors.css';
+
+.player {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--blue-300);
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+.viewer {
+  position: relative;
+  background-color: var(--black);
+  flex: 1;
+}
+
+.video {
+  height: 100%;
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-basis: 64px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.button {
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  margin: 6px;
+}
+
+.button.play, .button.pause, .button.muted, .button.unmuted {
+  fill: var(--blue-500);
+}
+
+.subtitle-box {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  margin: 0 auto;
+  transform: translateX(-50%);
+}
+
+.textarea {
+  text-align: center;
+}

@@ -5,14 +5,9 @@ import VideoControls from './VideoControls';
 
 class Player extends Component {
   render() {
-    let style = {
-      width: this.props.left
-    };
-
     return (
       <div
-        className="player"
-        style={style}>
+        className="player">
         <Video />
         <VideoControls />
       </div>
@@ -20,14 +15,4 @@ class Player extends Component {
   }
 }
 
-Player.propTypes = {
-  left: PropTypes.number.isRequired
-};
-
-const mapStateToProps = (state) => {
-  return {
-    left: state.resizer.left
-  };
-};
-
-export default connect(mapStateToProps)(Player);
+export default Player;

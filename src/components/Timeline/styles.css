@@ -1,0 +1,25 @@
+@import '../../styles/colors.css';
+
+.timeline {
+  display: flex;
+  flex-direction: column
+}
+
+.time-bar {
+  background-color: var(--blue-300);
+  flex-basis: 32px;
+}
+
+.time {
+  font-size: 16px;
+}
+
+.time.left {
+  margin-left: 16px;
+  color: var(--blue-500);
+}
+
+.time.right {
+  margin-right: 16px;
+  color: var(--blue-400);
+}

@@ -1,2 +1,40 @@
 @import '../../styles/colors.css';
 
+.resizer {
+  background-color: var(--black);
+  background-clip: padding-box;
+  opacity: .2;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.resizer.active {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.resizer.horizontal {
+  height: 6px;
+  margin: -2px 0;
+  border-top: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.resizer.horizontal.active {
+  border-top: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+}
+
+.resizer.vertical {
+  width: 6px;
+  margin: 0 -2px;
+  border-left: 2px solid var(--white);
+  border-right: 2px solid var(--white);
+  cursor: col-resize;
+}
+
+.resizer.vertical.active {
+  border-left: 2px solid var(--black);
+  border-right: 2px solid var(--black);
+}

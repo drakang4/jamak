@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Dropzone from 'react-dropzone';
 import CSSModules from 'react-css-modules';
+import classNames from 'classnames/bind';
 import { Link } from 'react-router';
 import { ipcRenderer } from 'electron';
 import path from 'path';
@@ -10,16 +11,18 @@ import { subtitleTypes, videoTypes } from '../../constants/fileTypes';
 import Button from '../Button/Button';
 import styles from './styles.css';
 
+const cx = classNames.bind(styles);
+
 const PrepareDropzone = ({ videoReady, subtitleReady, onVideoOpen, onSubtitleOpen, onSubtitleNew }) => {
-  ipcRenderer.on('open-video', (event) => {
+  ipcRenderer.on('open-video', () => {
     onVideoOpen();
   });
 
-  ipcRenderer.on('open-file', (event) => {
+  ipcRenderer.on('open-file', () => {
     onSubtitleOpen();
   });
 
-  ipcRenderer.on('new-file', (event) => {
+  ipcRenderer.on('new-file', () => {
     onSubtitleNew();
   });
 
@@ -54,8 +57,21 @@ const PrepareDropzone = ({ videoReady, subtitleReady, onVideoOpen, onSubtitleOpe
     event.preventDefault();
   };
 
+  const videoStateClass = cx({
+    'icon-container': true,
+    ready: videoReady,
+    unready: !videoReady,
+  });
+
+  const subtitleStateClass = cx({
+    'icon-container': true,
+    ready: subtitleReady,
+    unready: !subtitleReady,
+  });
+
   return (
-    <Dropzone disableClick
+    <Dropzone
+      disableClick
       styleName="default"
       activeClassName="active"
       onDrop={handleDrop} >
@@ -68,12 +84,12 @@ const PrepareDropzone = ({ videoReady, subtitleReady, onVideoOpen, onSubtitleOpe
           <Button onClick={loadFileButtonClick}>자막 불러오기</Button>
           <Button onClick={newFileButtonClick}>새 자막 만들기</Button>
         </div>
-        <div styleName="status-container">
-          <div styleName="icon-container">
+        <div styleName="state-container">
+          <div className={videoStateClass}>
             <i className="material-icons">{videoReady ? 'check_circle' : 'cancel'}</i>
             <span>비디오</span>
           </div>
-          <div styleName="icon-container">
+          <div className={subtitleStateClass}>
             <i className="material-icons">{subtitleReady ? 'check_circle' : 'cancel'}</i>
             <span>자막</span>
           </div>

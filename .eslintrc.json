@@ -19,10 +19,8 @@
   "rules": {
     "arrow-parens": ["error", "always"],
     "no-console": ["error", { "allow": ["log"] }],
-    "linebreak-style": ["error", "windows"],
     "import/no-extraneous-dependencies": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/jsx-first-prop-new-line": ["error", "never"],
     "react/jsx-closing-bracket-location": ["error", "after-props"]
   }
 }

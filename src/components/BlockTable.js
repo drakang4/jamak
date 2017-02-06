@@ -4,12 +4,8 @@ import { playerToSrt } from '../utils/timeParser';
 
 class BlockTable extends Component {
   render() {
-    let style = {
-      width: 'calc(100% - ' + this.props.left + 'px)'
-    };
-
     return (
-      <table className="block-table" style={style}>
+      <table className="block-table">
         <thead className="block-table__header">
           <tr className="block-table__row block-table__row--header">
             <th className="block-table__item block-table__item--header">ID</th>
@@ -25,7 +21,7 @@ class BlockTable extends Component {
               <td className="block-table__item">{playerToSrt(block.startTime)}</td>
               <td className="block-table__item">{playerToSrt(block.endTime)}</td>
               <td className="block-table__item">{block.subtitle}</td>
-            </tr>
+            </tr>,
           )}
         </tbody>
       </table>
@@ -35,13 +31,11 @@ class BlockTable extends Component {
 
 BlockTable.propTypes = {
   blocks: PropTypes.array.isRequired,
-  left: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     blocks: state.blocks.blocks,
-    left: state.resizer.left
   };
 };
 

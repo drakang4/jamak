@@ -6,7 +6,10 @@ import { srtToPlayer, playerToSrt } from './timeParser';
  * @returns {Array}
  */
 export const fromSrt = (data) => {
-  let srtData = data.split(/^\s*[\r\n]/gm);
+  let srtData = data.replace(/\r/g, '');
+  srtData = srtData.split(/\n\n/gm);
+
+  srtData.pop();
 
   srtData.forEach((block, index) => {
     const regex = /(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})/;

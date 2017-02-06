@@ -1,57 +1,50 @@
-import {
-  LOAD_VIDEO,
-  DOWN_PROGRESS,
-  MOVE_PROGRESS,
-  UP_PROGRESS,
-  END_SEEK,
-  UPDATE_CURRENT_TIME,
-  UPDATE_DURATION,
-  END_PLAY,
-  TOGGLE_PLAY,
-  TOGGLE_MUTE,
-} from '../constants/actionTypes';
+import * as types from '../constants/actionTypes/player';
 
-export const loadVideo = (url) => ({
-  type: LOAD_VIDEO,
-  url,
+export const togglePlay = () => ({
+  type: types.TOGGLE_PLAY,
 });
 
-export const downProgress = (rate) => ({
-  type: DOWN_PROGRESS,
-  rate,
-});
-
-export const moveProgress = (rate) => ({
-  type: MOVE_PROGRESS,
-  rate,
-});
-
-export const upProgress = () => ({
-  type: UP_PROGRESS,
-});
-
-export const endSeek = () => ({
-  type: END_SEEK,
+export const toggleMute = () => ({
+  type: types.TOGGLE_MUTE,
 });
 
 export const updateCurrentTime = (currentTime) => ({
-  type: UPDATE_CURRENT_TIME,
+  type: types.UPDATE_CURRENT_TIME,
   currentTime,
 });
 
 export const updateDuration = (duration) => ({
-  type: UPDATE_DURATION,
+  type: types.UPDATE_DURATION,
   duration,
 });
 
 export const endPlay = () => ({
-  type: END_PLAY,
+  type: types.END_PLAY,
 });
 
-export const togglePlay = () => ({
-  type: TOGGLE_PLAY,
+export const startSeek = () => ({
+  type: types.START_SEEK,
 });
 
-export const toggleMute = () => ({
-  type: TOGGLE_MUTE,
+export const doingSeek = () => ({
+  type: types.DOING_SEEK,
 });
+
+export const endSeek = () => ({
+  type: types.END_SEEK,
+});
+
+// export const downProgress = (rate) => ({
+//   type: types.DOWN_PROGRESS,
+//   rate,
+// });
+
+// export const moveProgress = (rate) => ({
+//   type: MOVE_PROGRESS,
+//   rate,
+// });
+
+// export const upProgress = () => ({
+//   type: UP_PROGRESS,
+// });
+
