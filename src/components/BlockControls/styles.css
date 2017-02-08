@@ -1,0 +1,22 @@
+@import '../../styles/colors.css';
+
+.controls {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--blue-300);
+}
+
+.button {
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  margin: 6px;
+  padding: 0;
+}
+
+.button.add, .button.clear, .button.delete {
+  fill: #cccccc;
+}

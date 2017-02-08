@@ -9,6 +9,8 @@ const Player = (props) => {
     videoPath,
     playing,
     muted,
+    currentTime,
+    seeking,
     onTogglePlay,
     onToggleMute,
     onUpdateCurrentTime,
@@ -21,6 +23,8 @@ const Player = (props) => {
         videoPath={videoPath}
         playing={playing}
         muted={muted}
+        currentTime={currentTime}
+        seeking={seeking}
         onUpdateCurrentTime={onUpdateCurrentTime}
         onUpdateDuration={onUpdateDuration}
         onEndPlay={onEndPlay} />
@@ -37,6 +41,8 @@ Player.propTypes = {
   videoPath: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  seeking: PropTypes.bool.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onToggleMute: PropTypes.func.isRequired,
   onUpdateCurrentTime: PropTypes.func.isRequired,

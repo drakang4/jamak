@@ -11,9 +11,8 @@ class Editor extends Component {
       <Split type="horizontal">
         <TopPane
           blocks={this.props.blocks} />
-        {/*<BottomPane
-          blocks={this.props.blocks} />*/}
-        <div />
+        <BottomPane
+          blocks={this.props.blocks} />
       </Split>
     );
   }

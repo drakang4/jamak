@@ -5,6 +5,10 @@ import styles from './styles.css';
 
 class Video extends Component {
   componentWillReceiveProps(nextProps) {
+    if (nextProps.seeking) {
+      this.video.currentTime = nextProps.currentTime;
+    }
+
     nextProps.playing ? this.video.play() : this.video.pause();
     this.video.muted = nextProps.muted;
   }
@@ -42,6 +46,8 @@ Video.propTypes = {
   videoPath: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired,
+  seeking: PropTypes.bool.isRequired,
+  currentTime: PropTypes.number.isRequired,
   onUpdateCurrentTime: PropTypes.func.isRequired,
   onUpdateDuration: PropTypes.func.isRequired,
   onEndPlay: PropTypes.func.isRequired,

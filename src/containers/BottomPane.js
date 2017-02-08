@@ -1,4 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as blockActions from '../actions/blocks';
+import { startSeek, doingSeek, endSeek } from '../actions/player';
 import BlockControls from '../components/BlockControls/BlockControls';
 import Timeline from '../components/Timeline/Timeline';
 import Split from '../components/Split/Split';
@@ -6,9 +10,20 @@ import Split from '../components/Split/Split';
 class BottomPane extends Component {
   render() {
     return (
-      <Split type="vertical">
+      <Split type="vertical" defaultSize={48} disableResize>
         <BlockControls />
-        <Timeline />
+        <Timeline
+          blocks={this.props.blocks}
+          currentTime={this.props.currentTime}
+          duration={this.props.duration}
+          seeking={this.props.seeking}
+          currentBlockId={this.props.currentBlockId}
+          selectedBlockId={this.props.selectedBlockId}
+          currentBlock={this.props.currentBlock}
+          selectBlock={this.props.selectBlock}
+          startSeek={this.props.startSeek}
+          doingSeek={this.props.doingSeek}
+          endSeek={this.props.endSeek} />
       </Split>
     );
   }
@@ -16,6 +31,29 @@ class BottomPane extends Component {
 
 BottomPane.propTypes = {
   blocks: PropTypes.array.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
+  seeking: PropTypes.bool.isRequired,
+  currentBlockId: PropTypes.number.isRequired,
+  selectedBlockId: PropTypes.number.isRequired,
+
+  currentBlock: PropTypes.func.isRequired,
+  selectBlock: PropTypes.func.isRequired,
+  startSeek: PropTypes.func.isRequired,
+  doingSeek: PropTypes.func.isRequired,
+  endSeek: PropTypes.func.isRequired,
 };
 
-export default BottomPane;
+const mapStateToProps = (state) => ({
+  currentTime: state.player.currentTime,
+  duration: state.player.duration,
+  seeking: state.player.seeking,
+  currentBlockId: state.blocks.currentBlockId,
+  selectedBlockId: state.blocks.selectedBlockId,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators(Object.assign({}, blockActions, { startSeek, doingSeek, endSeek }), dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(BottomPane);

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Split from '../components/Split/Split';
 import Player from '../components/Player/Player';
-import BlockTable from '../components/BlockTable/Table';
+import BlockTable from '../components/BlockTable/BlockTable';
 import * as playerActions from '../actions/player';
 
 class TopPane extends Component {
@@ -14,6 +14,8 @@ class TopPane extends Component {
           videoPath={this.props.videoPath}
           playing={this.props.playing}
           muted={this.props.muted}
+          currentTime={this.props.currentTime}
+          seeking={this.props.seeking}
           onTogglePlay={this.props.togglePlay}
           onToggleMute={this.props.toggleMute}
           onUpdateCurrentTime={this.props.updateCurrentTime}
@@ -30,6 +32,8 @@ TopPane.propTypes = {
   videoPath: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  seeking: PropTypes.bool.isRequired,
   togglePlay: PropTypes.func.isRequired,
   toggleMute: PropTypes.func.isRequired,
   updateCurrentTime: PropTypes.func.isRequired,
@@ -41,6 +45,8 @@ const mapStateToProps = (state) => ({
   videoPath: state.file.videoPath,
   playing: state.player.playing,
   muted: state.player.muted,
+  currentTime: state.player.currentTime,
+  seeking: state.player.seeking,
 });
 
 const mapDispatchToProps = (dispatch) => (

@@ -3,7 +3,6 @@
 .resizer {
   background-color: var(--black);
   background-clip: padding-box;
-  opacity: .2;
   box-sizing: border-box;
   z-index: 1;
 }
@@ -15,8 +14,8 @@
 .resizer.horizontal {
   height: 6px;
   margin: -2px 0;
-  border-top: 2px solid var(--white);
-  border-bottom: 2px solid var(--white);
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
   cursor: row-resize;
   width: 100%;
 }
@@ -29,12 +28,16 @@
 .resizer.vertical {
   width: 6px;
   margin: 0 -2px;
-  border-left: 2px solid var(--white);
-  border-right: 2px solid var(--white);
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
   cursor: col-resize;
 }
 
 .resizer.vertical.active {
   border-left: 2px solid var(--black);
   border-right: 2px solid var(--black);
+}
+
+.resizer.disabled {
+  display: none;
 }

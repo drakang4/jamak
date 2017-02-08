@@ -3,7 +3,7 @@ import CSSModules from 'react-css-modules';
 import styles from './styles.css';
 import { playerToSrt } from '../../utils/timeParser';
 
-const Table = ({ blocks }) => {
+const BlockTable = ({ blocks }) => {
   return (
     <table styleName="table">
       <thead styleName="header">
@@ -28,8 +28,8 @@ const Table = ({ blocks }) => {
   );
 };
 
-Table.propTypes = {
+BlockTable.propTypes = {
   blocks: PropTypes.array.isRequired,
 };
 
-export default CSSModules(Table, styles);
+export default CSSModules(BlockTable, styles);

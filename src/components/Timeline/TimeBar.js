@@ -15,4 +15,4 @@ TimeBar.propTypes = {
   duration: PropTypes.number.isRequired,
 };
 
-export default CSSModules(TimeBar, styles);
+export default CSSModules(TimeBar, styles, { allowMultiple: true });

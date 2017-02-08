@@ -1,0 +1,42 @@
+@import '../../styles/colors.css';
+
+.block {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  color: var(--white);
+  background-color: var(--pink-300);
+  box-shadow: 0 0 0 2px var(--pink-500);
+}
+
+.block.selected {
+  background-color: var(--pink-200);
+}
+
+.block.selected:hover {
+  cursor: move;
+}
+
+.progress {
+  background-color: var(--pink-100);
+}
+
+.textbox {
+  padding: 8px;
+  white-space: nowrap;
+}
+
+.text {
+  margin: 0;
+  overflow: hidden;
+  color: var(--black);
+}
+
+.text.time {
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.text.subtitle {
+  font-weight: 400;
+}

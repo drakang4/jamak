@@ -22,12 +22,14 @@ export const endPlay = () => ({
   type: types.END_PLAY,
 });
 
-export const startSeek = () => ({
+export const startSeek = (updatedTime) => ({
   type: types.START_SEEK,
+  updatedTime,
 });
 
-export const doingSeek = () => ({
+export const doingSeek = (updatedTime) => ({
   type: types.DOING_SEEK,
+  updatedTime,
 });
 
 export const endSeek = () => ({

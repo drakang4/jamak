@@ -84,6 +84,7 @@
     "normalize.css": "^5.0.0",
     "react": "^15.0.1",
     "react-css-modules": "^4.1.0",
+    "react-data-table": "^0.1.0",
     "react-dom": "^15.0.1",
     "react-dropzone": "^3.5.3",
     "react-ink": "^6.0.1",

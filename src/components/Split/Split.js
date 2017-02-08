@@ -13,21 +13,23 @@ class Split extends Component {
     super(props);
     this.state = {
       active: false,
-      position: 400,
+      position: this.props.defaultSize,
     };
   }
 
   componentDidMount() {
-    document.addEventListener('mouseup', this.onMouseUp);
     document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mouseup', this.onMouseUp);
     document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   onMouseDown = (event) => {
+    if (this.props.disableResize) return;
+
     const position = this.props.type === 'vertical' ? event.clientX : event.clientY;
     this.setState({
       active: true,
@@ -36,16 +38,19 @@ class Split extends Component {
   }
 
   onMouseMove = (event) => {
+    if (this.props.disableResize) return;
+
     if (this.state.active) {
       const node = findDOMNode(this.pane1);
-      const width = node.getBoundingClientRect().width;
-      const height = node.getBoundingClientRect().height;
+      const { width, height } = node.getBoundingClientRect();
       const current = this.props.type === 'vertical' ? event.clientX : event.clientY;
       this.setState({ position: current });
     }
   }
 
   onMouseUp = (event) => {
+    if (this.props.disableResize) return;
+
     if (this.state.active) {
       this.setState({ active: false });
     }
@@ -73,8 +78,8 @@ class Split extends Component {
           ref={(node) => { this.resizer = node; }}
           type={type}
           active={this.state.active}
-          onMouseDown={this.onMouseDown}
-          onMouseUp={this.onMouseUp} />
+          disabled={this.props.disableResize}
+          onMouseDown={this.onMouseDown} />
         <Pane
           ref={(node) => { this.pane2 = node; }}
           type={type}>
@@ -87,7 +92,14 @@ class Split extends Component {
 
 Split.propTypes = {
   type: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
+  defaultSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  disableResize: PropTypes.bool,
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
+};
+
+Split.defaultProps = {
+  defaultSize: '50%',
+  disableResize: false,
 };
 
 export default CSSModules(Split, styles);

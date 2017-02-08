@@ -3,8 +3,8 @@ import * as types from '../constants/actionTypes/blocks';
 
 const initialState = {
   blocks: [],
-  selectedBlockId: null,
-  currentBlockId: null,
+  selectedBlockId: 0,
+  currentBlockId: 0,
 };
 
 export default function blocks(state = initialState, action) {

@@ -1,44 +1,3 @@
-  // const handleResizerDown = (event) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   let mouseMoveListener;
-  //   let mouseUpListener;
-
-  //   if (type === 'horizontal') {
-  //     mouseMoveListener = (e) => {
-  //       let left = e.clientX;
-  //       if (left < 200) {
-  //         left = 200;
-  //       }
-  //       if (document.body.clientWidth - left < 200) {
-  //         left = document.body.clientWidth - 200;
-  //       }
-
-  //       this.props.onResizerMoveHor(left);
-  //     };
-  //   } else if (type === 'vertical') {
-  //     mouseMoveListener = (e) => {
-  //       let top = e.clientY;
-  //       if (top < 200) {
-  //         top = 200;
-  //       }
-  //       if (document.body.clientHeight - top < 200) {
-  //         top = document.body.clientHeight - 200;
-  //       }
-  //       this.props.onResizerMoveVer(top);
-  //     };
-  //   }
-
-  //   mouseUpListener = (e) => {
-  //     e.preventDefault();
-  //     document.removeEventListener('mousemove', mouseMoveListener);
-  //     document.removeEventListener('mouseup', mouseUpListener);
-  //   };
-
-  //   document.addEventListener('mousemove', mouseMoveListener);
-  //   document.addEventListener('mouseup', mouseUpListener);
-  // };
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
@@ -53,11 +12,12 @@ class Resizer extends Component {
   }
 
   render() {
-    const { type, active } = this.props;
+    const { type, active, disabled } = this.props;
     const className = cx({
       resizer: true,
       [`${type}`]: true,
       active,
+      disabled,
     });
 
     return (
@@ -70,6 +30,8 @@ class Resizer extends Component {
 
 Resizer.propTypes = {
   type: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
+  active: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   onMouseDown: PropTypes.func.isRequired,
 };
 

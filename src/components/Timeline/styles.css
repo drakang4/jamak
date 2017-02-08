@@ -2,12 +2,18 @@
 
 .timeline {
   display: flex;
-  flex-direction: column
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .time-bar {
   background-color: var(--blue-300);
   flex-basis: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center
 }
 
 .time {
@@ -22,4 +28,62 @@
 .time.right {
   margin-right: 16px;
   color: var(--blue-400);
+}
+
+.workspace {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-bar {
+  background-color: var(--blue-400);
+  width: 100%;
+  height: 16px;
+  flex-basis: 16px;
+}
+
+.lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--blue-100);
+}
+
+.line {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  height: 40%;
+  width: 100%;
+  position: relative
+}
+
+.indicator {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+}
+
+.indicator-head {
+  background-color: var(--blue-500);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 9px;
+  height: 16px;
+}
+
+.indicator-line {
+  background-color: var(--blue-500);
+  top: 0;
+  width: 1px;
+  height: 100%;
+  position: absolute;
 }

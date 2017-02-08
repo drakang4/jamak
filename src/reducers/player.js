@@ -7,7 +7,7 @@ const initialState = {
   duration: 0,
   currentTime: 0,
   seeking: false,
-  playWhenEnd: false,
+  playWhenFinishSeek: false,
   // progressRate: null,
 };
 
@@ -70,20 +70,22 @@ export default function player(state = initialState, action) {
     case types.START_SEEK:
       return {
         ...state,
-        playWhenEnd: state.playing,
+        playWhenFinishSeek: state.playing,
         playing: false,
         seeking: true,
+        currentTime: action.updatedTime,
         // seekTime: 
       };
     case types.DOING_SEEK:
       return {
         ...state,
+        currentTime: action.updatedTime,
       };
     case types.END_SEEK:
       return {
         ...state,
-        playing: state.playWhenEnd,
-        playWhenEnd: false,
+        playing: state.playWhenFinishSeek,
+        playWhenFinishSeek: false,
         seeking: false,
       };
     // // 프로그레스바에서 마우스 버튼을 클릭
