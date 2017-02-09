@@ -60,7 +60,6 @@ Block.propTypes = {
   subtitle: PropTypes.string.isRequired,
   current: PropTypes.bool.isRequired,
   selected: PropTypes.bool.isRequired,
-  onCurrentBlock: PropTypes.func.isRequired,
   onSelectBlock: PropTypes.func.isRequired,
 };
 

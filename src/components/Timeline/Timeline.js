@@ -34,7 +34,6 @@ class Timeline extends Component {
       seeking,
       currentBlockId,
       selectedBlockId,
-      currentBlock,
       selectBlock,
       startSeek,
       doingSeek,
@@ -64,7 +63,6 @@ class Timeline extends Component {
                 duration={duration}
                 currentBlockId={currentBlockId}
                 selectedBlockId={selectedBlockId}
-                currentBlock={currentBlock}
                 selectBlock={selectBlock} />
               {/*<AudioGraph />*/}
             </div>
@@ -83,7 +81,6 @@ Timeline.propTypes = {
   seeking: PropTypes.bool.isRequired,
   currentBlockId: PropTypes.number.isRequired,
   selectedBlockId: PropTypes.number.isRequired,
-  currentBlock: PropTypes.func.isRequired,
   selectBlock: PropTypes.func.isRequired,
   startSeek: PropTypes.func.isRequired,
   doingSeek: PropTypes.func.isRequired,

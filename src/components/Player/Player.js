@@ -11,11 +11,15 @@ const Player = (props) => {
     muted,
     currentTime,
     seeking,
+    blocks,
+    currentBlockId,
     onTogglePlay,
     onToggleMute,
     onUpdateCurrentTime,
     onUpdateDuration,
     onEndPlay,
+    updateCurrentBlock,
+    updateBlockText,
   } = props;
   return (
     <div styleName="player">
@@ -25,9 +29,13 @@ const Player = (props) => {
         muted={muted}
         currentTime={currentTime}
         seeking={seeking}
+        blocks={blocks}
+        currentBlockId={currentBlockId}
         onUpdateCurrentTime={onUpdateCurrentTime}
         onUpdateDuration={onUpdateDuration}
-        onEndPlay={onEndPlay} />
+        onEndPlay={onEndPlay}
+        updateCurrentBlock={updateCurrentBlock}
+        updateBlockText={updateBlockText} />
       <Controls
         playing={playing}
         muted={muted}
@@ -43,11 +51,15 @@ Player.propTypes = {
   muted: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
   seeking: PropTypes.bool.isRequired,
+  blocks: PropTypes.array.isRequired,
+  currentBlockId: PropTypes.number.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onToggleMute: PropTypes.func.isRequired,
   onUpdateCurrentTime: PropTypes.func.isRequired,
   onUpdateDuration: PropTypes.func.isRequired,
   onEndPlay: PropTypes.func.isRequired,
+  updateCurrentBlock: PropTypes.func.isRequired,
+  updateBlockText: PropTypes.func.isRequired,
 };
 
 export default CSSModules(Player, styles);

@@ -22,6 +22,7 @@ class ProgressBar extends Component {
   }
 
   onMouseMove = (event) => {
+    event.stopPropagation();
     if (this.props.seeking) {
       const { width, left } = this.bar.getBoundingClientRect();
       const offsetX = event.clientX - left;

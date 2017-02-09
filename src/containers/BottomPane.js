@@ -11,7 +11,11 @@ class BottomPane extends Component {
   render() {
     return (
       <Split type="vertical" defaultSize={48} disableResize>
-        <BlockControls />
+        <BlockControls
+          addBlock={this.props.addBlock}
+          clearBlock={this.props.clearBlock}
+          deleteBlock={this.props.deleteBlock}
+          selectedBlockId={this.props.selectedBlockId} />
         <Timeline
           blocks={this.props.blocks}
           currentTime={this.props.currentTime}
@@ -19,7 +23,6 @@ class BottomPane extends Component {
           seeking={this.props.seeking}
           currentBlockId={this.props.currentBlockId}
           selectedBlockId={this.props.selectedBlockId}
-          currentBlock={this.props.currentBlock}
           selectBlock={this.props.selectBlock}
           startSeek={this.props.startSeek}
           doingSeek={this.props.doingSeek}
@@ -39,6 +42,9 @@ BottomPane.propTypes = {
 
   currentBlock: PropTypes.func.isRequired,
   selectBlock: PropTypes.func.isRequired,
+  addBlock: PropTypes.func.isRequired,
+  clearBlock: PropTypes.func.isRequired,
+  deleteBlock: PropTypes.func.isRequired,
   startSeek: PropTypes.func.isRequired,
   doingSeek: PropTypes.func.isRequired,
   endSeek: PropTypes.func.isRequired,

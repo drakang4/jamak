@@ -5,9 +5,9 @@ export const setData = (data) => ({
   data,
 });
 
-export const currentBlock = (id) => ({
+export const currentBlock = (currentTime) => ({
   type: types.CURRENT_BLOCK,
-  id,
+  currentTime,
 });
 
 export const selectBlock = (id) => ({
@@ -31,8 +31,9 @@ export const deleteBlock = (id) => ({
   id,
 });
 
-export const updateBlockText = (subtitle) => ({
+export const updateBlockText = (id, subtitle) => ({
   type: types.UPDATE_BLOCK_TEXT,
+  id,
   subtitle,
 });
 

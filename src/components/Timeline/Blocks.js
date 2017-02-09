@@ -24,7 +24,6 @@ const Blocks = (props) => {
           subtitle={block.subtitle}
           current={currentBlockId === block.id}
           selected={selectedBlockId === block.id}
-          onCurrentBlock={currentBlock}
           onSelectBlock={selectBlock} />,
       )}
     </div>
@@ -36,7 +35,6 @@ Blocks.propTypes = {
   duration: PropTypes.number.isRequired,
   currentBlockId: PropTypes.number.isRequired,
   selectedBlockId: PropTypes.number.isRequired,
-  currentBlock: PropTypes.func.isRequired,
   selectBlock: PropTypes.func.isRequired,
 };
 

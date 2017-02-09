@@ -1,4 +1,3 @@
-import update from 'immutability-helper';
 import * as types from '../constants/actionTypes/blocks';
 
 const initialState = {
@@ -15,11 +14,15 @@ export default function blocks(state = initialState, action) {
         ...state,
         blocks: action.data,
       };
-    case types.CURRENT_BLOCK:
+    case types.CURRENT_BLOCK: {
+      const currentBlock = state.blocks.find((block) =>
+        block.startTime <= action.currentTime && block.endTime >= action.currentTime,
+      );
       return {
         ...state,
-        currentBlockId: action.id,
+        currentBlockId: currentBlock ? currentBlock.id : 0,
       };
+    }
     case types.SELECT_BLOCK:
       return {
         ...state,
@@ -32,46 +35,51 @@ export default function blocks(state = initialState, action) {
     case types.CLEAR_BLOCK:
       return {
         ...state,
-        blocks: {
-          ...state.blocks,
-          [action.id - 1]: {
-            ...state.blocks[action.id - 1],
+        blocks: state.blocks.map((block) => {
+          if (block.id !== action.id) {
+            return block;
+          }
+
+          return {
+            ...block,
             subtitle: '',
-          },
-        },
+          };
+        }),
       };
     case types.DELETE_BLOCK:
       return {
         ...state,
-        blocks: {
-          ...state.blocks,
-          ...state.blocks.slice(0, action.id - 1),
-          ...state.blocks.slice(action.id),
-        },
-        selectedBlockId: null,
+        blocks: state.blocks.filter((block) => block.id !== action.id),
+        selectedBlockId: 0,
       };
     case types.UPDATE_BLOCK_TEXT:
       return {
         ...state,
-        blocks: {
-          ...state.blocks,
-          [state.selectedBlockId - 1]: {
-            ...state.blocks[state.selectedBlockId - 1],
+        blocks: state.blocks.map((block) => {
+          if (block.id !== action.id) {
+            return block;
+          }
+
+          return {
+            ...block,
             subtitle: action.subtitle,
-          },
-        },
+          };
+        }),
       };
     case types.UPDATE_BLOCK_TIME:
       return {
         ...state,
-        blocks: {
-          ...state.blocks,
-          [action.id - 1]: {
-            ...state.blocks[action.id - 1],
-            startTime: action.startTime,
+        blocks: state.blocks.map((block) => {
+          if (block.id !== action.id) {
+            return block;
+          }
+
+          return {
+            ...block,
+            stateTime: action.startTime,
             endTime: action.endTime,
-          },
-        },
+          };
+        }),
       };
 
     // case types.RESET_BLOCK_ID:

@@ -7,19 +7,33 @@ class SubtitleBox extends Component {
     super(props);
     this.state = {
       rows: 1,
+      cols: 1,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentBlockId !== 0 && nextProps.currentBlockId !== this.props.currentBlockId) {
+      const subtitleArray = this.props.blocks[nextProps.currentBlockId - 1].subtitle.split(/\n/g);
+      this.setSize(subtitleArray);
+    }
   }
 
   onInput = (event) => {
     const value = event.target.value;
-    const linebreaks = value.match(/\n/g);
-    if (linebreaks === null) {
-      this.setState({ rows: 1 });
-    } else {
-      this.setState({ rows: linebreaks.length + 1 });
-    }
+    const subtitleArray = value.split(/\n/g);
+    this.setSize(subtitleArray);
+    this.props.updateBlockText(this.props.currentBlockId, value);
   }
 
+  setSize = (subtitleArray) => {
+    const longestString = subtitleArray.reduce((longest, current) => (
+      current.length > longest.length ? current : longest
+    ), '');
+    this.setState({
+      rows: subtitleArray.length,
+      cols: longestString.length,
+    });
+  }
 
   render() {
     return (
@@ -29,7 +43,10 @@ class SubtitleBox extends Component {
           type="text"
           name="subtitle-box"
           styleName="textarea"
+          disabled={this.props.currentBlockId === 0}
+          value={this.props.currentBlockId === 0 ? '' : this.props.blocks[this.props.currentBlockId - 1].subtitle}
           rows={this.state.rows}
+          cols={this.state.cols}
           onInput={this.onInput} />
       </div>
     );
@@ -37,7 +54,9 @@ class SubtitleBox extends Component {
 }
 
 SubtitleBox.propTypes = {
-
+  currentBlockId: PropTypes.number.isRequired,
+  blocks: PropTypes.array.isRequired,
+  updateBlockText: PropTypes.func.isRequired,
 };
 
 export default CSSModules(SubtitleBox, styles);

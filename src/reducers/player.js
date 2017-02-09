@@ -1,4 +1,3 @@
-import update from 'immutability-helper';
 import * as types from '../constants/actionTypes/player';
 
 const initialState = {

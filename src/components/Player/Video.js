@@ -20,6 +20,7 @@ class Video extends Component {
 
   onTimeUpdate = (event) => {
     this.props.onUpdateCurrentTime(event.target.currentTime);
+    this.props.updateCurrentBlock(event.target.currentTime);
   }
 
   onEnded = () => {
@@ -36,7 +37,10 @@ class Video extends Component {
           onLoadedData={this.onLoadedData}
           onTimeUpdate={this.onTimeUpdate}
           onEnded={this.onEnded} />
-        <SubtitleBox />
+        <SubtitleBox
+          blocks={this.props.blocks}
+          currentBlockId={this.props.currentBlockId}
+          updateBlockText={this.props.updateBlockText} />
       </div>
     );
   }
@@ -48,9 +52,13 @@ Video.propTypes = {
   muted: PropTypes.bool.isRequired,
   seeking: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
+  blocks: PropTypes.array.isRequired,
+  currentBlockId: PropTypes.number.isRequired,
   onUpdateCurrentTime: PropTypes.func.isRequired,
   onUpdateDuration: PropTypes.func.isRequired,
   onEndPlay: PropTypes.func.isRequired,
+  updateCurrentBlock: PropTypes.func.isRequired,
+  updateBlockText: PropTypes.func.isRequired,
 };
 
 export default CSSModules(Video, styles);
