@@ -30,8 +30,17 @@
   color: var(--blue-400);
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
+}
+
 .workspace {
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 100%;
   height: 100%;
@@ -56,8 +65,6 @@
 }
 
 .line {
-  margin-top: 5%;
-  margin-bottom: 5%;
   height: 40%;
   width: 100%;
   position: relative
@@ -86,4 +93,17 @@
   width: 1px;
   height: 100%;
   position: absolute;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--blue-300);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(91, 91, 91);
 }

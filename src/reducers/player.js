@@ -8,7 +8,6 @@ const initialState = {
   currentTime: 0,
   seeking: false,
   playWhenFinishSeek: false,
-  // progressRate: null,
 };
 
 export default function player(state = initialState, action) {
@@ -37,15 +36,6 @@ export default function player(state = initialState, action) {
         ...state,
         currentTime: action.currentTime,
       };
-
-      // return update(state, {
-      //   currentTime: {
-      //     $set: action.currentTime
-      //   },
-      //   progressRate: {
-      //     $set: Math.round(action.currentTime / state.duration * 1e4) / 1e4
-      //   }
-      // });
     /**
      * 비디오 전체 재생 시간 설정
      */
@@ -54,11 +44,6 @@ export default function player(state = initialState, action) {
         ...state,
         duration: action.duration,
       };
-      // return update(state, {
-      //   duration: {
-      //     $set: action.duration
-      //   }
-      // });
     /**
      * 비디오 재생 종료
      */
@@ -74,7 +59,6 @@ export default function player(state = initialState, action) {
         playing: false,
         seeking: true,
         currentTime: action.updatedTime,
-        // seekTime: 
       };
     case types.DOING_SEEK:
       return {
@@ -88,46 +72,6 @@ export default function player(state = initialState, action) {
         playWhenFinishSeek: false,
         seeking: false,
       };
-    // // 프로그레스바에서 마우스 버튼을 클릭
-    // case types.DOWN_PROGRESS:
-    //   return update(state, {
-    //     progressRate: {
-    //       $set: Math.round(action.rate * 1e4) / 1e4
-    //     },
-    //     seekTime: {
-    //       $set: Math.round(action.rate * state.duration * 1e6) / 1e6
-    //     },
-    //     seeking: {
-    //       $set: true
-    //     }
-    //   });
-    // // 프로그레스바에서 마우스 이동
-    // case types.MOVE_PROGRESS:
-    //   return update(state, {
-    //     progressRate: {
-    //       $set: Math.round(action.rate * 1e4) / 1e4
-    //     },
-    //     seekTime: {
-    //       $set: Math.round(action.rate * state.duration * 1e6) / 1e6
-    //     }
-    //   });
-    // // 프로그레스바에서 마우스 버튼을 뗌
-    // case types.UP_PROGRESS:
-    //   return update(state, {
-    //     seeking: {
-    //       $set: false
-    //     }
-    //   });
-    // /**
-    //  * 탐색 종료
-    //  * UP_PROGRESS 이후에 동작
-    //  */
-    // case types.END_SEEK:
-    //   return update(state, {
-    //     seekTime: {
-    //       $set: null
-    //     }
-    //   });
     default:
       return state;
   }

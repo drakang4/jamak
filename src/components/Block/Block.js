@@ -45,7 +45,7 @@ class Block extends Component {
         <div styleName="progress" />
         <div styleName="textbox">
           <p styleName="text time">{this.props.id} {this.props.startTime} → {this.props.endTime}</p>
-          <p styleName="text subtitle">{this.props.duration}{this.props.subtitle}</p>
+          <p styleName="text subtitle">{this.props.subtitle}</p>
         </div>
       </div>
     );
