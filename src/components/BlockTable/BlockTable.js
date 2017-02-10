@@ -15,8 +15,8 @@ const BlockTable = ({ blocks }) => {
         </tr>
       </thead>
       <tbody styleName="body">
-        {blocks.map((block) =>
-          <tr key={block.id} styleName="row">
+        {blocks.map((block, index) =>
+          <tr key={index} styleName="row">
             <td styleName="item">{block.id}</td>
             <td styleName="item">{playerToSrt(block.startTime)}</td>
             <td styleName="item">{playerToSrt(block.endTime)}</td>

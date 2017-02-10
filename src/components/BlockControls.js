@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {
-  addBlockFirst,
-  addBlockLast,
-  addBlockOver,
-  addBlockBetween,
+  First,
+  Last,
+  Over,
+  Between,
   clearBlock,
   deleteBlock,
   resetBlockId,
@@ -35,18 +35,18 @@ class BlockControls extends Component {
     if(!this.props.currentBlockId) {
       if(this.props.blocks.length == 0) {
         endTime = endTime < this.props.duration ? endTime : this.props.duration;
-        this.props.onAddBlockFirst(startTime, endTime);
+        this.props.onFirst(startTime, endTime);
       } else if(this.props.blocks[0].startTime > this.props.currentTime) {
         endTime = endTime < this.props.blocks[0].startTime ? endTime : this.props.blocks[0].startTime;
-        this.props.onAddBlockFirst(startTime, endTime);
+        this.props.onFirst(startTime, endTime);
       } else if(this.props.blocks[this.props.blocks.length - 1].endTime < this.props.currentTime) {
         endTime = endTime < this.props.duration ? endTime : this.props.duration;
-        this.props.onAddBlockLast(startTime, endTime);
+        this.props.onLast(startTime, endTime);
       } else {
         for(var i = 0; i < this.props.blocks.length - 1; i++) {
           if(this.props.blocks[i].endTime < this.props.currentTime && this.props.blocks[i + 1].startTime > this.props.currentTime) {
             endTime = endTime < this.props.blocks[i + 1].startTime ? endTime : this.props.blocks[i + 1].startTime;
-            this.props.onAddBlockBetween(startTime, endTime, i + 2);
+            this.props.onBetween(startTime, endTime, i + 2);
             break;
           }
         }
@@ -57,7 +57,7 @@ class BlockControls extends Component {
       } else {
         endTime = endTime < this.props.blocks[this.props.currentBlockId].startTime ? endTime : this.props.blocks[this.props.currentBlockId].startTime;
       }
-      this.props.onAddBlockOver(startTime, endTime);
+      this.props.onOver(startTime, endTime);
     }
     this.props.onResetBlockId();
   }
@@ -103,10 +103,10 @@ class BlockControls extends Component {
 }
 
 BlockControls.propTypes = {
-  onAddBlockFirst: PropTypes.func.isRequired,
-  onAddBlockLast: PropTypes.func.isRequired,
-  onAddBlockOver: PropTypes.func.isRequired,
-  onAddBlockBetween: PropTypes.func.isRequired,
+  onFirst: PropTypes.func.isRequired,
+  onLast: PropTypes.func.isRequired,
+  onOver: PropTypes.func.isRequired,
+  onBetween: PropTypes.func.isRequired,
   onClearBlock: PropTypes.func.isRequired,
   onDeleteBlock: PropTypes.func.isRequired,
   onResetBlockId: PropTypes.func.isRequired,
@@ -133,10 +133,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddBlockFirst: (startTime, endTime) => dispatch(addBlockFirst(startTime, endTime)),
-    onAddBlockLast: (startTime, endTime) => dispatch(addBlockLast(startTime, endTime)),
-    onAddBlockOver: (startTime, endTime) => dispatch(addBlockOver(startTime, endTime)),
-    onAddBlockBetween: (startTime, endTime, nextBlockId) => dispatch(addBlockBetween(startTime, endTime, nextBlockId)),
+    onFirst: (startTime, endTime) => dispatch(First(startTime, endTime)),
+    onLast: (startTime, endTime) => dispatch(Last(startTime, endTime)),
+    onOver: (startTime, endTime) => dispatch(Over(startTime, endTime)),
+    onBetween: (startTime, endTime, nextBlockId) => dispatch(Between(startTime, endTime, nextBlockId)),
     onClearBlock: (block) => dispatch(clearBlock(block)),
     onDeleteBlock: (block) => dispatch(deleteBlock(block)),
     onResetBlockId: () => dispatch(resetBlockId()),

@@ -8,7 +8,6 @@ const initialState = {
 
 export default function blocks(state = initialState, action) {
   switch (action.type) {
-    // Reset blocks' ID with index.
     case types.SET_DATA:
       return {
         ...state,
@@ -28,10 +27,62 @@ export default function blocks(state = initialState, action) {
         ...state,
         selectedBlockId: action.id,
       };
-    case types.ADD_BLOCK:
+    case types.ADD_BLOCK: {
+      const { currentTime, duration } = action;
+      const newBlocks = state.blocks.slice();
+
+      let id;
+      let startTime = currentTime;
+      let endTime = currentTime + 3;
+
+      if (state.currentBlockId !== 0) {
+        if (state.blocks.length === state.currentBlockId) {
+          endTime = endTime > duration ? duration : endTime;
+        } else {
+          endTime = endTime > state.blocks[state.currentBlockId].startTime
+          ? state.blocks[state.currentBlockId].startTime
+          : endTime;
+        }
+        id = state.currentBlockId;
+        newBlocks[id - 1].endTime = startTime;
+        // 뭐 해야되나?
+      } else {
+        if (state.blocks.length === 0) {
+          // 첫번째 블록
+          id = 1;
+          endTime = endTime > duration ? duration : endTime;
+        } else if (state.blocks[0].startTime > currentTime) {
+          // 블록 맨 처음에 삽입
+          id = 0;
+          endTime = endTime > state.blocks[0].startTime ? state.blocks[0].startTime : endTime;
+        } else if (state.blocks[state.blocks.length - 1].endTime < currentTime) {
+          // 블록 맨 끝에 삽입
+          id = state.blocks.length;
+          endTime = endTime > duration ? duration : endTime;
+        } else {
+          // 두 블록 사이에 삽입
+          const nextBlock = state.blocks.find((block, index) =>
+            block.startTime > currentTime && state.blocks[index - 1].endTime < currentTime,
+          );
+          id = nextBlock.id - 1;
+          endTime = endTime > nextBlock.startTime ? nextBlock.startTime : endTime;
+        }
+      }
+
+      newBlocks.splice(id, 0, {
+        id,
+        startTime,
+        endTime,
+        subtitle: '',
+      });
+      newBlocks.forEach((current, index) => {
+        newBlocks[index].id = index + 1;
+      });
       return {
         ...state,
+        blocks: newBlocks,
       };
+    }
     case types.CLEAR_BLOCK:
       return {
         ...state,

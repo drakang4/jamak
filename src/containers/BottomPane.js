@@ -15,7 +15,9 @@ class BottomPane extends Component {
           addBlock={this.props.addBlock}
           clearBlock={this.props.clearBlock}
           deleteBlock={this.props.deleteBlock}
-          selectedBlockId={this.props.selectedBlockId} />
+          selectedBlockId={this.props.selectedBlockId}
+          currentTime={this.props.currentTime}
+          duration={this.props.duration} />
         <Timeline
           blocks={this.props.blocks}
           currentTime={this.props.currentTime}

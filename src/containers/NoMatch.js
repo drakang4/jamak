@@ -2,7 +2,7 @@ import React from 'react';
 
 const NoMatch = () => (
   <div>
-    <h1>Unknown Error</h1>
+    <h1>App crashed.</h1>
   </div>
 );
 

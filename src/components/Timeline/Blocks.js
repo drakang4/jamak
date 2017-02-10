@@ -14,9 +14,9 @@ const Blocks = (props) => {
   } = props;
   return (
     <div styleName="line">
-      {blocks.map((block) =>
+      {blocks.map((block, index) =>
         <Block
-          key={block.id}
+          key={index}
           id={block.id}
           duration={duration}
           startTime={block.startTime}

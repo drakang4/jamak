@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from './styles.css';
 
-const BlockControls = ({ addBlock, clearBlock, deleteBlock, selectedBlockId }) => {
+const BlockControls = ({ addBlock, clearBlock, deleteBlock, selectedBlockId, currentTime, duration }) => {
   const onAdd = () => {
-
+    addBlock(currentTime, duration);
   };
 
   const onClear = () => {
@@ -41,6 +41,8 @@ BlockControls.propTypes = {
   clearBlock: PropTypes.func.isRequired,
   deleteBlock: PropTypes.func.isRequired,
   selectedBlockId: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
 };
 
 export default CSSModules(BlockControls, styles, { allowMultiple: true });

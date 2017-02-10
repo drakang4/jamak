@@ -18,13 +18,15 @@ const App = () => (
   <Provider store={store}>
     <MemoryRouter>
       <div>
-        <Match exactly pattern="/" render={() => (
-          ready ? (
-            <Redirect to="/editor" />
-          ) : (
-            <Redirect to="/prepare" />
-          )
-        )} />
+        <Match
+          exactly
+          pattern="/"
+          render={() => (
+            ready ? (
+              <Redirect to="/editor" />
+            ) : (
+              <Redirect to="/prepare" />
+            ))} />
         <Match pattern="/editor" component={Editor} />
         <Match pattern="/prepare" component={Prepare} />
         <Miss component={NoMatch} />

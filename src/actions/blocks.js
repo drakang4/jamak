@@ -15,10 +15,10 @@ export const selectBlock = (id) => ({
   id,
 });
 
-export const addBlock = (startTime, endTime) => ({
+export const addBlock = (currentTime, duration) => ({
   type: types.ADD_BLOCK,
-  startTime,
-  endTime,
+  currentTime,
+  duration,
 });
 
 export const clearBlock = (id) => ({
