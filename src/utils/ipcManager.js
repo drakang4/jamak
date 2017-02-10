@@ -20,17 +20,17 @@ const ipcManager = (store) => {
 
   ipcRenderer.on('ask-save-file', (event) => {
     const data = store.getState().blocks.blocks;
-    const filePath = store.getState().blocks.blockFilePath;
+    const subtitlePath = store.getState().file.subtitlePath;
 
-    if (!filePath) {
+    if (subtitlePath === '') {
       ipcRenderer.send('save-as-file', toSrt(data));
     } else {
-      ipcRenderer.send('save-file', toSrt(data), filePath);
+      ipcRenderer.send('save-file', toSrt(data), subtitlePath);
     }
   });
 
   ipcRenderer.on('ask-save-as-file', (event) => {
-    const data = toSrt(store.getState().blocks.blocks);
+    const data = store.getState().blocks.blocks;
 
     ipcRenderer.send('save-as-file', toSrt(data));
   });

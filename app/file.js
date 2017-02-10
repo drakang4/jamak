@@ -80,7 +80,7 @@ ipcMain.on('save-file', (event, data, filePath) => {
   writeFileData(data, filePath);
 });
 
-ipcMain.on('save-file-as', (event, data) => {
+ipcMain.on('save-as-file', (event, data) => {
   dialog.showSaveDialog({
     filters: [
       { name: 'SubRip', extensions: ['srt'] },

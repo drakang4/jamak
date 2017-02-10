@@ -3,7 +3,6 @@ import * as types from '../constants/actionTypes/file';
 const initialState = {
   videoPath: '',
   subtitlePath: '',
-  subtitleSaved: false,
 };
 
 export default function file(state = initialState, action) {
@@ -12,13 +11,11 @@ export default function file(state = initialState, action) {
       return {
         ...state,
         subtitlePath: '',
-        subtitleSaved: false,
       };
     case types.LOAD_BLOCK_FILE:
       return {
         ...state,
         subtitlePath: action.path,
-        subtitleSaved: true,
       };
     case types.SAVE_BLOCK_FILE:
       return {
