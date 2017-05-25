@@ -16,8 +16,5 @@ const render = (Component) => {
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./containers/App', () => {
-    const NextApp = require('./containers/App').default; // eslint-disable-line global-require
-    render(NextApp);
-  });
+  module.hot.accept('./containers/App', () => { render(App); });
 }
