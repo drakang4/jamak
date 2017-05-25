@@ -1,10 +1,5 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "airbnb",
-    "plugin:react/recommended",
-    "plugin:flowtype/recommended"
-  ],
   "env": {
     "browser": true,
     "es6": true,
@@ -16,11 +11,25 @@
     "import",
     "flowtype"
   ],
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
+  ],
   "rules": {
-    "arrow-parens": ["error", "always"],
-    "no-console": ["error", { "allow": ["log"] }],
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
     "import/no-extraneous-dependencies": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/jsx-closing-bracket-location": ["error", "after-props"]
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ]
   }
 }
