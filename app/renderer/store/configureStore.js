@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import createLogger from 'redux-logger';
+import logger from 'redux-logger';
 import rootReducer from '../reducers';
 
 /* eslint-disable no-underscore-dangle */
@@ -8,7 +8,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const configureStore = (preloadedState = {}) => {
   const store = createStore(rootReducer, preloadedState, composeEnhancers(
-    applyMiddleware(createLogger()),
+    applyMiddleware(logger),
   ));
 
   if (module.hot) {

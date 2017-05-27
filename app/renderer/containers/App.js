@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Match, Miss, Redirect } from 'react-router';
+import { MemoryRouter, Match, Miss, Redirect } from 'react-router-dom';
 import configureStore from '../store/configureStore';
 import ipcManager from '../utils/ipcManager';
 
@@ -26,7 +26,8 @@ const App = () => (
               <Redirect to="/editor" />
             ) : (
               <Redirect to="/prepare" />
-            ))} />
+            ))}
+        />
         <Match pattern="/editor" component={Editor} />
         <Match pattern="/prepare" component={Prepare} />
         <Miss component={NoMatch} />

@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 import CSSModules from 'react-css-modules';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 import validator from 'validator';

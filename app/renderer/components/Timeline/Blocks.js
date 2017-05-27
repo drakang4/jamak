@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import CSSModules from 'react-css-modules';
 import Block from '../Block/Block';
 import styles from './styles.css';
