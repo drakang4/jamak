@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Match, Miss, Redirect } from 'react-router-dom';
+import { MemoryRouter, Route, Redirect, Switch } from 'react-router-dom';
 import configureStore from '../store/configureStore';
 import ipcManager from '../utils/ipcManager';
 
@@ -12,26 +12,28 @@ import '../styles/App.css';
 
 const store = configureStore();
 ipcManager(store);
-const ready = false;
+let ready = false;
 
+const StartRoute = () => {
+  if (ready) {
+    return (
+      <Redirect to="/editor" />
+    );
+  } else {
+    return (
+      <Redirect to="/prepare" />
+    );
+  }
+};
 const App = () => (
   <Provider store={store}>
     <MemoryRouter>
-      <div>
-        <Match
-          exactly
-          pattern="/"
-          render={() => (
-            ready ? (
-              <Redirect to="/editor" />
-            ) : (
-              <Redirect to="/prepare" />
-            ))}
-        />
-        <Match pattern="/editor" component={Editor} />
-        <Match pattern="/prepare" component={Prepare} />
-        <Miss component={NoMatch} />
-      </div>
+      <Switch>
+        <Route exact path="/" component={StartRoute} />
+        <Route path="/editor" component={Editor} />
+        <Route path="/prepare" component={Prepare} />
+        <Route component={NoMatch} />
+      </Switch>
     </MemoryRouter>
   </Provider>
 );

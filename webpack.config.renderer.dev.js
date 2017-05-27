@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-eval-source-map',
+  devtool: 'cheap-module-eval-source-map',
 
   entry: [
     'react-hot-loader/patch',
@@ -15,6 +15,7 @@ module.exports = {
 
   output: {
     filename: 'bundle.js',
+    sourceMapFilename: '[file].map',
     path: resolve(__dirname, 'build'),
     publicPath: '/',
   },
