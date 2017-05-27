@@ -1,7 +1,0 @@
-{
-  "name": "jamak",
-  "description": "Jamak - Subtitle Editor.",
-  "author": "Heeryong Kang <drakang4@gmail.com>",
-  "version": "0.4.7",
-  "main": "./main.js"
-}

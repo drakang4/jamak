@@ -1,19 +1,18 @@
 {
   "presets": [
-    "latest",
+    ["env"],
     "react"
   ],
   "plugins": [
-    "react-hot-loader/babel",
     "transform-class-properties",
     ["transform-object-rest-spread", {
       "useBuiltIns": true
     }],
-    ["transform-react-jsx", {
+    [
+    "transform-react-jsx", {
       "useBuiltIns": true
     }],
     "transform-react-jsx-source",
-    "transform-react-jsx-self",
     "transform-es2015-parameters",
     ["transform-runtime", {
       "helpers": false,
@@ -24,5 +23,17 @@
     ["transform-regenerator", {
       "async": false
     }]
-  ]
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "presets": [
+        "babili"
+      ]
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { BrowserWindow, dialog, ipcMain } from 'electron';
 import fs from 'fs';
 
-import { subtitleTypes, videoTypes } from '../src/constants/fileTypes';
+import { subtitleTypes, videoTypes } from '../renderer/constants/fileTypes';
 
 const readFileData = (filePath) => {
   const data = fs.readFileSync(filePath, 'utf8');

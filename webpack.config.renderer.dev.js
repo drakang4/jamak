@@ -1,29 +1,30 @@
-import webpack from 'webpack';
-import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import DashboardPlugin from 'webpack-dashboard/plugin';
+const webpack = require('webpack');
+const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-export default {
+module.exports = {
   devtool: 'cheap-eval-source-map',
 
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    path.resolve(__dirname, 'src/index.js'),
+    resolve(__dirname, 'app/renderer'),
   ],
 
   output: {
-    path: path.resolve(__dirname, 'app'),
-    pathinfo: true,
     filename: 'bundle.js',
-    publicPath: 'http://localhost:8080/',
+    path: resolve(__dirname, 'build'),
+    publicPath: '/',
   },
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'app'),
+    port: 8080,
     hot: true,
-    publicPath: 'http://localhost:8080/',
+    historyApiFallback: true,
+    contentBase: resolve(__dirname, 'app'),
+    publicPath: '/',
   },
 
   module: {
@@ -31,37 +32,34 @@ export default {
       {
         exclude: [
           /\.html$/,
-          /\.jsx?$/,
+          /\.(js|jsx)$/,
           /\.css$/,
           /\.json$/,
-          /\.svg$/,
         ],
         use: [
           {
             loader: 'url-loader',
             options: {
-              limit: 100000,
+              limit: 10000,
               name: '[name].[hash:8].[ext]',
             },
           },
         ],
       },
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         include: [
-          path.resolve(__dirname, 'src'),
+          resolve(__dirname, 'app/renderer'),
         ],
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-        ],
+        use: 'babel-loader',
       },
       {
         test: /\.css$/,
         include: [
-          path.resolve(__dirname, 'src'),
+          resolve(__dirname, 'app/renderer'),
+          /node_modules/,
         ],
-        exclude: /node_modules/,
         use: [
           { loader: 'style-loader' },
           {
@@ -87,19 +85,17 @@ export default {
   },
 
   plugins: [
-    new DashboardPlugin(),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: path.resolve(__dirname, 'app/index.html'),
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-      },
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: resolve(__dirname, 'app/index.html'),
+    }),
+    new ExtractTextPlugin('styles.css'),
   ],
 
   target: 'electron-renderer',
