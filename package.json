@@ -4,7 +4,7 @@
   "main": "main.js",
   "repository": "https://github.com/Heeryong-Kang/jamak",
   "scripts": {
-    "dev:main": "cross-env NODE_ENV=development electron -r babel-register app/main",
+    "dev:main": "cross-env NODE_ENV=development electron app/main",
     "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.renderer.dev.js",
     "dev": "concurrently --kill-others \"npm run dev:main\" \"npm run dev:renderer\"",
     "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.prod.js --progress --profile --colors",

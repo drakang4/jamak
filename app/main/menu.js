@@ -1,5 +1,5 @@
-import { shell } from 'electron';
-import { newFile, openFile, saveFile, saveAsFile, openVideo } from './file';
+const { shell } = require('electron');
+const { newFile, openFile, saveFile, saveAsFile, openVideo } = require('./file');
 
 const configureMenu = (app) => {
   const template = [
@@ -203,4 +203,4 @@ const configureMenu = (app) => {
   return template;
 };
 
-export default configureMenu;
+module.exports = configureMenu;

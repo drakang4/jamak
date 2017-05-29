@@ -1,7 +1,7 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
-import path from 'path';
-import url from 'url';
+const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+const path = require('path');
+const url = require('url');
 
 import configureMenu from './menu';
 
