@@ -1,9 +1,9 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
-const installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 const path = require('path');
 const url = require('url');
 
-import configureMenu from './menu';
+const configureMenu = require('./menu');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

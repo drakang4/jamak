@@ -1,7 +1,10 @@
 const { BrowserWindow, dialog, ipcMain } = require('electron');
 const fs = require('fs');
 
-const { subtitleTypes, videoTypes } = require('../renderer/constants/fileTypes');
+// const { subtitleTypes, videoTypes } = require('../renderer/constants/fileTypes');
+
+const subtitleTypes = ['*'];
+const videoTypes = ['*'];
 
 const readFileData = (filePath) => {
   const data = fs.readFileSync(filePath, 'utf8');
@@ -14,11 +17,11 @@ const writeFileData = (data, filePath) => {
   });
 };
 
-export const newFile = (browserWindow) => {
+const newFile = (browserWindow) => {
   browserWindow.webContents.send('new-file');
 };
 
-export const openFile = (browserWindow) => {
+const openFile = (browserWindow) => {
   const filters = [
     { name: 'Subtitle Files', extensions: subtitleTypes },
   ];
@@ -35,15 +38,15 @@ export const openFile = (browserWindow) => {
   });
 };
 
-export const saveFile = (browserWindow) => {
+const saveFile = (browserWindow) => {
   browserWindow.webContents.send('ask-save-file');
 };
 
-export const saveAsFile = (browserWindow) => {
+const saveAsFile = (browserWindow) => {
   browserWindow.webContents.send('ask-save-as-file');
 };
 
-export const openVideo = (browserWindow) => {
+const openVideo = (browserWindow) => {
   const filters = [
     { name: 'Video Files', extensions: videoTypes },
   ];
@@ -91,3 +94,11 @@ ipcMain.on('save-as-file', (event, data) => {
     writeFileData(data, filename);
   });
 });
+
+module.exports = {
+  newFile,
+  openFile,
+  saveFile,
+  saveAsFile,
+  openVideo,
+};
