@@ -30,7 +30,7 @@
 .text {
   margin: 0;
   overflow: hidden;
-  color: var(--black);
+  color: var(--pureBlack);
 }
 
 .text.time {

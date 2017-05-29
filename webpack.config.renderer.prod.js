@@ -64,6 +64,9 @@ module.exports = {
       },
       {
         test: /\.svg$/,
+        include: [
+          resolve(__dirname, 'app/renderer'),
+        ],
         exclude: /node_modules/,
         use: [
           'file-loader',

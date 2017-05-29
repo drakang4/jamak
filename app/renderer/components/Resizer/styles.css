@@ -1,43 +1,43 @@
 @import '../../styles/colors.css';
 
-.resizer {
-  background-color: var(--black);
+.root {
+  background-color: var(--pureBlack);
   background-clip: padding-box;
   box-sizing: border-box;
   z-index: 1;
-}
 
-.resizer.active {
-  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
+  &.active {
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
 
-.resizer.horizontal {
-  height: 6px;
-  margin: -2px 0;
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
-  cursor: row-resize;
-  width: 100%;
-}
+  &.horizontal {
+    height: 6px;
+    margin: -2px 0;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    cursor: row-resize;
+    width: 100%;
 
-.resizer.horizontal.active {
-  border-top: 2px solid var(--black);
-  border-bottom: 2px solid var(--black);
-}
+    &.active {
+      border-top: 2px solid var(--pureBlack);
+      border-bottom: 2px solid var(--pureBlack);
+    }
+  }
 
-.resizer.vertical {
-  width: 6px;
-  margin: 0 -2px;
-  border-left: 2px solid transparent;
-  border-right: 2px solid transparent;
-  cursor: col-resize;
-}
+  &.vertical {
+    width: 6px;
+    margin: 0 -2px;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    cursor: col-resize;
 
-.resizer.vertical.active {
-  border-left: 2px solid var(--black);
-  border-right: 2px solid var(--black);
-}
+    &.active {
+      border-left: 2px solid var(--pureBlack);
+      border-right: 2px solid var(--pureBlack);
+    }
+  }
 
-.resizer.disabled {
-  display: none;
+  &.disabled {
+    display: none;
+  }
 }

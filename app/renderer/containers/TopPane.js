@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Split from '../components/Split/Split';
+
+import Split from '../components/Split';
 import Player from '../components/Player/Player';
 import BlockTable from '../components/BlockTable/BlockTable';
 import * as playerActions from '../actions/player';

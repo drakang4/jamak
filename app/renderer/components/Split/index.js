@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
-import Pane from '../Pane/Pane';
-import Resizer from '../Resizer/Resizer';
-import styles from './styles.css';
+import classNames from 'classnames';
+import Pane from '../Pane';
+import Resizer from '../Resizer';
 
-const cx = classNames.bind(styles);
+import styles from './styles.css';
 
 class Split extends Component {
   constructor(props) {
@@ -59,20 +57,21 @@ class Split extends Component {
 
   render() {
     const { children, type } = this.props;
-    const className = cx({
-      split: true,
-      [`${type}`]: true,
+    const classes = classNames(styles.root, {
+      [styles[`${type}`]]: true,
     });
 
     return (
       <div
         ref={(node) => { this.container = node; }}
-        className={className}>
+        className={classes}
+      >
         <Pane
           ref={(node) => { this.pane1 = node; }}
           primary
           type={type}
-          size={this.state.position}>
+          size={this.state.position}
+        >
           {children[0]}
         </Pane>
         <Resizer
@@ -80,10 +79,12 @@ class Split extends Component {
           type={type}
           active={this.state.active}
           disabled={this.props.disableResize}
-          onMouseDown={this.onMouseDown} />
+          onMouseDown={this.onMouseDown}
+        />
         <Pane
           ref={(node) => { this.pane2 = node; }}
-          type={type}>
+          type={type}
+        >
           {children[1]}
         </Pane>
       </div>
@@ -103,4 +104,4 @@ Split.defaultProps = {
   disableResize: false,
 };
 
-export default CSSModules(Split, styles);
+export default Split;

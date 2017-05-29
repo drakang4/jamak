@@ -12,6 +12,7 @@ import '../styles/App.css';
 
 const store = configureStore();
 ipcManager(store);
+
 let ready = false;
 
 const StartRoute = () => {

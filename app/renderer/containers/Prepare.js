@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import PrepareDropzone from '../components/PrepareDropzone/PrepareDropzone';
+import PrepareDropzone from '../components/PrepareDropzone';
 import * as fileActions from '../actions/file';
 
 class Prepare extends Component {

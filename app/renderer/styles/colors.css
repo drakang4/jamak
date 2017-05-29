@@ -19,5 +19,12 @@
     --pink-900: #880E4F;
 
     --white: #ffffff;
-    --black: #000000;
+    --pureBlack: #000000;
+
+    --primary: #0088CC;
+    --second: #E91E63;
+    --black: #20282C;
+    --accent1: #13EB7F;
+    --accent2: #E1E657;
+    --accent3: #D63422;
 }

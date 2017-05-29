@@ -1,20 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 import validator from 'validator';
 import { subtitleTypes, videoTypes } from '../../constants/fileTypes';
 
-import Button from '../Button/Button';
+import Button from '../Button';
+import PrepareState from '../PrepareState';
+
 import styles from './styles.css';
 
-const cx = classNames.bind(styles);
-
-const PrepareDropzone = ({ videoReady, subtitleReady, onVideoOpen, onSubtitleOpen, onSubtitleNew }) => {
+const PrepareDropzone = ({
+  videoReady,
+  subtitleReady,
+  onVideoOpen,
+  onSubtitleOpen,
+  onSubtitleNew,
+}) => {
   ipcRenderer.on('open-video', () => {
     onVideoOpen();
   });
@@ -58,51 +63,32 @@ const PrepareDropzone = ({ videoReady, subtitleReady, onVideoOpen, onSubtitleOpe
     event.preventDefault();
   };
 
-  const videoStateClass = cx({
-    'icon-container': true,
-    ready: videoReady,
-    unready: !videoReady,
-  });
-
-  const subtitleStateClass = cx({
-    'icon-container': true,
-    ready: subtitleReady,
-    unready: !subtitleReady,
-  });
-
   return (
     <Dropzone
       disableClick
-      styleName="default"
-      activeClassName="active"
-      onDrop={handleDrop} >
+      className={styles.root}
+      activeClassName={styles.active}
+      onDrop={handleDrop}
+    >
       <div>
-        <div styleName="text">자막 편집을 시작하려면<br />파일을 드래그 앤 드랍하세요</div>
-        <img styleName="icon big" src="../src/assets/icons/ic-file-load.svg" alt="file upload" />
-        <div styleName="text">또는</div>
+        <div className={styles.text}>자막 편집을 시작하려면<br />파일을 드래그 앤 드랍하세요</div>
+        <img className={classNames(styles.icon, styles.big)} src="./renderer/assets/icons/ic-file-load.svg" alt="file upload" />
+        <div className={styles.text}>또는</div>
         <div>
           <Button onClick={loadVideoButtonClick}>비디오 불러오기</Button>
           <Button onClick={loadFileButtonClick}>자막 불러오기</Button>
           <Button onClick={newFileButtonClick}>새 자막 만들기</Button>
         </div>
-        <div styleName="state-container">
-          <div className={videoStateClass}>
-            <i className="material-icons">{videoReady ? 'check_circle' : 'cancel'}</i>
-            <span>비디오</span>
-          </div>
-          <div className={subtitleStateClass}>
-            <i className="material-icons">{subtitleReady ? 'check_circle' : 'cancel'}</i>
-            <span>자막</span>
-          </div>
+        <div className={styles.stateContainer}>
+          <PrepareState ready={videoReady}>비디오</PrepareState>
+          <PrepareState ready={subtitleReady}>자막</PrepareState>
         </div>
         <div>
-          {videoReady && subtitleReady ? (
-            <Link replace to="/editor">
-              <Button>편집 시작하기</Button>
-            </Link>
-          ) : (
-            <Button>편집 시작하기</Button>
-          )}
+          <Link replace to={videoReady && subtitleReady ? '/editor' : ''}>
+            <Button big disabled={!(videoReady && subtitleReady)}>
+              {videoReady && subtitleReady ? '편집 시작하기' : '파일을 먼저 불러오세요'}
+            </Button>
+          </Link>
         </div>
       </div>
     </Dropzone>
@@ -117,4 +103,4 @@ PrepareDropzone.propTypes = {
   onSubtitleNew: PropTypes.func.isRequired,
 };
 
-export default CSSModules(PrepareDropzone, styles, { allowMultiple: true });
+export default PrepareDropzone;

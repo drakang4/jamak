@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
+
 import styles from './styles.css';
 
 class Pane extends Component {
@@ -19,7 +19,7 @@ class Pane extends Component {
     }
 
     return (
-      <div styleName="pane" style={style}>
+      <div className={styles.root} style={style}>
         {children}
       </div>
     );
@@ -40,4 +40,4 @@ Pane.defaultProps = {
   primary: false,
 };
 
-export default CSSModules(Pane, styles);
+export default Pane;

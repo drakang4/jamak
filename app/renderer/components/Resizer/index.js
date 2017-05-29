@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
-import styles from './styles.css';
+import classNames from 'classnames';
 
-const cx = classNames.bind(styles);
+import styles from './styles.css';
 
 class Resizer extends Component {
   mouseDown = (event) => {
@@ -14,17 +12,17 @@ class Resizer extends Component {
 
   render() {
     const { type, active, disabled } = this.props;
-    const className = cx({
-      resizer: true,
-      [`${type}`]: true,
-      active,
-      disabled,
+    const classes = classNames(styles.root, {
+      [styles[`${type}`]]: true,
+      [styles.active]: active,
+      [styles.disabled]: disabled,
     });
 
     return (
       <span
-        className={className}
-        onMouseDown={this.mouseDown} />
+        className={classes}
+        onMouseDown={this.mouseDown}
+      />
     );
   }
 }
@@ -36,4 +34,4 @@ Resizer.propTypes = {
   onMouseDown: PropTypes.func.isRequired,
 };
 
-export default CSSModules(Resizer, styles);
+export default Resizer;

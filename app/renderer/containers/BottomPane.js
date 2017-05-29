@@ -6,7 +6,7 @@ import * as blockActions from '../actions/blocks';
 import { startSeek, doingSeek, endSeek } from '../actions/player';
 import BlockControls from '../components/BlockControls/BlockControls';
 import Timeline from '../components/Timeline/Timeline';
-import Split from '../components/Split/Split';
+import Split from '../components/Split';
 
 class BottomPane extends Component {
   render() {
