@@ -1,6 +1,6 @@
 @import '../../styles/colors.css';
 
-.root {
+.button {
   border: none;
   border-radius: 2px;
   background-color: var(--blue-500);

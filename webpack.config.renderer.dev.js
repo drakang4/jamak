@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'cheap-module-source-map',
 
   entry: [
     'react-hot-loader/patch',
@@ -36,6 +36,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.json$/,
+          /\.svg$/,
         ],
         use: [
           {
@@ -59,31 +60,48 @@ module.exports = {
         test: /\.css$/,
         include: [
           resolve(__dirname, 'app/renderer'),
+        ],
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+              },
+            },
+            {
+              loader: 'postcss-loader',
+            },
+          ],
+        }),
+      },
+      {
+        test: /\.css$/,
+        include: [
           /node_modules/,
         ],
-        use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
             },
-          },
-          { loader: 'postcss-loader' },
-        ],
+            {
+              loader: 'postcss-loader',
+            },
+          ],
+        }),
       },
       {
         test: /\.svg$/,
         include: [
           resolve(__dirname, 'app/renderer'),
         ],
-        exclude: /node_modules/,
-        use: [
-          'file-loader',
-        ],
+        use: 'file-loader',
       },
     ],
   },
@@ -97,10 +115,15 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      template: resolve(__dirname, 'app/index.html'),
+      template: 'app/index.html',
     }),
     new ExtractTextPlugin('styles.css'),
   ],
 
   target: 'electron-renderer',
+
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
 };

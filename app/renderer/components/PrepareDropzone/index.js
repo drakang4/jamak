@@ -66,13 +66,13 @@ const PrepareDropzone = ({
   return (
     <Dropzone
       disableClick
-      className={styles.root}
+      className={styles.dropzone}
       activeClassName={styles.active}
       onDrop={handleDrop}
     >
       <div>
         <div className={styles.text}>자막 편집을 시작하려면<br />파일을 드래그 앤 드랍하세요</div>
-        <img className={classNames(styles.icon, styles.big)} src="./renderer/assets/icons/ic-file-load.svg" alt="file upload" />
+        <img className={classNames(styles.icon, styles.big)} src="../../assets/icons/ic-file-load.svg" alt="file upload" />
         <div className={styles.text}>또는</div>
         <div>
           <Button onClick={loadVideoButtonClick}>비디오 불러오기</Button>

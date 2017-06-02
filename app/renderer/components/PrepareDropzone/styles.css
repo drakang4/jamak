@@ -1,6 +1,6 @@
 @import '../../styles/colors.css';
 
-.root {
+.dropzone {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,7 @@
 
 .text {
   color: var(--white);
-  font-size: 32px;
+  font-size: 48px;
   margin-top: 32px;
   margin-bottom: 32px;
 }
@@ -29,7 +29,7 @@
 }
 
 .icon.big {
-  width: 60px;
+  width: 120px;
 }
 
 .stateContainer {

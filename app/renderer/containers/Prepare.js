@@ -34,7 +34,8 @@ class Prepare extends Component {
         subtitleReady={subtitle}
         onVideoOpen={this.onVideoOpen}
         onSubtitleOpen={this.onSubtitleOpen}
-        onSubtitleNew={this.onSubtitleNew} />
+        onSubtitleNew={this.onSubtitleNew}
+      />
     );
   }
 }

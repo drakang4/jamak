@@ -57,7 +57,7 @@ class Split extends Component {
 
   render() {
     const { children, type } = this.props;
-    const classes = classNames(styles.root, {
+    const classes = classNames(styles.split, {
       [styles[`${type}`]]: true,
     });
 

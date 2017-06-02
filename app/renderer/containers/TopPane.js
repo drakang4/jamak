@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import Split from '../components/Split';
 import Player from '../components/Player/Player';
-import BlockTable from '../components/BlockTable/BlockTable';
+import BlockTable from '../components/BlockTable';
+
 import * as playerActions from '../actions/player';
 import { currentBlock, updateBlockText } from '../actions/blocks';
 

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import styles from './styles.css';
 
 const Button = ({ onClick, children, disabled, big, small }) => {
-  const classes = classNames(styles.root, {
+  const classes = classNames(styles.button, {
     [styles.disabled]: disabled,
     [styles.big]: big,
     [styles.small]: small,

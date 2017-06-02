@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import Ink from 'react-ink';
-import styles from './styles.css';
 
-const cx = classNames.bind(styles);
+import styles from './styles.css';
 
 class Block extends Component {
   constructor(props) {
@@ -32,21 +30,21 @@ class Block extends Component {
   }
 
   render() {
-    const className = cx({
-      block: true,
-      current: this.props.current,
-      selected: this.props.selected,
+    const classes = classNames(styles.block, {
+      [styles.current]: this.props.current,
+      [styles.selected]: this.props.selected,
     });
     return (
       <div
-        className={className}
+        className={classes}
         style={{ left: `${this.state.position}%`, width: `${this.state.width}%` }}
-        onMouseDown={this.onMouseDown}>
+        onMouseDown={this.onMouseDown}
+      >
         <Ink />
-        <div styleName="progress" />
-        <div styleName="textbox">
-          <p styleName="text time">{this.props.id} {this.props.startTime} → {this.props.endTime}</p>
-          <p styleName="text subtitle">{this.props.subtitle}</p>
+        <div className={styles.progress} />
+        <div className={styles.textbox}>
+          <p className={classNames(styles.text, styles.time)}>{this.props.id} {this.props.startTime} → {this.props.endTime}</p>
+          <p className={classNames(styles.text, styles.subtitle)}>{this.props.subtitle}</p>
         </div>
       </div>
     );
@@ -64,4 +62,4 @@ Block.propTypes = {
   onSelectBlock: PropTypes.func.isRequired,
 };
 
-export default CSSModules(Block, styles, { allowMultiple: true });
+export default Block;

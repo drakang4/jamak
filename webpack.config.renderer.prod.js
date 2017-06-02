@@ -46,21 +46,45 @@ module.exports = {
         test: /\.css$/,
         include: [
           resolve(__dirname, 'app/renderer'),
+        ],
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                sourceMap: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+              },
+            },
+            {
+              loader: 'postcss-loader',
+            },
+          ],
+        }),
+      },
+      {
+        test: /\.css$/,
+        include: [
           /node_modules/,
         ],
-        use: [
-          { loader: 'style-loader' },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              constLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+              },
             },
-          },
-          { loader: 'postcss-loader' },
-        ],
+            {
+              loader: 'postcss-loader',
+            },
+          ],
+        }),
       },
       {
         test: /\.svg$/,

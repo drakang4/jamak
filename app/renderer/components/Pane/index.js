@@ -19,7 +19,7 @@ class Pane extends Component {
     }
 
     return (
-      <div className={styles.root} style={style}>
+      <div className={styles.pane} style={style}>
         {children}
       </div>
     );

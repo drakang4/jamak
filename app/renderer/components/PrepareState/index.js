@@ -6,7 +6,7 @@ import styles from './styles.css';
 
 const PrepareState = ({ children, fileName, ready }) => {
   return (
-    <div className={classNames(styles.root, { [styles.ready]: ready, [styles.unready]: !ready })}>
+    <div className={classNames(styles.prepareState, { [styles.ready]: ready, [styles.unready]: !ready })}>
       <i className={classNames('material-icons', styles.icon)}>{ready ? 'check_circle' : 'cancel'}</i>
       <div className={styles.textBox}>
         <p className={styles.label}>{children}</p>

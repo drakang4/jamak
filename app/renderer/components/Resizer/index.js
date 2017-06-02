@@ -12,17 +12,14 @@ class Resizer extends Component {
 
   render() {
     const { type, active, disabled } = this.props;
-    const classes = classNames(styles.root, {
+    const classes = classNames(styles.resizer, {
       [styles[`${type}`]]: true,
       [styles.active]: active,
       [styles.disabled]: disabled,
     });
 
     return (
-      <span
-        className={classes}
-        onMouseDown={this.mouseDown}
-      />
+      <span className={classes} onMouseDown={this.mouseDown} />
     );
   }
 }

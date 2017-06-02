@@ -1,6 +1,6 @@
 @import '../../styles/colors.css';
 
-.root {
+.prepareState {
   display: flex;
   align-items: center;
   transition: all 400ms;

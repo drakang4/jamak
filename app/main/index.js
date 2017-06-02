@@ -14,8 +14,10 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({ width: 1200, height: 800 });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.resolve(__dirname, '../index.html'),
+  mainWindow.loadURL(process.env.NODE_ENV === 'development' ?
+  'http://localhost:8080/index.html' :
+  url.format({
+    pathname: path.resolve(__dirname, '../../index.html'),
     protocol: 'file:',
     slashes: true,
   }));

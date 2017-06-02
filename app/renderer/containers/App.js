@@ -26,6 +26,7 @@ const StartRoute = () => {
     );
   }
 };
+
 const App = () => (
   <Provider store={store}>
     <MemoryRouter>
