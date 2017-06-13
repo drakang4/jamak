@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as blockActions from '../actions/blocks';
 import { startSeek, doingSeek, endSeek } from '../actions/player';
-import BlockControls from '../components/BlockControls/BlockControls';
-import Timeline from '../components/Timeline/Timeline';
+import BlockControls from '../components/BlockControls';
+import Timeline from '../components/Timeline';
 import Split from '../components/Split';
 
 class BottomPane extends Component {
@@ -18,7 +18,8 @@ class BottomPane extends Component {
           deleteBlock={this.props.deleteBlock}
           selectedBlockId={this.props.selectedBlockId}
           currentTime={this.props.currentTime}
-          duration={this.props.duration} />
+          duration={this.props.duration}
+        />
         <Timeline
           blocks={this.props.blocks}
           currentTime={this.props.currentTime}
@@ -29,7 +30,8 @@ class BottomPane extends Component {
           selectBlock={this.props.selectBlock}
           startSeek={this.props.startSeek}
           doingSeek={this.props.doingSeek}
-          endSeek={this.props.endSeek} />
+          endSeek={this.props.endSeek}
+        />
       </Split>
     );
   }

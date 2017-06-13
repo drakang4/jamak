@@ -1,2 +1,11 @@
 @import 'normalize.css';
-@import 'react-virtualized/styles.css'
+@import 'react-virtualized/styles.css';
+
+.ReactVirtualized__Table__rowColumn,
+.ReactVirtualized__Table__headerColumn {
+  margin: 0;
+
+  &:first-of-type {
+    margin: 0;
+  }
+}

@@ -1,10 +1,7 @@
 const { BrowserWindow, dialog, ipcMain } = require('electron');
 const fs = require('fs');
 
-// const { subtitleTypes, videoTypes } = require('../renderer/constants/fileTypes');
-
-const subtitleTypes = ['*'];
-const videoTypes = ['*'];
+const { subtitleTypes, videoTypes } = require('../common/fileTypes');
 
 const readFileData = (filePath) => {
   const data = fs.readFileSync(filePath, 'utf8');

@@ -34,45 +34,52 @@ import { playerToSrt } from '../../utils/timeParser';
 class BlockTable extends Component {
   render() {
     const rowGetter = ({ index }) => this.props.blocks[index];
+    const timeRenderer = ({ cellData }) => playerToSrt(cellData);
 
     return (
-      <div>
-        <AutoSizer>
-          {({ width, height }) => (
-            <Table
-              width={width}
-              height={height}
-              headerHeight={30}
-              rowCount={this.props.blocks.length}
-              rowGetter={rowGetter}
-              rowHeight={24}
-              overscanRowCount={10}
-            >
-              <Column
-                label="#"
-                dataKey="id"
-                width={60}
-              />
-              <Column
-                label="시작 시간"
-                dataKey="startTime"
-                width={120}
-              />
-              <Column
-                label="종료 시간"
-                dataKey="endTime"
-                width={120}
-              />
-              <Column
-                label="자막"
-                dataKey="subtitle"
-                width={120}
-                flexGrow={1}
-              />
-            </Table>
-          )}
-        </AutoSizer>
-      </div>
+      <AutoSizer>
+        {({ width, height }) => (
+          <Table
+            headerClassName={styles.header}
+            gridClassName={styles.body}
+            width={width}
+            height={height}
+            headerHeight={18}
+            rowCount={this.props.blocks.length}
+            rowGetter={rowGetter}
+            rowHeight={24}
+            overscanRowCount={10}
+          >
+            <Column
+              className={styles.item}
+              label="#"
+              dataKey="id"
+              width={60}
+            />
+            <Column
+              className={styles.item}
+              label="시작 시간"
+              dataKey="startTime"
+              cellRenderer={timeRenderer}
+              width={120}
+            />
+            <Column
+              className={styles.item}
+              label="종료 시간"
+              dataKey="endTime"
+              cellRenderer={timeRenderer}
+              width={120}
+            />
+            <Column
+              className={styles.item}
+              label="자막"
+              dataKey="subtitle"
+              width={120}
+              flexGrow={1}
+            />
+          </Table>
+        )}
+      </AutoSizer>
     );
   }
 }

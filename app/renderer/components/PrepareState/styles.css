@@ -19,6 +19,7 @@
 
   & .textBox {
     display: flex;
+    align-items: baseline;
     flex-direction: column;
     margin-left: 4px;
   }
@@ -27,8 +28,13 @@
     font-size: 20px;
   }
 
-  & .fileName {
+  & .filename {
     font-size: 16px;
     color: var(--white);
+  }
+
+  & .label, 
+  & .filename {
+    margin: 0;
   }
 }

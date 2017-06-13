@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -23,6 +24,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.json$/,
+          /\.svg$/,
         ],
         use: [
           {
@@ -55,9 +57,7 @@ module.exports = {
               loader: 'css-loader',
               options: {
                 modules: true,
-                sourceMap: true,
                 importLoaders: 1,
-                localIdentName: '[name]__[local]__[hash:base64:5]',
               },
             },
             {
@@ -76,9 +76,6 @@ module.exports = {
           use: [
             {
               loader: 'css-loader',
-              options: {
-                sourceMap: true,
-              },
             },
             {
               loader: 'postcss-loader',
@@ -92,9 +89,7 @@ module.exports = {
           resolve(__dirname, 'app/renderer'),
         ],
         exclude: /node_modules/,
-        use: [
-          'file-loader',
-        ],
+        use: 'file-loader',
       },
     ],
   },
@@ -103,22 +98,12 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true,
-      },
-      compress: {
-        screw_ie8: true,
-      },
-      comments: false,
-    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new BabiliPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
       template: resolve(__dirname, 'app/index.html'),

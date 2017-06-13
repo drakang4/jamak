@@ -127,7 +127,7 @@ export default function blocks(state = initialState, action) {
 
           return {
             ...block,
-            stateTime: action.startTime,
+            startTime: action.startTime,
             endTime: action.endTime,
           };
         }),

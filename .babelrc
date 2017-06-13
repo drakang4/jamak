@@ -27,12 +27,16 @@
   "env": {
     "development": {
       "plugins": [
-        "react-hot-loader/babel"
+        "react-hot-loader/babel",
+        "transform-react-jsx-self"
       ]
     },
     "production": {
       "presets": [
         "babili"
+      ],
+      "plugins": [
+        "transform-react-constant-elements"
       ]
     }
   }

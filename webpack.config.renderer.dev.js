@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-eval-source-map',
 
   entry: [
     'react-hot-loader/patch',
@@ -59,7 +59,7 @@ module.exports = {
       {
         test: /\.css$/,
         include: [
-          resolve(__dirname, 'app/renderer'),
+          resolve(__dirname, 'app/renderer/components'),
         ],
         exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
@@ -82,8 +82,9 @@ module.exports = {
       {
         test: /\.css$/,
         include: [
-          /node_modules/,
+          resolve(__dirname, 'app/renderer/styles'),
         ],
+        exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -101,6 +102,7 @@ module.exports = {
         include: [
           resolve(__dirname, 'app/renderer'),
         ],
+        exclude: /node_modules/,
         use: 'file-loader',
       },
     ],

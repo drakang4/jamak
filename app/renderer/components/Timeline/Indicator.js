@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import CSSModules from 'react-css-modules';
+
 import styles from './styles.css';
 
 const Indicator = ({ rate }) => {
@@ -11,11 +11,12 @@ const Indicator = ({ rate }) => {
 
   return (
     <div
-      styleName="indicator"
+      className={styles.indicator}
       style={{ left: `${rate * 100}%` }}
-      onMouseDown={onMouseDown} >
-      <div styleName="indicator-head" />
-      <div styleName="indicator-line" />
+      onMouseDown={onMouseDown}
+    >
+      <div className={styles.indicatorHead} />
+      <div className={styles.indicatorLine} />
     </div>
   );
 };
@@ -24,4 +25,4 @@ Indicator.propTypes = {
   rate: PropTypes.number.isRequired,
 };
 
-export default CSSModules(Indicator, styles);
+export default Indicator;

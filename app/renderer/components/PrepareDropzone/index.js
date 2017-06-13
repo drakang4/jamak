@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 import validator from 'validator';
-import { subtitleTypes, videoTypes } from '../../constants/fileTypes';
+
+import { subtitleTypes, videoTypes } from '../../../common/fileTypes';
 
 import Button from '../Button';
 import PrepareState from '../PrepareState';
@@ -14,6 +15,8 @@ import PrepareState from '../PrepareState';
 import styles from './styles.css';
 
 const PrepareDropzone = ({
+  videoFilename,
+  subtitleFilename,
   videoReady,
   subtitleReady,
   onVideoOpen,
@@ -72,7 +75,9 @@ const PrepareDropzone = ({
     >
       <div>
         <div className={styles.text}>자막 편집을 시작하려면<br />파일을 드래그 앤 드랍하세요</div>
-        <img className={classNames(styles.icon, styles.big)} src="../../assets/icons/ic-file-load.svg" alt="file upload" />
+        <svg className={classNames(styles.icon, styles.big)} viewBox="0 0 72 72">
+          <path d="M27,48h18V30h12L36,9L15,30h12V48z M15,54h42v6H15V54z" />
+        </svg>
         <div className={styles.text}>또는</div>
         <div>
           <Button onClick={loadVideoButtonClick}>비디오 불러오기</Button>
@@ -80,8 +85,8 @@ const PrepareDropzone = ({
           <Button onClick={newFileButtonClick}>새 자막 만들기</Button>
         </div>
         <div className={styles.stateContainer}>
-          <PrepareState ready={videoReady}>비디오</PrepareState>
-          <PrepareState ready={subtitleReady}>자막</PrepareState>
+          <PrepareState ready={videoReady} filename={videoFilename}>비디오</PrepareState>
+          <PrepareState ready={subtitleReady} filename={subtitleFilename}>자막</PrepareState>
         </div>
         <div>
           <Link replace to={videoReady && subtitleReady ? '/editor' : ''}>
@@ -96,6 +101,8 @@ const PrepareDropzone = ({
 };
 
 PrepareDropzone.propTypes = {
+  subtitleFilename: PropTypes.string,
+  videoFilename: PropTypes.string,
   videoReady: PropTypes.bool.isRequired,
   subtitleReady: PropTypes.bool.isRequired,
   onVideoOpen: PropTypes.func.isRequired,

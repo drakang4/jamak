@@ -30,6 +30,8 @@ class Prepare extends Component {
     const { video, subtitle } = this.state;
     return (
       <PrepareDropzone
+        subtitleFilename={this.props.subtitleFilename}
+        videoFilename={this.props.videoFilename}
         videoReady={video}
         subtitleReady={subtitle}
         onVideoOpen={this.onVideoOpen}
@@ -41,12 +43,19 @@ class Prepare extends Component {
 }
 
 Prepare.propTypes = {
+  subtitleFilename: PropTypes.string,
+  videoFilename: PropTypes.string,
   loadFile: PropTypes.func.isRequired,
   loadVideo: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  subtitleFilename: state.file.subtitleFilename,
+  videoFilename: state.file.videoFilename,
+});
 
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators(fileActions, dispatch)
 );
 
-export default connect(null, mapDispatchToProps)(Prepare);
+export default connect(mapStateToProps, mapDispatchToProps)(Prepare);

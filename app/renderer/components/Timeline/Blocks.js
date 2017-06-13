@@ -1,32 +1,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import CSSModules from 'react-css-modules';
-import Block from '../Block/Block';
+
+import Block from '../../containers/Block';
+
 import styles from './styles.css';
 
 const Blocks = (props) => {
   const {
     blocks,
+    currentTime,
     duration,
     currentBlockId,
     selectedBlockId,
-    currentBlock,
-    selectBlock,
   } = props;
   return (
-    <div styleName="line">
-      {blocks.map((block, index) =>
+    <div className={styles.line}>
+      {blocks.map((block, index) => (
         <Block
           key={index}
           id={block.id}
+          currentTime={currentTime}
           duration={duration}
           startTime={block.startTime}
           endTime={block.endTime}
           subtitle={block.subtitle}
           current={currentBlockId === block.id}
           selected={selectedBlockId === block.id}
-          onSelectBlock={selectBlock} />,
-      )}
+        />
+      ))}
     </div>
   );
 };
@@ -36,7 +37,6 @@ Blocks.propTypes = {
   duration: PropTypes.number.isRequired,
   currentBlockId: PropTypes.number.isRequired,
   selectedBlockId: PropTypes.number.isRequired,
-  selectBlock: PropTypes.func.isRequired,
 };
 
-export default CSSModules(Blocks, styles);
+export default Blocks;

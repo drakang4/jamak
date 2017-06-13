@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
+
 import styles from './styles.css';
 
 class ProgressBar extends Component {
@@ -50,8 +50,9 @@ class ProgressBar extends Component {
     return (
       <div
         ref={(node) => { this.bar = node; }}
-        styleName="progress-bar"
-        onMouseDown={this.onMouseDown} />
+        className={styles.progressBar}
+        onMouseDown={this.onMouseDown}
+      />
     );
   }
 }
@@ -65,4 +66,4 @@ ProgressBar.propTypes = {
   endSeek: PropTypes.func.isRequired,
 };
 
-export default CSSModules(ProgressBar, styles);
+export default ProgressBar;

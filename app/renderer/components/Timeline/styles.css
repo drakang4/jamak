@@ -8,7 +8,7 @@
   height: 100%;
 }
 
-.time-bar {
+.timeBar {
   background-color: var(--blue-300);
   flex-basis: 32px;
   display: flex;
@@ -46,7 +46,7 @@
   height: 100%;
 }
 
-.progress-bar {
+.progressBar {
   background-color: var(--blue-400);
   width: 100%;
   height: 16px;
@@ -76,7 +76,7 @@
   height: 100%;
 }
 
-.indicator-head {
+.indicatorHead {
   background-color: var(--blue-500);
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -87,7 +87,7 @@
   height: 16px;
 }
 
-.indicator-line {
+.indicatorLine {
   background-color: var(--blue-500);
   top: 0;
   width: 1px;

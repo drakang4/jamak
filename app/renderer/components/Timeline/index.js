@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
+
 import TimeBar from './TimeBar';
 import ProgressBar from './ProgressBar';
 import Indicator from './Indicator';
@@ -35,7 +35,6 @@ class Timeline extends Component {
       seeking,
       currentBlockId,
       selectedBlockId,
-      selectBlock,
       startSeek,
       doingSeek,
       endSeek,
@@ -43,28 +42,32 @@ class Timeline extends Component {
     const rate = currentTime / duration;
 
     return (
-      <div styleName="timeline">
+      <div className={styles.timeline}>
         <TimeBar currentTime={currentTime} duration={duration} />
-        <div styleName="wrapper">
+        <div className={styles.wrapper}>
           <div
-            styleName="workspace"
-            style={{ width: `${100 * this.state.multiple}%` }}>
+            className={styles.workspace}
+            style={{ width: `${100 * this.state.multiple}%` }}
+          >
             <ProgressBar
               currentTime={currentTime}
               duration={duration}
               seeking={seeking}
               startSeek={startSeek}
               doingSeek={doingSeek}
-              endSeek={endSeek} />
+              endSeek={endSeek}
+            />
             <div
-              styleName="lines"
-              onWheel={this.onWheel}>
+              className={styles.lines}
+              onWheel={this.onWheel}
+            >
               <Blocks
                 blocks={blocks}
+                currentTime={currentTime}
                 duration={duration}
                 currentBlockId={currentBlockId}
                 selectedBlockId={selectedBlockId}
-                selectBlock={selectBlock} />
+              />
               {/*<AudioGraph />*/}
             </div>
             <Indicator rate={rate} />
@@ -82,10 +85,9 @@ Timeline.propTypes = {
   seeking: PropTypes.bool.isRequired,
   currentBlockId: PropTypes.number.isRequired,
   selectedBlockId: PropTypes.number.isRequired,
-  selectBlock: PropTypes.func.isRequired,
   startSeek: PropTypes.func.isRequired,
   doingSeek: PropTypes.func.isRequired,
   endSeek: PropTypes.func.isRequired,
 };
 
-export default CSSModules(Timeline, styles);
+export default Timeline;

@@ -7,8 +7,8 @@
     "dev:main": "cross-env NODE_ENV=development electron app/main",
     "dev:renderer": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.renderer.dev.js",
     "dev": "concurrently --kill-others \"npm run dev:main\" \"npm run dev:renderer\"",
-    "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.prod.js --progress --profile --colors",
-    "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.prod.js --progress --profile --colors",
+    "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.prod.js",
+    "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.prod.js",
     "build": "npm run build:main && npm run build:renderer",
     "pack": "build --dir",
     "dist": "build"
@@ -44,6 +44,7 @@
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
+    "babili-webpack-plugin": "^0.1.1",
     "concurrently": "^3.1.0",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.3",
