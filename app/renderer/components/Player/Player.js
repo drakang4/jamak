@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import CSSModules from 'react-css-modules';
+
 import Video from './Video';
 import Controls from './Controls';
 import styles from './styles.css';
@@ -23,7 +23,7 @@ const Player = (props) => {
     updateBlockText,
   } = props;
   return (
-    <div styleName="player">
+    <div className={styles.player}>
       <Video
         videoPath={videoPath}
         playing={playing}
@@ -36,12 +36,14 @@ const Player = (props) => {
         onUpdateDuration={onUpdateDuration}
         onEndPlay={onEndPlay}
         updateCurrentBlock={updateCurrentBlock}
-        updateBlockText={updateBlockText} />
+        updateBlockText={updateBlockText}
+      />
       <Controls
         playing={playing}
         muted={muted}
         onTogglePlay={onTogglePlay}
-        onToggleMute={onToggleMute} />
+        onToggleMute={onToggleMute}
+      />
     </div>
   );
 };
@@ -63,4 +65,4 @@ Player.propTypes = {
   updateBlockText: PropTypes.func.isRequired,
 };
 
-export default CSSModules(Player, styles);
+export default Player;

@@ -6,6 +6,7 @@ import styles from './styles.css';
 
 class Video extends Component {
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.seeking)
     if (nextProps.seeking) {
       this.video.currentTime = nextProps.currentTime;
     }

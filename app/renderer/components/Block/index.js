@@ -48,6 +48,11 @@ class Block extends Component {
     document.addEventListener('mouseup', mouseUpListener);
   }
 
+  onDoubleClick = () => {
+    this.props.startSeek(this.props.startTime);
+    this.props.endSeek();
+  }
+
   handleFinish = () => {
 
   }
@@ -66,6 +71,8 @@ class Block extends Component {
       onCurrent,
       onSelect,
       onDelete,
+      startSeek,
+      endSeek,
       updateTime,
       handleHover,
     } = this.props;
@@ -83,6 +90,7 @@ class Block extends Component {
         onMouseDown={this.onMouseDown}
         onMouseOver={handleHover}
         onMouseOut={handleHover}
+        onDoubleClick={this.onDoubleClick}
       >
         <div
           style={{ transform: `scaleX(${current ? 1 : 0})`, width: `${((currentTime - startTime) / length) * 100}%` }}
@@ -114,6 +122,8 @@ Block.propTypes = {
   onCurrent: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  startSeek: PropTypes.func.isRequired,
+  endSeek: PropTypes.func.isRequired,
   updateTime: PropTypes.func.isRequired,
   handleHover: PropTypes.func.isRequired,
 };

@@ -29,8 +29,6 @@ class ProgressBar extends Component {
       const offsetX = event.clientX - left;
       let rate = offsetX / width;
 
-      console.log(rate);
-
       if (rate < 0) {
         rate = 0;
       } else if (rate > 1) {

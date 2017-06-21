@@ -28,7 +28,8 @@ class TopPane extends Component {
           onUpdateDuration={this.props.updateDuration}
           onEndPlay={this.props.endPlay}
           updateCurrentBlock={this.props.currentBlock}
-          updateBlockText={this.props.updateBlockText} />
+          updateBlockText={this.props.updateBlockText}
+        />
         <BlockTable blocks={this.props.blocks} />
       </Split>
     );
