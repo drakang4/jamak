@@ -46,3 +46,28 @@
 .text.subtitle {
   font-weight: 400;
 }
+
+.timer {
+  background-color: #e6f71b;
+  content: '';
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 2px;
+
+  &.left {
+    left: 0;
+
+    &:hover {
+      cursor: w-resize;
+    }
+  }
+
+  &.right {
+    right: 0;
+
+    &:hover {
+      cursor: e-resize;
+    }
+  }
+}

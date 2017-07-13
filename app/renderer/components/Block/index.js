@@ -7,8 +7,9 @@ import { playerToSrt } from '../../utils/timeParser';
 import styles from './styles.css';
 
 class Block extends Component {
-  onMouseDown = (event) => {
+  handleMouseDown = (event) => {
     event.preventDefault();
+    event.stopPropagation();
 
     if (!this.props.selected) {
       this.props.onSelect(this.props.id);
@@ -39,7 +40,6 @@ class Block extends Component {
     };
 
     const mouseUpListener = (event) => {
-      this.handleFinish();
       document.removeEventListener('mousemove', mouseMoveListener);
       document.removeEventListener('mouseup', mouseUpListener);
     };
@@ -48,13 +48,71 @@ class Block extends Component {
     document.addEventListener('mouseup', mouseUpListener);
   }
 
-  onDoubleClick = () => {
+  handleDoubleClick = () => {
     this.props.startSeek(this.props.startTime);
     this.props.endSeek();
   }
 
-  handleFinish = () => {
+  handleTimerDown = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
+    if (!this.props.selected) {
+      this.props.onSelect(this.props.id);
+    }
+
+    let timer = event.currentTarget;
+    let timelineWidth = timer.parentNode.parentNode.offsetWidth;
+    let blockWidth = timer.parentNode.offsetWidth;
+    let blockLeft = timer.parentNode.offsetLeft;
+    let blockRight = timelineWidth - blockLeft - blockWidth;
+
+    const timerMoveListener = (event) => {
+      let position;
+      let width;
+      let startTime, endTime;
+
+      if (timer.classList[1] === styles.left) {
+        blockLeft += event.movementX;
+        blockWidth -= event.movementX;
+
+        // Block must be in range of timeline;
+        if (blockLeft < 0) {
+          blockLeft = 0;
+          blockWidth += event.movementX;
+        }
+
+        position = blockLeft / timelineWidth * 100;
+        width = blockWidth / timelineWidth * 100;
+
+        startTime = Number((position / 100 * this.props.duration).toFixed(6));
+        endTime = this.props.endTime;
+      } else {
+        blockWidth += event.movementX;
+        blockRight -= event.movementX;
+
+        // Block must be in range of timeline.
+        if (blockRight < 0) {
+          blockRight = 0;
+          blockWidth -= e.movementX;
+        }
+
+        position = blockLeft / timelineWidth * 100;
+        width = blockWidth / timelineWidth * 100;
+
+        startTime = this.props.startTime;
+        endTime = Number(((blockLeft + blockWidth) / timelineWidth * this.props.duration).toFixed(6));
+      }
+      this.props.updateTime(this.props.id, startTime, endTime);
+    };
+
+    const timerUpListener = () => {
+      document.removeEventListener('mousemove', timerMoveListener);
+      document.removeEventListener('mouseup', timerUpListener);
+    };
+
+    document.addEventListener('mousemove', timerMoveListener);
+    document.addEventListener('mouseup', timerUpListener);
   }
 
   render() {
@@ -87,14 +145,20 @@ class Block extends Component {
           [styles.selected]: selected,
         })}
         style={{ left: `${position}%`, width: `${width}%` }}
-        onMouseDown={this.onMouseDown}
+        onMouseDown={this.handleMouseDown}
         onMouseOver={handleHover}
         onMouseOut={handleHover}
-        onDoubleClick={this.onDoubleClick}
+        onDoubleClick={this.handleDoubleClick}
       >
+        <Ink />
         <div
           style={{ transform: `scaleX(${current ? 1 : 0})`, width: `${((currentTime - startTime) / length) * 100}%` }}
           className={styles.progress}
+        />
+        <div
+          style={{ display: hover ? 'block' : 'none' }}
+          className={classNames(styles.timer, styles.left)}
+          onMouseDown={this.handleTimerDown}
         />
         <div className={styles.textbox}>
           <p className={classNames(styles.text, styles.time)}>
@@ -104,7 +168,11 @@ class Block extends Component {
             {subtitle}
           </p>
         </div>
-        <Ink />
+        <div
+          style={{ display: hover ? 'block' : 'none' }}
+          className={classNames(styles.timer, styles.right)}
+          onMouseDown={this.handleTimerDown}
+        />
       </div>
     );
   }
