@@ -10,23 +10,23 @@ const initialState = {
 
 export default function file(state = initialState, action) {
   switch (action.type) {
-    case types.NEW_BLOCK_FILE:
+    case types.NEW_SUBTITLE_FILE:
       return {
         ...state,
         subtitlePath: '',
         subtitleFilename: '새 파일',
       };
-    case types.LOAD_BLOCK_FILE:
+    case types.LOAD_SUBTITLE_FILE:
       return {
         ...state,
         subtitlePath: action.path,
         subtitleFilename: basename(action.path),
       };
-    case types.SAVE_BLOCK_FILE:
+    case types.SAVE_SUBTITLE_FILE:
       return {
         ...state,
       };
-    case types.UNSAVED_BLOCK_FILE:
+    case types.UNSAVED_SUBTITLE_FILE:
       return {
         ...state,
       };

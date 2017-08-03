@@ -5,13 +5,17 @@ import { connect } from 'react-redux';
 import PrepareDropzone from '../components/PrepareDropzone';
 import * as fileActions from '../actions/file';
 
-class Prepare extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      video: false,
-      subtitle: false,
-    };
+class PrepareContainer extends Component {
+  static propTypes = {
+    subtitleFilename: PropTypes.string,
+    videoFilename: PropTypes.string,
+    loadFile: PropTypes.func.isRequired,
+    loadVideo: PropTypes.func.isRequired,
+  }
+
+  state = {
+    video: false,
+    subtitle: false,
   }
 
   onVideoOpen = () => {
@@ -42,13 +46,6 @@ class Prepare extends Component {
   }
 }
 
-Prepare.propTypes = {
-  subtitleFilename: PropTypes.string,
-  videoFilename: PropTypes.string,
-  loadFile: PropTypes.func.isRequired,
-  loadVideo: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   subtitleFilename: state.file.subtitleFilename,
   videoFilename: state.file.videoFilename,
@@ -58,4 +55,4 @@ const mapDispatchToProps = (dispatch) => (
   bindActionCreators(fileActions, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Prepare);
+export default connect(mapStateToProps, mapDispatchToProps)(PrepareContainer);

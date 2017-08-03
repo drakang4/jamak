@@ -36,7 +36,7 @@ class Block extends Component {
       let startTime = Number((blockLeft / timelineWidth * this.props.duration).toFixed(6));
       let endTime = Number((startTime + this.props.endTime - this.props.startTime).toFixed(6));
 
-      this.props.updateTime(this.props.id, startTime, endTime);
+      this.props.onUpdateTime(this.props.id, startTime, endTime);
     };
 
     const mouseUpListener = (event) => {
@@ -49,8 +49,8 @@ class Block extends Component {
   }
 
   handleDoubleClick = () => {
-    this.props.startSeek(this.props.startTime);
-    this.props.endSeek();
+    // this.props.startSeek(this.props.startTime);
+    // this.props.endSeek();
   }
 
   handleTimerDown = (event) => {
@@ -103,7 +103,7 @@ class Block extends Component {
         startTime = this.props.startTime;
         endTime = Number(((blockLeft + blockWidth) / timelineWidth * this.props.duration).toFixed(6));
       }
-      this.props.updateTime(this.props.id, startTime, endTime);
+      this.props.onUpdateTime(this.props.id, startTime, endTime);
     };
 
     const timerUpListener = () => {
@@ -117,22 +117,8 @@ class Block extends Component {
 
   render() {
     const {
-      currentTime,
-      duration,
-      id,
-      startTime,
-      endTime,
-      subtitle,
-      current,
-      selected,
-      hover,
-      onCurrent,
-      onSelect,
-      onDelete,
-      startSeek,
-      endSeek,
-      updateTime,
-      handleHover,
+      currentTime, duration, id, startTime, endTime,
+      subtitle, current, selected, hover, onHover,
     } = this.props;
 
     const length = parseFloat((endTime - startTime).toFixed(3));
@@ -145,10 +131,10 @@ class Block extends Component {
           [styles.selected]: selected,
         })}
         style={{ left: `${position}%`, width: `${width}%` }}
-        onMouseDown={this.handleMouseDown}
-        onMouseOver={handleHover}
-        onMouseOut={handleHover}
         onDoubleClick={this.handleDoubleClick}
+        onMouseDown={this.handleMouseDown}
+        onMouseOver={onHover}
+        onMouseOut={onHover}
       >
         <Ink />
         <div
@@ -187,13 +173,10 @@ Block.propTypes = {
   subtitle: PropTypes.string.isRequired,
   current: PropTypes.bool.isRequired,
   selected: PropTypes.bool.isRequired,
-  onCurrent: PropTypes.func.isRequired,
+  hover: PropTypes.bool.isRequired,
+  onHover: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  startSeek: PropTypes.func.isRequired,
-  endSeek: PropTypes.func.isRequired,
-  updateTime: PropTypes.func.isRequired,
-  handleHover: PropTypes.func.isRequired,
+  onUpdateTime: PropTypes.func.isRequired,
 };
 
 export default Block;

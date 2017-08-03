@@ -1,9 +1,23 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, Children } from 'react';
 
 import styles from './styles.css';
 
 class Pane extends Component {
+  static propTypes = {
+    type: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
+    primary: PropTypes.bool,
+    size: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
+    children: PropTypes.node.isRequired,
+  };
+
+  static defaultProps = {
+    primary: false,
+  }
+
   render() {
     const { type, primary, size, children } = this.props;
 
@@ -20,24 +34,10 @@ class Pane extends Component {
 
     return (
       <div className={styles.pane} style={style}>
-        {children}
+        {Children.only(children)}
       </div>
     );
   }
 }
-
-Pane.propTypes = {
-  type: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
-  primary: PropTypes.bool,
-  size: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  children: PropTypes.node.isRequired,
-};
-
-Pane.defaultProps = {
-  primary: false,
-};
 
 export default Pane;

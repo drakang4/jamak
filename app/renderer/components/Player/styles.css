@@ -28,7 +28,7 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  flex-grow: 1;
+  flex-grow: 0;
   flex-basis: 64px;
 }
 
@@ -43,34 +43,4 @@
 
 .button.play, .button.pause, .button.muted, .button.unmuted {
   fill: var(--blue-500);
-}
-
-.subtitle-box {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  margin: 0 auto;
-  transform: translateX(-50%);
-}
-
-.textarea {
-  color: var(--white);
-  background-color: transparent;
-  border-style: solid;
-  border-radius: 4px;
-  border-width: 0;
-  font-size: 20px;
-  font-weight: 400;
-  text-shadow: 1px 1px 0 var(--pureBlack), 1px -1px 0 var(--pureBlack), -1px 1px 0 var(--pureBlack), -1px -1px 0 var(--pureBlack);
-  resize: none;
-  padding: 4px 8px;
-  text-align: center;
-}
-
-.textarea:focus {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-color: var(--blue-500);
-  border-width: 1px;
-  outline: 0;
-  text-shadow: none;
 }

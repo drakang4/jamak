@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, Children } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import Pane from '../Pane';
@@ -8,13 +8,22 @@ import Resizer from '../Resizer';
 import styles from './styles.css';
 
 class Split extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      active: false,
-      position: this.props.defaultSize,
-    };
-  }
+  static propTypes = {
+    type: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
+    defaultSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    disableResize: PropTypes.bool,
+    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  };
+
+  static defaultProps = {
+    defaultSize: '50%',
+    disableResize: false,
+  };
+
+  state = {
+    active: false,
+    position: this.props.defaultSize,
+  };
 
   componentDidMount() {
     document.addEventListener('mousemove', this.onMouseMove);
@@ -57,6 +66,10 @@ class Split extends Component {
 
   render() {
     const { children, type } = this.props;
+    if (Children.count(children) !== 2) {
+      throw new Error('Split must have two children');
+    }
+
     const classes = classNames(styles.split, {
       [styles[`${type}`]]: true,
     });
@@ -91,17 +104,5 @@ class Split extends Component {
     );
   }
 }
-
-Split.propTypes = {
-  type: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
-  defaultSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  disableResize: PropTypes.bool,
-  children: PropTypes.arrayOf(PropTypes.node).isRequired,
-};
-
-Split.defaultProps = {
-  defaultSize: '50%',
-  disableResize: false,
-};
 
 export default Split;

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
-import App from './containers/App';
+import App from './App';
 
 const render = (Component) => {
   ReactDOM.render(
@@ -16,8 +16,5 @@ const render = (Component) => {
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./containers/App', () => {
-    const NextApp = require('./containers/App'); // eslint-disable-line global-require
-    render(NextApp);
-  });
+  module.hot.accept('./App', () => { render(App); });
 }

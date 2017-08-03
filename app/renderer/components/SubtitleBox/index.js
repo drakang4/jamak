@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
+
 import styles from './styles.css';
 
 class SubtitleBox extends Component {
@@ -38,17 +38,18 @@ class SubtitleBox extends Component {
 
   render() {
     return (
-      <div styleName="subtitle-box">
+      <div className={styles.subtitleBox}>
         <textarea
           autoFocus
           type="text"
           name="subtitle-box"
-          styleName="textarea"
+          className={styles.textarea}
           disabled={this.props.currentBlockId === 0}
           value={this.props.currentBlockId === 0 ? '' : this.props.blocks[this.props.currentBlockId - 1].subtitle}
           rows={this.state.rows}
           cols={this.state.cols}
-          onInput={this.onInput} />
+          onInput={this.onInput}
+        />
       </div>
     );
   }
@@ -60,4 +61,4 @@ SubtitleBox.propTypes = {
   updateBlockText: PropTypes.func.isRequired,
 };
 
-export default CSSModules(SubtitleBox, styles);
+export default SubtitleBox;

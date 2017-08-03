@@ -1,66 +1,72 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
-import SubtitleBox from './SubtitleBox';
+
 import styles from './styles.css';
 
 class Video extends Component {
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.seeking)
+    if (this.props.src !== nextProps.src) {
+      
+    }
+
     if (nextProps.seeking) {
       this.video.currentTime = nextProps.currentTime;
     }
 
-    nextProps.playing ? this.video.play() : this.video.pause();
+    nextProps.playing ? this.play() : this.pause();
     this.video.muted = nextProps.muted;
   }
 
-  onLoadedData = (event) => {
-    this.props.onUpdateCurrentTime(0);
-    this.props.onUpdateDuration(event.target.duration);
+  play = () => {
+    this.video.play();
   }
 
-  onTimeUpdate = (event) => {
-    this.props.onUpdateCurrentTime(event.target.currentTime);
-    this.props.updateCurrentBlock(event.target.currentTime);
+  pause = () => {
+    this.video.pause();
   }
 
-  onEnded = () => {
-    this.props.onEndPlay();
+  handleLoadedData = (event) => {
+    // const { onLoadedData } = this.props;
+    // onLoadedData();
+  }
+
+  handleTimeUpdate = (event) => {
+    const { onTimeUpdate } = this.props;
+    onTimeUpdate(event.target.currentTime);
+  }
+
+  handleEnded = () => {
+    const { onEnded } = this.props;
+    onEnded();
   }
 
   render() {
+    const {
+      src,
+    } = this.props;
+
     return (
-      <div styleName="viewer">
-        <video
-          styleName="video"
-          ref={(node) => { this.video = node; }}
-          src={this.props.videoPath}
-          onLoadedData={this.onLoadedData}
-          onTimeUpdate={this.onTimeUpdate}
-          onEnded={this.onEnded} />
-        <SubtitleBox
-          blocks={this.props.blocks}
-          currentBlockId={this.props.currentBlockId}
-          updateBlockText={this.props.updateBlockText} />
-      </div>
+      <video
+        ref={(node) => { this.video = node; }}
+        className={styles.video}
+        src={src}
+        onLoadedData={this.handleLoadedData}
+        onTimeUpdate={this.handleTimeUpdate}
+        onEnded={this.handleEnded}
+      />
     );
   }
 }
 
 Video.propTypes = {
-  videoPath: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   muted: PropTypes.bool.isRequired,
   seeking: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
-  blocks: PropTypes.array.isRequired,
-  currentBlockId: PropTypes.number.isRequired,
-  onUpdateCurrentTime: PropTypes.func.isRequired,
-  onUpdateDuration: PropTypes.func.isRequired,
-  onEndPlay: PropTypes.func.isRequired,
-  updateCurrentBlock: PropTypes.func.isRequired,
-  updateBlockText: PropTypes.func.isRequired,
+  onLoadedData: PropTypes.func.isRequired,
+  onTimeUpdate: PropTypes.func.isRequired,
+  onEnded: PropTypes.func.isRequired,
 };
 
-export default CSSModules(Video, styles);
+export default Video;

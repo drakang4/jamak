@@ -1,7 +1,7 @@
 import { srtToPlayer, playerToSrt } from './timeParser';
 
 /**
- * from SRT data to array of object
+ * Parse SRT data to array of object
  * @param data
  * @returns {Array}
  */
@@ -27,7 +27,7 @@ export const fromSrt = (data) => {
 };
 
 /**
- * from array of object to SRT data
+ * Convert array of object to SRT data
  * @param data
  * @returns {string}
  */

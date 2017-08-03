@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import TimeBar from './TimeBar';
 import ProgressBar from './ProgressBar';
 import Indicator from './Indicator';
-import Blocks from './Blocks';
+import BlockContainer from '../../containers/BlockContainer';
+
 import styles from './styles.css';
 
 class Timeline extends Component {
@@ -15,7 +16,7 @@ class Timeline extends Component {
     };
   }
 
-  onWheel = (event) => {
+  handleWheel = (event) => {
     if (event.altKey) {
       if (event.deltaY > 0) {
         if (this.state.multiple > 1) {
@@ -35,9 +36,9 @@ class Timeline extends Component {
       seeking,
       currentBlockId,
       selectedBlockId,
-      startSeek,
-      doingSeek,
-      endSeek,
+      onStartSeek,
+      onDoingSeek,
+      onEndSeek,
     } = this.props;
     const rate = currentTime / duration;
 
@@ -53,21 +54,29 @@ class Timeline extends Component {
               currentTime={currentTime}
               duration={duration}
               seeking={seeking}
-              startSeek={startSeek}
-              doingSeek={doingSeek}
-              endSeek={endSeek}
+              onStartSeek={onStartSeek}
+              onDoingSeek={onDoingSeek}
+              onEndSeek={onEndSeek}
             />
             <div
               className={styles.lines}
-              onWheel={this.onWheel}
+              onWheel={this.handleWheel}
             >
-              <Blocks
-                blocks={blocks}
-                currentTime={currentTime}
-                duration={duration}
-                currentBlockId={currentBlockId}
-                selectedBlockId={selectedBlockId}
-              />
+              <div className={styles.line}>
+                {blocks.map(block => (
+                  <BlockContainer
+                    key={block.id}
+                    id={block.id}
+                    currentTime={currentTime}
+                    duration={duration}
+                    startTime={block.startTime}
+                    endTime={block.endTime}
+                    subtitle={block.subtitle}
+                    current={currentBlockId === block.id}
+                    selected={selectedBlockId === block.id}
+                  />
+                ))}
+              </div>
               {/*<AudioGraph />*/}
             </div>
             <Indicator rate={rate} />
@@ -85,9 +94,9 @@ Timeline.propTypes = {
   seeking: PropTypes.bool.isRequired,
   currentBlockId: PropTypes.number.isRequired,
   selectedBlockId: PropTypes.number.isRequired,
-  startSeek: PropTypes.func.isRequired,
-  doingSeek: PropTypes.func.isRequired,
-  endSeek: PropTypes.func.isRequired,
+  onStartSeek: PropTypes.func.isRequired,
+  onDoingSeek: PropTypes.func.isRequired,
+  onEndSeek: PropTypes.func.isRequired,
 };
 
 export default Timeline;

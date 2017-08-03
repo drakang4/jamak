@@ -184,7 +184,7 @@ const configureMenu = (app) => {
       {
         label: 'Bring All to Front',
         role: 'front',
-      },
+      }
     );
   }
 
@@ -196,7 +196,7 @@ const configureMenu = (app) => {
         click: (menuItem, browserWindow) => {
           browserWindow.toggleDevTools();
         },
-      },
+      }
     );
   }
 

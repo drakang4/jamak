@@ -8,6 +8,10 @@ export const toggleMute = () => ({
   type: types.TOGGLE_MUTE,
 });
 
+export const toggleLoop = () => ({
+  type: types.TOGGLE_LOOP,
+});
+
 export const updateCurrentTime = (currentTime) => ({
   type: types.UPDATE_CURRENT_TIME,
   currentTime,

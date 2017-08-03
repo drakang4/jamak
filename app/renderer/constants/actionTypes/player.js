@@ -1,5 +1,6 @@
 export const TOGGLE_PLAY = 'TOGGLE_PLAY';
 export const TOGGLE_MUTE = 'TOGGLE_MUTE';
+export const TOGGLE_LOOP = 'TOGGLE_LOOP';
 
 export const UPDATE_DURATION = 'UPDATE_DURATION';
 export const UPDATE_CURRENT_TIME = 'UPDATE_CURRENT_TIME';
@@ -9,6 +10,9 @@ export const DOWN_PROGRESS = 'DOWN_PROGRESS';
 export const MOVE_PROGRESS = 'MOVE_PROGRESS';
 export const UP_PROGRESS = 'UP_PROGRESS';
 export const DRAG_INDICATOR = 'DRAG_INDICATOR';
+
+export const START_LOADING = 'START_LOADING';
+export const END_LOADING = 'END_LOADING';
 
 export const START_SEEK = 'START_SEEK';
 export const DOING_SEEK = 'DOING_SEEK';

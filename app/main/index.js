@@ -11,16 +11,20 @@ let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1200, height: 800, webPreferences: { webSecurity: false } });
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    webPreferences: { webSecurity: false },
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL(process.env.NODE_ENV === 'development' ?
-  'http://localhost:8080/index.html' :
-  url.format({
-    pathname: path.resolve(__dirname, '../../index.html'),
-    protocol: 'file:',
-    slashes: true,
-  }));
+    'http://localhost:8080/index.html' :
+    url.format({
+      pathname: path.resolve(__dirname, '../../index.html'),
+      protocol: 'file:',
+      slashes: true,
+    }));
 
   // Open the DevTools.
   if (process.env.NODE_ENV === 'development') {

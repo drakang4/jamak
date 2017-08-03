@@ -1,8 +1,10 @@
 import * as types from '../constants/actionTypes/player';
 
 const initialState = {
+  loading: true,
   playing: false,
   muted: false,
+  loop: false,
   duration: 0,
   currentTime: 0,
   seeking: false,
@@ -11,45 +13,48 @@ const initialState = {
 
 export default function player(state = initialState, action) {
   switch (action.type) {
-    /**
-     * 비디오 재생 토클
-     */
     case types.TOGGLE_PLAY:
       return {
         ...state,
         playing: !state.playing,
       };
-    /**
-     * 비디오 음소거 토글
-     */
     case types.TOGGLE_MUTE:
       return {
         ...state,
         muted: !state.muted,
       };
-    /**
-     * 비디오 현재 재생 시간 설정
-     */
+    case types.TOGGLE_LOOP:
+      return {
+        ...state,
+        loop: !state.loop,
+      };
     case types.UPDATE_CURRENT_TIME:
       return {
         ...state,
         currentTime: action.currentTime,
       };
-    /**
-     * 비디오 전체 재생 시간 설정
-     */
     case types.UPDATE_DURATION:
       return {
         ...state,
         duration: action.duration,
       };
-    /**
-     * 비디오 재생 종료
-     */
     case types.END_PLAY:
       return {
         ...state,
         playing: false,
+      };
+    case types.START_LOADING:
+      return {
+        ...state,
+        loading: true,
+        playing: false,
+        currentTime: 0,
+        duration: 0,
+      };
+    case types.END_LOADING:
+      return {
+        ...state,
+        loading: false,
       };
     case types.START_SEEK:
       return {
