@@ -1,3 +1,4 @@
+# ❌ This project has been deprecated!
 ![jamak](https://github.com/Heeryong-Kang/jamak/blob/master/jamak-icon.png?raw=true)
 # Jamak
 > A subtitle editor built with Electron, React and Redux.
