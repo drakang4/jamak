@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2015", "es2016", "es2017"],
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "esModuleInterop": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "downlevelIteration": true,
+    "jsx": "react",
+    "pretty": true,
+    "locale": "en",
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
+  }
+}

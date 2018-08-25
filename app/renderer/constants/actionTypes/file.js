@@ -1,5 +1,0 @@
-export const NEW_BLOCK_FILE = 'NEW_BLOCK_FILE';
-export const LOAD_BLOCK_FILE = 'LOAD_BLOCK_FILE';
-export const SAVE_BLOCK_FILE = 'SAVE_BLOCK_FILE';
-export const UNSAVED_BLOCK_FILE = 'UNSAVED_BLOCK_FILE';
-export const LOAD_VIDEO = 'LOAD_VIDEO';

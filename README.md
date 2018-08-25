@@ -1,30 +1,33 @@
-# ❌ This project has been deprecated!
-![jamak](https://github.com/Heeryong-Kang/jamak/blob/master/jamak-icon.png?raw=true)
 # Jamak
-> A subtitle editor built with Electron, React and Redux.
 
-![screenshot-windows](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot-windows.png?raw=true)
-![screenshot-macos](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot-macos.png?raw=true)
+**Jamak** is a subtitle editor built with Electron, React and Redux.
+
+- 🎥 Non-linear editor like environment
+- ⏯ Live preview
+- 📑 SubRip, WebVTT support
+- 💻 Cross-platform (Tested only Windows yet)
+- 🤑 Free!
+
+![screenshot-windows](https://github.com/Heeryong-Kang/jamak/blob/refactoring/screenshot-windows.png)
+
+<!-- ![screenshot-macos](https://github.com/Heeryong-Kang/jamak/blob/master/screenshot-macos.png?raw=true) -->
+
 Currently in development
 
-## Features
-* Make subtitle in a non-linear editor like environment
-* Live preview subtitle with video
-* It's free!
+## Tech Stack
 
-## Current supported platforms
-* Windows
-* macOS
-* <del>Linux</del> (not tested yet)
+- Typescript
+- Electron
+- React, Redux, Konva
+- Webpack
 
-## TODO
-* [ ] Fix inserting a block on another block.
-* [ ] Visualize sound in timeline.
-* [ ] Add shortcuts to actions.
-* [ ] More video controls (volume, next frame, etc...)
-* [ ] Performance Optimization.
-* [ ] Support another OS.
-* [ ] Better app design.
+## Development
+
+- Clone this repository.
+- Run `yarn install` in the clonded directory.
+- Run `yarn start` to start app in development environment.
+- Run `yarn make` to build distributable bundled app.
 
 ## License
-MIT
+
+MIT © [drakang4](https://github.com/drakang4)
