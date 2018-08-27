@@ -14,17 +14,60 @@ const StyledButton = styled.button`
   justify-content: center;
   background-color: ${props => props.theme.pallete.gray[0]};
   color: ${props => props.theme.pallete.gray[9]};
+  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+
+  &:hover {
+    background-color: ${props => props.theme.pallete.gray[2]};
+    box-shadow: 0 0 0 2px ${props => props.theme.pallete.primary[2]};
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px ${props => props.theme.pallete.primary[5]};
+  }
+
+  &:active {
+    background-color: ${props => props.theme.pallete.gray[4]};
+  }
 `;
 
 const AccentButton = styled(StyledButton)`
   background-color: ${props => props.theme.pallete.primary[6]};
   color: ${props => props.theme.pallete.gray[0]};
+
+  &:hover {
+    background-color: ${props => props.theme.pallete.primary[4]};
+    box-shadow: 0 0 0 2px ${props => props.theme.pallete.primary[2]};
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px ${props => props.theme.pallete.primary[5]};
+  }
+
+  &:active {
+    background-color: ${props => props.theme.pallete.primary[9]};
+  }
 `;
 
 const DisabledButton = styled(StyledButton)`
   background-color: transparent;
   border: 2px solid ${props => props.theme.pallete.gray[6]};
   color: ${props => props.theme.pallete.gray[6]};
+
+  &:hover {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: transparent;
+  }
 `;
 
 interface IProps {
