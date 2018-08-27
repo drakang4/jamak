@@ -28,19 +28,6 @@ const ScrollableWrapper = styled.div`
   flex: 1;
   overflow-x: scroll;
   overflow-y: hidden;
-
-  ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: ${props => props.theme.pallete.gray[8]};
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: ${props => props.theme.pallete.gray[6]};
-  }
 `;
 
 const SizedWrapper = styled.div`
@@ -150,6 +137,8 @@ class Timeline extends React.Component<Props, State> {
               onWheel={this.handleWheel}
               style={{ width: `${multiple * 100}%` }}
             >
+              {/* TODO: Perfomance optimization
+              https://stackoverflow.com/a/42787941/7785932 */}
               <Stage
                 style={{
                   transform: `translate(${dx}px`,
