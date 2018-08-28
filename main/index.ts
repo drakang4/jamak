@@ -47,6 +47,8 @@ const createWindow = async () => {
     }
   }
 
+  await createMenu();
+
   createMessageListeners(mainWindow.webContents);
 
   // Emitted when the window is closed.

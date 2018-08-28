@@ -1,4 +1,4 @@
-import Electron, { Menu } from 'electron';
+import Electron, { Menu, shell } from 'electron';
 import {
   openSubtitleDialog,
   openVideoDialog,
@@ -133,7 +133,7 @@ const template: Electron.MenuItemConstructorOptions[] = [
       {
         label: 'Official Website',
         click: () => {
-          Electron.shell.openExternal('https://github.com/drakang4/jamak');
+          shell.openExternal('https://github.com/drakang4/jamak');
         },
       },
       { label: 'License' },
