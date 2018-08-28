@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '../../styles/styled-components';
+import SubtitleEditorContainer from '../../containers/SubtitleEditor';
 
 const Wrapper = styled.div`
   position: relative;
@@ -64,6 +65,7 @@ class Video extends React.Component<IProps> {
           onTimeUpdate={this.handleTimeUpdate}
           onEnded={this.handleEnded}
         />
+        <SubtitleEditorContainer />
       </Wrapper>
     );
   }
