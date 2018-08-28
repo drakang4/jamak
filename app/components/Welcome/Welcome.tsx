@@ -22,7 +22,7 @@ const Welcome: React.SFC<Props> = ({ subtitleReady, videoReady, newData }) => (
       videoReady={videoReady}
       newData={newData}
     />
-    <RecentFileList />
+    {/* <RecentFileList /> */}
   </Wrapper>
 );
 
