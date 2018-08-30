@@ -13,10 +13,12 @@ const Wrapper = styled.div`
 
 const CurrentTime = styled.span`
   color: ${props => props.theme.pallete.primary[5]};
+  user-select: none;
 `;
 
 const Duration = styled.span`
   color: ${props => props.theme.pallete.gray[4]};
+  user-select: none;
 `;
 
 interface IProps {
