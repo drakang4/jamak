@@ -13,6 +13,7 @@ import styled, { withTheme } from '../../styles/styled-components';
 import { ThemeInterface } from '../../styles/theme';
 import { Subtitle } from '../../models/subtitle';
 import formatMs from '../../utils/formatMs';
+import { unfocus } from '../../utils/ui';
 
 const HeaderRow = styled.div`
   background-color: ${props => props.theme.pallete.gray[9]};
@@ -170,6 +171,8 @@ class Table extends React.Component<Props> {
 
   handleRowDoubleClick = ({ index }: RowMouseEventHandlerParams) => {
     const { subtitles, selectSubtitle, seek, endSeek } = this.props;
+
+    unfocus(window);
 
     selectSubtitle([index]);
     seek(subtitles[index].startTime / 1000);
