@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Layer } from 'react-konva';
 import Konva from 'konva';
 import Block from '../Block';
@@ -21,66 +21,41 @@ interface Props {
   endSeek(playbackOnSeekEnd: boolean): void;
 }
 
-const BlockList: React.SFC<Props> = ({
-  subtitles,
-  duration,
-  selectedIndex,
-  selectSubtitle,
-  updateSubtitle,
-  seek,
-  endSeek,
-}) => {
-  const handleMouseDown: Konva.HandlerFunc = event => {
-    console.log(event.target);
-    // clicked on stage - cler selection
-    // if (event.target.getLayer().name() === event.target.name()) {
-    //   console.log('here');
-    //   selectSubtitle([]);
-    //   return;
-    // }
+class BlockList extends PureComponent<Props> {
+  render() {
+    const {
+      subtitles,
+      duration,
+      selectedIndex,
+      selectSubtitle,
+      updateSubtitle,
+      seek,
+      endSeek,
+    } = this.props;
 
-    // clicked on transformer - do nothing
-    const clickedOnTransformer =
-      event.target.getParent().getClassName() === 'Transformer';
-    if (clickedOnTransformer) {
-      return;
-    }
-
-    // find clicked rect by its name
-    const blockIndex = subtitles.findIndex(
-      (_, index) => index === selectedIndex[0],
-    );
-
-    console.log(blockIndex);
-    if (blockIndex !== -1) {
-      selectSubtitle([blockIndex]);
-    } else {
-      selectSubtitle([]);
-    }
-  };
-
-  return (
-    <Layer>
-      {subtitles.map((subtitle, index) => (
-        <Block
-          key={index}
-          index={index}
-          duration={duration}
-          startTime={subtitle.startTime}
-          endTime={subtitle.endTime}
-          texts={subtitle.texts}
-          selected={selectedIndex.includes(index)}
-          selectSubtitle={selectSubtitle}
-          updateSubtitle={updateSubtitle}
-          seek={seek}
-          endSeek={endSeek}
+    return (
+      <Layer>
+        {subtitles.map((subtitle, index) => (
+          <Block
+            key={index}
+            index={index}
+            duration={duration}
+            startTime={subtitle.startTime}
+            endTime={subtitle.endTime}
+            texts={subtitle.texts}
+            selected={selectedIndex.includes(index)}
+            selectSubtitle={selectSubtitle}
+            updateSubtitle={updateSubtitle}
+            seek={seek}
+            endSeek={endSeek}
+          />
+        ))}
+        <Transformer
+          selectedIndex={selectedIndex[Math.max(selectedIndex.length - 1, 0)]}
         />
-      ))}
-      <Transformer
-        selectedIndex={selectedIndex[Math.max(selectedIndex.length - 1, 0)]}
-      />
-    </Layer>
-  );
-};
+      </Layer>
+    );
+  }
+}
 
 export default BlockList;
