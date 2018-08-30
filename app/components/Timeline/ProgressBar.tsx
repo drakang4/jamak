@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { createRef } from 'react';
+import Konva from 'konva';
 import { Layer, Group, Rect, Line } from 'react-konva';
 import { withTheme } from '../../styles/styled-components';
 import { ThemeInterface } from '../../styles/theme';
@@ -27,6 +28,8 @@ class ProgressBar extends React.Component<Props, State> {
     playbackOnSeekEnd: false,
   };
 
+  indicator = createRef<Konva.Group>();
+
   render() {
     const {
       currentTime,
@@ -47,9 +50,18 @@ class ProgressBar extends React.Component<Props, State> {
           width={width * zoomMultiple}
           height={16}
           fill={theme.pallete.gray[7]}
-          onMouseDown={this.onMouseDown}
+          onMouseDown={this.handleMouseDown}
         />
-        <Group x={position} y={0} listening={false}>
+        <Group
+          ref={this.indicator}
+          x={position}
+          y={0}
+          draggable
+          dragBoundFunc={pos => ({ x: pos.x, y: 0 })}
+          onDragStart={this.handleDragStart}
+          onDragMove={this.handleDragMove}
+          onDragEnd={this.handleDragEnd}
+        >
           <Rect
             x={-4}
             y={0}
@@ -67,50 +79,60 @@ class ProgressBar extends React.Component<Props, State> {
     );
   }
 
-  onMouseDown = ({ evt }: { evt: MouseEvent }) => {
+  handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
+    const indicator = this.indicator.current;
+
+    if (indicator) {
+      const { duration, width, zoomMultiple, onSeek } = this.props;
+
+      const barWidth = width * zoomMultiple;
+
+      const rate = evt.layerX / barWidth;
+
+      onSeek(rate * duration);
+
+      indicator.startDrag();
+    }
+  };
+
+  handleDragStart: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
     const { duration, playing, width, zoomMultiple, onSeek } = this.props;
+
     const barWidth = width * zoomMultiple;
 
-    let rate = evt.layerX / barWidth;
-    let cachedX = evt.layerX;
+    const rate = target.getPosition().x / barWidth;
 
     this.setState({ playbackOnSeekEnd: playing });
 
-    unfocus(window);
     onSeek(rate * duration);
+  };
 
-    const onMouseMove = (event: MouseEvent) => {
-      const { seeking } = this.props;
+  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
+    const { duration, seeking, width, zoomMultiple, onSeek } = this.props;
 
-      if (seeking) {
-        cachedX += event.movementX;
-        rate = cachedX / barWidth;
+    const barWidth = width * zoomMultiple;
 
-        if (rate < 0) {
-          rate = 0;
-        } else if (rate > 1) {
-          rate = 1;
-        }
+    if (seeking) {
+      let rate = target.getPosition().x / barWidth;
 
-        unfocus(window);
-        onSeek(rate * duration);
-      }
-    };
-
-    const onMouseUp = (event: MouseEvent) => {
-      const { seeking, onEndSeek } = this.props;
-      const { playbackOnSeekEnd } = this.state;
-
-      if (seeking) {
-        onEndSeek(playbackOnSeekEnd);
+      if (rate < 0) {
+        rate = 0;
+      } else if (rate > 1) {
+        rate = 1;
       }
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
+      unfocus(window);
+      onSeek(rate * duration);
+    }
+  };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  handleDragEnd: Konva.HandlerFunc<MouseEvent> = () => {
+    const { seeking, onEndSeek } = this.props;
+    const { playbackOnSeekEnd } = this.state;
+
+    if (seeking) {
+      onEndSeek(playbackOnSeekEnd);
+    }
   };
 }
 
