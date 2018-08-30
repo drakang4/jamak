@@ -34,20 +34,22 @@ class Video extends React.Component<Props> {
   componentDidUpdate(prevProps: Props) {
     const videoNode = this.video.current;
 
-    if (videoNode !== null) {
-      if (this.props.playing && !prevProps.playing) {
-        videoNode.play();
-      } else if (!this.props.playing && prevProps.playing) {
-        videoNode.pause();
-      }
-
-      if (this.props.seeking) {
-        videoNode.currentTime = this.props.currentTime;
-      }
-
-      videoNode.volume = this.props.volume;
-      videoNode.playbackRate = this.props.playbackRate;
+    if (!videoNode) {
+      return;
     }
+
+    if (this.props.playing && !prevProps.playing) {
+      videoNode.play();
+    } else if (!this.props.playing && prevProps.playing) {
+      videoNode.pause();
+    }
+
+    if (!this.props.playing) {
+      videoNode.currentTime = this.props.currentTime;
+    }
+
+    videoNode.volume = this.props.volume;
+    videoNode.playbackRate = this.props.playbackRate;
   }
 
   render() {
