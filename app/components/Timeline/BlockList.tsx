@@ -17,6 +17,8 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
+  seek(nextTime: number): void;
+  endSeek(playbackOnSeekEnd: boolean): void;
 }
 
 const BlockList: React.SFC<Props> = ({
@@ -25,6 +27,8 @@ const BlockList: React.SFC<Props> = ({
   selectedIndex,
   selectSubtitle,
   updateSubtitle,
+  seek,
+  endSeek,
 }) => {
   const handleMouseDown: Konva.HandlerFunc = event => {
     console.log(event.target);
@@ -68,6 +72,8 @@ const BlockList: React.SFC<Props> = ({
           selected={selectedIndex.includes(index)}
           selectSubtitle={selectSubtitle}
           updateSubtitle={updateSubtitle}
+          seek={seek}
+          endSeek={endSeek}
         />
       ))}
       <Transformer

@@ -163,6 +163,8 @@ class Timeline extends React.Component<Props, State> {
                         duration={duration}
                         selectSubtitle={selectSubtitle}
                         updateSubtitle={updateSubtitle}
+                        seek={seek}
+                        endSeek={endSeek}
                       />
                       {/* <AudioGraphContainer /> */}
                     </>

@@ -27,6 +27,8 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
+  seek(nextTime: number): void;
+  endSeek(playbackOnSeekEnd: boolean): void;
 }
 
 class Block extends PureComponent<Props> {
@@ -64,6 +66,7 @@ class Block extends PureComponent<Props> {
         onDragMove={this.handleDragMove}
         onDragEnd={this.handleDragEnd}
         onMouseDown={this.handleMouseDown}
+        onDblClick={this.handleDoubleClick}
       >
         <Rect
           x={0}
@@ -102,6 +105,13 @@ class Block extends PureComponent<Props> {
   handleMouseDown = () => {
     const { selectSubtitle, index } = this.props;
     selectSubtitle([index]);
+  };
+
+  handleDoubleClick = () => {
+    const { startTime, seek, endSeek } = this.props;
+
+    seek(startTime / 1000);
+    endSeek(false);
   };
 
   handleDragMove: Konva.HandlerFunc = () => {
