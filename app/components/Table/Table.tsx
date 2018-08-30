@@ -60,7 +60,6 @@ class Table extends React.Component<Props> {
             rowGetter={this.rowGetter}
             rowHeight={32}
             rowRenderer={this.rowRenderer}
-            onRowClick={this.handleRowClick}
             onRowDoubleClick={this.handleRowDoubleClick}
             overscanRowCount={10}
           >
@@ -168,13 +167,10 @@ class Table extends React.Component<Props> {
 
   textRenderer: TableCellRenderer = ({ cellData }) => cellData.join(' ');
 
-  handleRowClick = ({ index }: RowMouseEventHandlerParams) => {
-    this.props.selectSubtitle([index]);
-  };
-
   handleRowDoubleClick = ({ index }: RowMouseEventHandlerParams) => {
     const { subtitles } = this.props;
 
+    this.props.selectSubtitle([index]);
     this.props.timeUpdate(subtitles[index].startTime / 1000);
   };
 }
