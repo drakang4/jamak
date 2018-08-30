@@ -158,7 +158,6 @@ class Timeline extends React.Component<Props, State> {
                       <BlockList
                         subtitles={subtitles}
                         selectedIndex={selectedIndex}
-                        currentTime={currentTime}
                         duration={duration}
                         selectSubtitle={selectSubtitle}
                         updateSubtitle={updateSubtitle}

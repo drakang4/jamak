@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Group, Rect, Text } from 'react-konva';
 import { withTheme } from '../../styles/styled-components';
 import formatMs from '../../utils/formatMs';
@@ -10,7 +10,6 @@ import { unfocus } from '../../utils/ui';
 
 interface Props {
   index: number;
-  currentTime: number;
   duration: number;
   startTime: number;
   endTime: number;
@@ -30,13 +29,14 @@ interface Props {
   }): void;
 }
 
-class Block extends React.Component<Props> {
+class Block extends PureComponent<Props> {
   handleMouseDown = () => {
     const { selectSubtitle, index } = this.props;
     selectSubtitle([index]);
   };
 
   render() {
+    console.log('render block');
     const {
       index,
       duration,

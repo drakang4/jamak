@@ -8,7 +8,6 @@ import { Subtitle } from '../../models/subtitle';
 interface IProps {
   subtitles: Subtitle[];
   selectedIndex: number[];
-  currentTime: number;
   duration: number;
   selectSubtitle(indexes: number[]): void;
   updateSubtitle({
@@ -22,7 +21,6 @@ interface IProps {
 
 const BlockList: React.SFC<IProps> = ({
   subtitles,
-  currentTime,
   duration,
   selectedIndex,
   selectSubtitle,
@@ -63,7 +61,6 @@ const BlockList: React.SFC<IProps> = ({
         <Block
           key={index}
           index={index}
-          currentTime={currentTime}
           duration={duration}
           startTime={subtitle.startTime}
           endTime={subtitle.endTime}
