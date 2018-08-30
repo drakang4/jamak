@@ -30,13 +30,7 @@ interface Props {
 }
 
 class Block extends PureComponent<Props> {
-  handleMouseDown = () => {
-    const { selectSubtitle, index } = this.props;
-    selectSubtitle([index]);
-  };
-
   render() {
-    console.log('render block');
     const {
       index,
       duration,
@@ -81,8 +75,6 @@ class Block extends PureComponent<Props> {
           fill={
             selected ? theme.pallete.secondary[4] : theme.pallete.secondary[6]
           }
-          // stroke={theme.pallete.secondary[8]}
-          // strokeWidth={2}
           strokeEnabled={false}
           shadowForStrokeEnabled={false}
         />
@@ -107,32 +99,10 @@ class Block extends PureComponent<Props> {
     );
   }
 
-  // handleMouseMove = (event: MouseEvent) => {
-  //   if (event.currentTarget instanceof Element) {
-  //     const {
-  //       width: blockWidth,
-  //       left: blockLeft,
-  //       right: blockRight,
-  //     } = event.currentTarget.getBoundingClientRect();
-
-  //     const {
-  //       width: timelineWidth,
-  //     } = event.currentTarget.parentElement!.getBoundingClientRect();
-
-  //     let updatedBlockLeft = blockLeft + event.movementX;
-  //     let updatedBlockRight = blockRight - event.movementX;
-
-  //     if (updatedBlockLeft < 0) {
-  //       updatedBlockLeft = 0;
-  //     } else if (updatedBlockRight < 0) {
-  //       updatedBlockLeft = timelineWidth - blockWidth;
-  //       updatedBlockRight = 0;
-  //     }
-
-  //     const startTime = 0;
-  //     const endTime = 0;
-  //   }
-  // };
+  handleMouseDown = () => {
+    const { selectSubtitle, index } = this.props;
+    selectSubtitle([index]);
+  };
 
   handleDragMove: Konva.HandlerFunc = () => {
     unfocus(window);

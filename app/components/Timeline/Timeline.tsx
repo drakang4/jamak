@@ -178,11 +178,6 @@ class Timeline extends React.Component<Props, State> {
                 </SizeContext.Provider>
               </Stage>
             </SizedWrapper>
-            {/* <ScalableWrapper style={{ width: `${multiple * 100}%` }}>
-              <LinesWrapper onWheel={this.onWheel}>
-              <AudioGraphContainer />
-              </LinesWrapper>
-            </ScalableWrapper> */}
           </ScrollableWrapper>
         </InnerWrapper>
       </Wrapper>
