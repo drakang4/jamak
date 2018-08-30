@@ -37,8 +37,9 @@ const Row = styled.div`
 interface Props {
   subtitles: Subtitle[];
   theme: ThemeInterface;
-  timeUpdate(time: number): void;
   selectSubtitle(indexes: number[]): void;
+  seek(nextTime: number): void;
+  endSeek(playbackOnSeekEnd: boolean): void;
 }
 
 class Table extends React.Component<Props> {
@@ -168,10 +169,11 @@ class Table extends React.Component<Props> {
   textRenderer: TableCellRenderer = ({ cellData }) => cellData.join(' ');
 
   handleRowDoubleClick = ({ index }: RowMouseEventHandlerParams) => {
-    const { subtitles } = this.props;
+    const { subtitles, selectSubtitle, seek, endSeek } = this.props;
 
-    this.props.selectSubtitle([index]);
-    this.props.timeUpdate(subtitles[index].startTime / 1000);
+    selectSubtitle([index]);
+    seek(subtitles[index].startTime / 1000);
+    endSeek(false);
   };
 }
 
