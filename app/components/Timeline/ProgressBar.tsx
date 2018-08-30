@@ -79,41 +79,49 @@ class ProgressBar extends React.Component<Props, State> {
     );
   }
 
-  handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
-    const indicator = this.indicator.current;
-
-    if (indicator) {
-      const { duration, width, zoomMultiple, onSeek } = this.props;
-
-      const barWidth = width * zoomMultiple;
-
-      const rate = evt.layerX / barWidth;
-
-      onSeek(rate * duration);
-
-      indicator.startDrag();
-    }
-  };
-
-  handleDragStart: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    const { duration, playing, width, zoomMultiple, onSeek } = this.props;
+  getBarWidth = () => {
+    const { width, zoomMultiple } = this.props;
 
     const barWidth = width * zoomMultiple;
 
-    const rate = target.getPosition().x / barWidth;
+    return barWidth;
+  };
+
+  startSeek = (position: number) => {
+    const { duration, playing, onSeek } = this.props;
+
+    const rate = position / this.getBarWidth();
 
     this.setState({ playbackOnSeekEnd: playing });
 
     onSeek(rate * duration);
   };
 
-  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    const { duration, seeking, width, zoomMultiple, onSeek } = this.props;
+  handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
+    const indicator = this.indicator.current;
 
-    const barWidth = width * zoomMultiple;
+    if (indicator) {
+      this.startSeek(evt.layerX);
+
+      indicator.startDrag();
+    }
+  };
+
+  handleDragStart: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
+    const { seeking } = this.props;
+
+    if (!seeking) {
+      const { x } = target.getPosition();
+
+      this.startSeek(x);
+    }
+  };
+
+  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
+    const { duration, seeking, onSeek } = this.props;
 
     if (seeking) {
-      let rate = target.getPosition().x / barWidth;
+      let rate = target.getPosition().x / this.getBarWidth();
 
       if (rate < 0) {
         rate = 0;
