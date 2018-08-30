@@ -14,7 +14,7 @@ const StyledVideo = styled.video`
   height: 100%;
 `;
 
-interface IProps {
+interface Props {
   source: string;
   playing: boolean;
   muted: boolean;
@@ -28,10 +28,10 @@ interface IProps {
   onEnded(): void;
 }
 
-class Video extends React.Component<IProps> {
+class Video extends React.Component<Props> {
   video = React.createRef<HTMLVideoElement>();
 
-  componentDidUpdate(prevProps: IProps) {
+  componentDidUpdate(prevProps: Props) {
     const videoNode = this.video.current;
 
     if (videoNode !== null) {

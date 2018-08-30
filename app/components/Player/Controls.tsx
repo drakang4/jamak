@@ -50,7 +50,7 @@ const Volume = styled.input`
   }
 `;
 
-interface IProps {
+interface Props {
   playing: boolean;
   muted: boolean;
   volume: number;
@@ -63,7 +63,7 @@ interface IProps {
   onSpeedChange(volume: number): void;
 }
 
-const Controls: React.SFC<IProps> = ({
+const Controls: React.SFC<Props> = ({
   playing,
   muted,
   volume,

@@ -70,14 +70,14 @@ const DisabledButton = styled(StyledButton)`
   }
 `;
 
-interface IProps {
+interface Props {
   children?: React.ReactChild;
   accent?: boolean;
   disabled?: boolean;
   onClick?: React.MouseEventHandler;
 }
 
-const Button: React.StatelessComponent<IProps> = ({
+const Button: React.StatelessComponent<Props> = ({
   children,
   accent,
   disabled,

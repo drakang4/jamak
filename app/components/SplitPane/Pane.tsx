@@ -8,13 +8,13 @@ const Wrapper = styled.div`
   outline: 0;
 `;
 
-interface IProps {
+interface Props {
   type?: 'vertical' | 'horizontal';
   size?: string | number;
   children?: React.ReactNode;
 }
 
-class Pane extends React.PureComponent<IProps> {
+class Pane extends React.PureComponent<Props> {
   public render() {
     const { type, size, children } = this.props;
 

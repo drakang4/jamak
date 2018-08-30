@@ -5,7 +5,7 @@ import Block from '../Block';
 import Transformer from '../Block/Transformer';
 import { Subtitle } from '../../models/subtitle';
 
-interface IProps {
+interface Props {
   subtitles: Subtitle[];
   selectedIndex: number[];
   duration: number;
@@ -19,7 +19,7 @@ interface IProps {
   }): void;
 }
 
-const BlockList: React.SFC<IProps> = ({
+const BlockList: React.SFC<Props> = ({
   subtitles,
   duration,
   selectedIndex,

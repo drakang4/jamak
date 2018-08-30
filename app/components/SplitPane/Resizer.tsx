@@ -30,14 +30,14 @@ const Wrapper = styled.span<{
         `};
 `;
 
-interface IProps {
+interface Props {
   type: 'vertical' | 'horizontal';
   active: boolean;
   resizeDisabled: boolean;
   onMouseDown(event: any): void;
 }
 
-class Resizer extends React.Component<IProps> {
+class Resizer extends React.Component<Props> {
   public render() {
     const { type, active, resizeDisabled, onMouseDown } = this.props;
 

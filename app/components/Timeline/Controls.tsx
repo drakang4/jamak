@@ -24,7 +24,7 @@ const Button = styled.button`
   }
 `;
 
-interface IProps {
+interface Props {
   currentTime: number;
   duration: number;
   onAdd(subtitle: Subtitle): void;
@@ -32,7 +32,7 @@ interface IProps {
   onDelete(index: number): void;
 }
 
-class Controls extends React.Component<IProps> {
+class Controls extends React.Component<Props> {
   handleAdd: React.MouseEventHandler = () => {
     const { currentTime, duration } = this.props;
 

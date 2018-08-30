@@ -21,12 +21,12 @@ const Duration = styled.span`
   user-select: none;
 `;
 
-interface IProps {
+interface Props {
   currentTime: number;
   duration: number;
 }
 
-const TimeBar: React.SFC<IProps> = ({ currentTime, duration }) => (
+const TimeBar: React.SFC<Props> = ({ currentTime, duration }) => (
   <Wrapper>
     <CurrentTime>{formatMs(currentTime * 1000)}</CurrentTime>
     <Duration>{formatMs(duration * 1000)}</Duration>

@@ -15,7 +15,7 @@ const Wrapper = styled.div<{ type: 'vertical' | 'horizontal' }>`
   flex-direction: ${props => (props.type === 'vertical' ? 'row' : 'column')};
 `;
 
-interface IProps {
+interface Props {
   type: 'vertical' | 'horizontal';
   resizeDisabled: boolean;
   defaultSize: string;
@@ -27,7 +27,7 @@ interface IState {
   position: string;
 }
 
-class SplitPane extends React.Component<IProps, IState> {
+class SplitPane extends React.Component<Props, IState> {
   static defaultProps = {
     type: 'vertical',
     resizeDisabled: false,
