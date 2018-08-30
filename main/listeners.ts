@@ -1,4 +1,4 @@
-import Electron, { ipcMain } from 'electron';
+import { ipcMain } from 'electron';
 import {
   openVideoDialog,
   openSubtitleDialog,

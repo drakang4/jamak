@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain, WebContents } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import {
   default as installExtension,
   REACT_DEVELOPER_TOOLS,
