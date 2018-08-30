@@ -44,7 +44,7 @@ class Video extends React.Component<Props> {
       videoNode.pause();
     }
 
-    if (!this.props.playing) {
+    if (this.props.seeking) {
       videoNode.currentTime = this.props.currentTime;
     }
 
