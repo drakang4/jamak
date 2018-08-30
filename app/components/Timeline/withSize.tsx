@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import SizeContext from './SizeContext';
 
 export interface SizeProps {
@@ -13,7 +13,7 @@ type Subtract<T, K> = Omit<T, keyof K>;
 const withSize = <P extends SizeProps>(
   WrappedComponent: React.ComponentType<P>,
 ) =>
-  class WithSize extends Component<Subtract<P, SizeProps>> {
+  class WithSize extends PureComponent<Subtract<P, SizeProps>> {
     render() {
       return (
         <SizeContext.Consumer>
