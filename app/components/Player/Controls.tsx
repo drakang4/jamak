@@ -82,7 +82,11 @@ const Controls: React.SFC<Props> = ({
 
   return (
     <Wrapper>
-      <Button onClick={playing ? onPause : onPlay}>
+      <Button
+        onClick={playing ? onPause : onPlay}
+        onFocus={e => e.target.blur()}
+        tabIndex={-1}
+      >
         <svg viewBox="0 0 48 48">
           {playing ? (
             <path d="M12,38h8V10h-8V38z M28,10v28h8V10H28z" />
@@ -91,7 +95,11 @@ const Controls: React.SFC<Props> = ({
           )}
         </svg>
       </Button>
-      <Button onClick={muted ? onUnmute : onMute}>
+      <Button
+        onClick={muted ? onUnmute : onMute}
+        onFocus={e => e.target.blur()}
+        tabIndex={-1}
+      >
         <svg viewBox="0 0 48 48">
           {muted || volume === 0 ? (
             <path d="M14,18v12h8l10,10V8L22,18H14z" />
@@ -101,12 +109,14 @@ const Controls: React.SFC<Props> = ({
         </svg>
       </Button>
       <Volume
+        tabIndex={-1}
         type="range"
         step={0.01}
         min={0}
         max={1}
         value={muted ? 0 : volume}
         onChange={handleVolumeChange}
+        onFocus={e => e.target.blur()}
       />
     </Wrapper>
   );
