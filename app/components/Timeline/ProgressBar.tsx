@@ -61,6 +61,7 @@ class ProgressBar extends React.Component<Props, State> {
           onDragStart={this.handleDragStart}
           onDragMove={this.handleDragMove}
           onDragEnd={this.handleDragEnd}
+          onMouseUp={this.endSeek}
         >
           <Rect
             x={-4}
@@ -97,12 +98,21 @@ class ProgressBar extends React.Component<Props, State> {
     onSeek(rate * duration);
   };
 
+  endSeek = () => {
+    const { seeking, onEndSeek } = this.props;
+    const { playbackOnSeekEnd } = this.state;
+
+    if (seeking) {
+      onEndSeek(playbackOnSeekEnd);
+    }
+  };
+
   handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
+    this.startSeek(evt.layerX);
+
     const indicator = this.indicator.current;
 
     if (indicator) {
-      this.startSeek(evt.layerX);
-
       indicator.startDrag();
     }
   };
@@ -135,12 +145,7 @@ class ProgressBar extends React.Component<Props, State> {
   };
 
   handleDragEnd: Konva.HandlerFunc<MouseEvent> = () => {
-    const { seeking, onEndSeek } = this.props;
-    const { playbackOnSeekEnd } = this.state;
-
-    if (seeking) {
-      onEndSeek(playbackOnSeekEnd);
-    }
+    this.endSeek();
   };
 }
 
