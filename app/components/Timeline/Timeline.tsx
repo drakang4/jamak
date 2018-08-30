@@ -131,6 +131,8 @@ class Timeline extends React.Component<Props, State> {
             <ResizeDetector
               handleWidth
               handleHeight
+              refreshMode="debounce"
+              refreshRate={16} // ~60fps
               onResize={this.handleResize}
             />
             <SizedWrapper
@@ -162,7 +164,7 @@ class Timeline extends React.Component<Props, State> {
                         selectSubtitle={selectSubtitle}
                         updateSubtitle={updateSubtitle}
                       />
-                      <AudioGraphContainer />
+                      {/* <AudioGraphContainer /> */}
                     </>
                   )}
                   <ProgressBar
