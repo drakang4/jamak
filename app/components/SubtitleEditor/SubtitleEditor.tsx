@@ -61,17 +61,21 @@ class SubtitleEditor extends Component<Props> {
 
   render() {
     const { currentSubtitle } = this.props;
-    return (
-      <Wrapper>
-        <StyledTextArea
-          cols={42}
-          maxRows={2}
-          useCacheForDOMMeasurements
-          value={currentSubtitle ? currentSubtitle.texts.join('\n') : ''}
-          onChange={this.handleChange}
-        />
-      </Wrapper>
-    );
+
+    if (currentSubtitle) {
+      return (
+        <Wrapper>
+          <StyledTextArea
+            cols={42}
+            maxRows={2}
+            value={currentSubtitle.texts.join('\n')}
+            onChange={this.handleChange}
+          />
+        </Wrapper>
+      );
+    }
+
+    return null;
   }
 }
 
