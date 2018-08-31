@@ -2,7 +2,9 @@ import React from 'react';
 import styled from '../../styles/styled-components';
 import RecentFile from './RecentFile';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  flex: 1;
+`;
 
 const Title = styled.p`
   color: ${props => props.theme.pallete.gray[5]};
@@ -11,10 +13,16 @@ const Title = styled.p`
   margin-bottom: 24px;
 `;
 
+const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: -16px;
+`;
+
 const RecentFileList = () => (
   <Wrapper>
     <Title>Recent files</Title>
-    <RecentFile />
+    <List />
   </Wrapper>
 );
 

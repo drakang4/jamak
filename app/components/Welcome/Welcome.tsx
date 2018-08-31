@@ -12,17 +12,27 @@ const Wrapper = styled.div`
 interface Props {
   subtitleReady: boolean;
   videoReady: boolean;
+  subtitleFileName: string;
+  videoFileName: string;
   newData(): void;
 }
 
-const Welcome: React.SFC<Props> = ({ subtitleReady, videoReady, newData }) => (
+const Welcome: React.SFC<Props> = ({
+  subtitleReady,
+  videoReady,
+  subtitleFileName,
+  videoFileName,
+  newData,
+}) => (
   <Wrapper>
     <ButtonList
       subtitleReady={subtitleReady}
       videoReady={videoReady}
+      subtitleFileName={subtitleFileName}
+      videoFileName={videoFileName}
       newData={newData}
     />
-    {/* <RecentFileList /> */}
+    <RecentFileList />
   </Wrapper>
 );
 

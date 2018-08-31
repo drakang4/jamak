@@ -3,6 +3,8 @@ import styled from '../../styles/styled-components';
 
 const Wrapper = styled.div`
   border-radius: 8px;
+  width: 256px;
+  margin: 16px;
 `;
 
 const VideoThumbnailWrapper = styled.div`
@@ -29,8 +31,8 @@ const RecentFile = () => (
   <Wrapper>
     <VideoThumbnailWrapper />
     <FilePathInfoWrapper>
-      <Text>adsd.mp4</Text>
-      <Text>adsd.srt</Text>
+      <Text />
+      <Text />
     </FilePathInfoWrapper>
   </Wrapper>
 );

@@ -37,6 +37,7 @@ const Title = styled.p`
   line-height: 1;
   margin: 0;
   margin-bottom: 24px;
+  text-overflow: ellipsis;
 `;
 
 const Section = styled.div`
@@ -48,12 +49,16 @@ const Section = styled.div`
 interface Props extends RouteComponentProps<any> {
   subtitleReady: boolean;
   videoReady: boolean;
+  subtitleFileName: string;
+  videoFileName: string;
   newData(): void;
 }
 
 const ButtonList: React.SFC<Props> = ({
   subtitleReady,
   videoReady,
+  subtitleFileName,
+  videoFileName,
   newData,
   history,
 }) => {
@@ -97,7 +102,7 @@ const ButtonList: React.SFC<Props> = ({
           <Button disabled>Edit without video...</Button>
         </Section>
       </TopWrapper>
-      <Section style={{ marginBottom: 0 }}>
+      <Section style={{ marginBottom: 0, flexShrink: 0 }}>
         <Button
           accent
           disabled={!subtitleReady || !videoReady}
