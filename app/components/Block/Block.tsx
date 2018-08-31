@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import { Group, Rect, Text } from 'react-konva';
 import { withTheme } from '../../styles/styled-components';
 import formatMs from '../../utils/formatMs';
@@ -32,6 +32,74 @@ interface Props {
 }
 
 class Block extends PureComponent<Props> {
+  block = createRef<Konva.Group>();
+
+  cacheBlock = () => {
+    const block = this.block.current;
+
+    if (!block) {
+      return;
+    }
+
+    block.cache();
+  };
+
+  handleMouseDown = () => {
+    const { selectSubtitle, index } = this.props;
+    selectSubtitle([index]);
+  };
+
+  handleDoubleClick = () => {
+    const { startTime, seek, endSeek } = this.props;
+
+    seek(startTime / 1000);
+    endSeek(false);
+  };
+
+  handleDragMove: Konva.HandlerFunc = () => {
+    unfocus(window);
+  };
+
+  handleDragEnd: Konva.HandlerFunc = ({ target }) => {
+    const { index, texts, duration, zoomMultiple, updateSubtitle } = this.props;
+
+    const startTime =
+      (target.x() / target.getLayer().width() / zoomMultiple) * duration * 1000;
+    const endTime =
+      ((target.x() + target.width()) /
+        target.getLayer().width() /
+        zoomMultiple) *
+      duration *
+      1000;
+
+    updateSubtitle({
+      index,
+      subtitle: {
+        startTime,
+        endTime,
+        texts,
+      },
+    });
+  };
+
+  componentDidMount() {
+    this.cacheBlock();
+  }
+
+  componentDidUpdate() {
+    this.cacheBlock();
+  }
+
+  componentWillUnmount() {
+    const block = this.block.current;
+
+    if (!block) {
+      return;
+    }
+
+    block.clearCache();
+  }
+
   render() {
     const {
       index,
@@ -54,6 +122,7 @@ class Block extends PureComponent<Props> {
 
     return (
       <Group
+        ref={this.block}
         name={`${index}`}
         x={blockX}
         y={blockY}
@@ -101,44 +170,6 @@ class Block extends PureComponent<Props> {
       </Group>
     );
   }
-
-  handleMouseDown = () => {
-    const { selectSubtitle, index } = this.props;
-    selectSubtitle([index]);
-  };
-
-  handleDoubleClick = () => {
-    const { startTime, seek, endSeek } = this.props;
-
-    seek(startTime / 1000);
-    endSeek(false);
-  };
-
-  handleDragMove: Konva.HandlerFunc = () => {
-    unfocus(window);
-  };
-
-  handleDragEnd: Konva.HandlerFunc = ({ target }) => {
-    const { index, texts, duration, zoomMultiple, updateSubtitle } = this.props;
-
-    const startTime =
-      (target.x() / target.getLayer().width() / zoomMultiple) * duration * 1000;
-    const endTime =
-      ((target.x() + target.width()) /
-        target.getLayer().width() /
-        zoomMultiple) *
-      duration *
-      1000;
-
-    updateSubtitle({
-      index,
-      subtitle: {
-        startTime,
-        endTime,
-        texts,
-      },
-    });
-  };
 }
 
 export default withSize(withTheme(Block));

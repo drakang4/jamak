@@ -37,7 +37,7 @@ class AudioGraph extends PureComponent<Props> {
     context.fillShape(shape);
   };
 
-  componentDidMount() {
+  cacheWaveform = () => {
     const waveform = this.waveform.current;
 
     if (!waveform) {
@@ -45,10 +45,14 @@ class AudioGraph extends PureComponent<Props> {
     }
 
     waveform.cache();
+  };
+
+  componentDidMount() {
+    this.cacheWaveform();
   }
 
   componentDidUpdate() {
-    console.log('AudioGraph updated');
+    this.cacheWaveform();
   }
 
   componentWillUnmount() {
