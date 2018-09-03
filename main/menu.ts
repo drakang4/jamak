@@ -1,11 +1,10 @@
 import { Menu, shell, dialog } from 'electron';
-import htmlToText from 'html-to-text';
 import {
   openSubtitleDialog,
   openVideoDialog,
   saveAsSubtitleDialog,
 } from './fileDialogs';
-import { getVersion, getLicense } from './utils';
+import { getVersion, getLicense, openWebsite } from './utils';
 
 const ipcSender = (channel: string, ...args: any[]) => (
   menuItem: Electron.MenuItem,
@@ -142,7 +141,7 @@ const template: Electron.MenuItemConstructorOptions[] = [
       {
         label: 'Official Website',
         click: () => {
-          shell.openExternal('https://github.com/drakang4/jamak');
+          openWebsite();
         },
       },
       {

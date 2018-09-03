@@ -3,7 +3,11 @@
   "productName": "Jamak",
   "version": "1.0.0-alpha.1",
   "description": "My Electron application description",
-  "repository": "https://github.com/Heeryong-Kang/jamak",
+  "homepage": "https://github.com/drakang4/jamak",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drakang4/jamak.git"
+  },
   "main": "./.webpack/main",
   "scripts": {
     "start": "electron-forge start",

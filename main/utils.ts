@@ -1,6 +1,7 @@
+import { shell } from 'electron';
 import { stripIndent } from 'common-tags';
 
-const { version } = require('../package.json');
+const { version, homepage } = require('../package.json');
 const license = require('../LICENSE.md');
 
 export const getVersion = () => {
@@ -18,4 +19,8 @@ export const getVersion = () => {
 
 export const getLicense = () => {
   return htmlToText.fromString(license);
+};
+
+export const openWebsite = () => {
+  shell.openExternal(homepage);
 };
