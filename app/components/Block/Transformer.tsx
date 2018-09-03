@@ -190,6 +190,7 @@ class Transformer extends Component<Props, State> {
             x: pos.x,
             y: this.leftAnchor.current!.getAbsolutePosition().y,
           })}
+          dragDistance={0}
           onDragStart={this.handleDragStart}
           onDragMove={this.handleDragMove}
           onDragEnd={this.handleDragEnd}
@@ -210,6 +211,7 @@ class Transformer extends Component<Props, State> {
             x: pos.x,
             y: this.rightAnchor.current!.getAbsolutePosition().y,
           })}
+          dragDistance={0}
           onDragStart={this.handleDragStart}
           onDragMove={this.handleDragMove}
           onDragEnd={this.handleDragEnd}
