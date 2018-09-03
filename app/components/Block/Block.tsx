@@ -77,10 +77,22 @@ class Block extends PureComponent<Props> {
   };
 
   handleDragMove: Konva.HandlerFunc = ({ target }) => {
+    const { zoomMultiple } = this.props;
+
     unfocus(window);
 
     const layer = this.block.current!.getLayer();
     const transformer = layer.findOne('.transformer');
+
+    // Bound block in timeline and between previous and next blocks.
+    if (target.getPosition().x < 0) {
+      target.x(0);
+    } else if (
+      target.getPosition().x + target.getWidth() >
+      layer.getWidth() * zoomMultiple
+    ) {
+      target.x(layer.getWidth() * zoomMultiple - target.getWidth());
+    }
 
     transformer.position(target.getPosition());
   };
@@ -117,8 +129,6 @@ class Block extends PureComponent<Props> {
         texts,
       },
     });
-
-    console.log(event);
   };
 
   componentDidMount() {
@@ -167,8 +177,6 @@ class Block extends PureComponent<Props> {
         y={blockY}
         width={blockWidth}
         height={blockHeight}
-        scaleX={1}
-        scaleY={1}
         draggable
         dragBoundFunc={pos => ({ x: pos.x, y: blockY })}
         onDragMove={this.handleDragMove}
@@ -181,8 +189,6 @@ class Block extends PureComponent<Props> {
         <Rect
           x={0}
           y={0}
-          scaleX={1}
-          scaleY={1}
           width={blockWidth}
           height={blockHeight}
           fill={
