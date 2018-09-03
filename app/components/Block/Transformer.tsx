@@ -69,10 +69,30 @@ class Transformer extends Component<Props, State> {
     }
   };
 
+  fadeInRect = () => {
+    const { theme } = this.props;
+
+    this.rect.current!.to({
+      fill: theme.pallete.primary[4],
+      duration: 0.2,
+      easing: Konva.Easings.EaseOut,
+    });
+  };
+
+  fadeOutRect = () => {
+    this.rect.current!.to({
+      fill: 'rgba(0,0,0,0)',
+      duration: 0.2,
+      easing: Konva.Easings.EaseOut,
+    });
+  };
+
   handleDragStart: Konva.HandlerFunc<MouseEvent> = () => {
     this.setState({
       transforming: true,
     });
+
+    this.fadeInRect();
 
     const selectedBlock = this.getNode();
 
@@ -81,14 +101,11 @@ class Transformer extends Component<Props, State> {
     }
   };
 
-  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    const { zoomMultiple } = this.props;
-    const { transforming, size } = this.state;
+  handleDragMove: Konva.HandlerFunc<MouseEvent> = () => {
+    const { transforming } = this.state;
 
     const leftAnchor = this.leftAnchor.current!;
     const rightAnchor = this.rightAnchor.current!;
-
-    const name = target.name();
 
     if (transforming) {
       const selectedBlock = this.getNode();
@@ -103,8 +120,6 @@ class Transformer extends Component<Props, State> {
         this.setState(prevState => ({
           size: { width, height: prevState.size.height },
           position: {
-            // x,
-            // This works fine when zoomMultiple value is 1.
             x,
             y: prevState.position.y,
           },
@@ -116,10 +131,12 @@ class Transformer extends Component<Props, State> {
   };
 
   handleDragEnd: Konva.HandlerFunc<MouseEvent> = () => {
-    const { transforming, position, size } = this.state;
+    const { transforming } = this.state;
 
     if (transforming) {
       this.setState({ transforming: false });
+
+      this.fadeOutRect();
 
       const selectedBlock = this.getNode();
 
@@ -128,17 +145,12 @@ class Transformer extends Component<Props, State> {
       if (selectedBlock) {
         selectedBlock.fire('transformend', { transformer });
       }
-
-      // this.setState({
-      //   // size: { width: 0, height: 0 },
-      //   // position: { x: 0, y: 0 },
-      // });
     }
   };
 
   render() {
     const { selectedIndex, theme } = this.props;
-    const { transforming, position, size, anchorSize } = this.state;
+    const { position, size, anchorSize } = this.state;
 
     return (
       <Group
@@ -158,7 +170,6 @@ class Transformer extends Component<Props, State> {
           y={0}
           stroke={theme.pallete.primary[4]}
           strokeWidth={2}
-          fill={transforming ? theme.pallete.primary[4] : 'transparent'}
           opacity={0.4}
           listening={false}
           name="transformer-rect"
