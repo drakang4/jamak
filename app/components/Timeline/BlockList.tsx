@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Layer } from 'react-konva';
-import Konva from 'konva';
 import Block from '../Block';
 import Transformer from '../Block/Transformer';
 import { Subtitle } from '../../models/subtitle';

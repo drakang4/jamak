@@ -1,24 +1,35 @@
 import React, { Component, createRef } from 'react';
 import { Group, Rect } from 'react-konva';
 import Konva from 'konva';
+import withSize from '../Timeline/withSize';
 import { withTheme } from '../../styles/styled-components';
 import { ThemeInterface } from '../../styles/theme';
 
 interface Props {
-  selectedIndex: number;
+  selectedIndex: number | undefined;
   theme: ThemeInterface;
+  width: number;
+  height: number;
+  zoomMultiple: number;
 }
 
 interface State {
+  transforming: boolean;
+  position: { x: number; y: number };
+  size: { width: number; height: number };
   anchorSize: number;
 }
 
 class Transformer extends Component<Props, State> {
   transformer = createRef<Konva.Group>();
+  rect = createRef<Konva.Rect>();
   leftAnchor = createRef<Konva.Rect>();
   rightAnchor = createRef<Konva.Rect>();
 
   state = {
+    transforming: false,
+    position: { x: 0, y: 0 },
+    size: { width: 0, height: 0 },
     anchorSize: 8,
   };
 
@@ -26,74 +37,178 @@ class Transformer extends Component<Props, State> {
     this.attachNode();
   }
 
-  componentDidUpdate() {
-    this.attachNode();
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.selectedIndex !== prevProps.selectedIndex) {
+      this.attachNode();
+    }
   }
 
-  attachNode = () => {
+  getNode = () => {
     const { selectedIndex } = this.props;
-    const { anchorSize } = this.state;
 
     const transformer = this.transformer.current!;
+
+    if (typeof selectedIndex === 'number' && selectedIndex >= 0) {
+      const layer = transformer.getLayer();
+      const node = layer.findOne(`.${selectedIndex}`);
+
+      return node;
+    }
+
+    return null;
+  };
+
+  attachNode = () => {
+    const selectedBlock = this.getNode();
+
+    if (selectedBlock) {
+      const { width, height } = selectedBlock.getSize();
+      const { x, y } = selectedBlock.getPosition();
+
+      this.setState({ size: { width, height }, position: { x, y } });
+    }
+  };
+
+  handleDragStart: Konva.HandlerFunc<MouseEvent> = () => {
+    this.setState({
+      transforming: true,
+    });
+
+    const selectedBlock = this.getNode();
+
+    if (selectedBlock) {
+      selectedBlock.fire('transformstart');
+    }
+  };
+
+  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
+    const { zoomMultiple } = this.props;
+    const { transforming } = this.state;
+
     const leftAnchor = this.leftAnchor.current!;
     const rightAnchor = this.rightAnchor.current!;
 
-    if (selectedIndex >= 0) {
-      if (transformer !== null) {
-        // 1. Find selected block node.
-        const layer = transformer.getLayer();
-        const selectedBlock = layer.findOne(`.${selectedIndex}`);
+    const name = target.name();
 
-        // 2. Attach transformer to the node.
-        if (selectedBlock) {
-          const { width, height } = selectedBlock.getSize();
-          const { x, y } = selectedBlock.getPosition();
+    if (transforming) {
+      const selectedBlock = this.getNode();
 
-          transformer.setSize({ width, height });
-          transformer.position({ x, y });
-          leftAnchor.position({ x: -anchorSize / 2, y: height / 2 });
-          rightAnchor.position({ x: -anchorSize / 2 + width, y: height / 2 });
-        }
+      if (selectedBlock) {
+        const width =
+          Math.abs(rightAnchor.getAbsolutePosition().x) -
+          Math.abs(leftAnchor.getAbsolutePosition().x);
+
+        // TODO: How can I calculate x?
+
+        console.log('right', rightAnchor.getAbsolutePosition());
+        console.log('left', leftAnchor.getAbsolutePosition());
+
+        this.setState(prevState => ({
+          size: { width, height: prevState.size.height },
+          position: {
+            // x,
+            // This works fine when zoomMultiple value is 1.
+            x: leftAnchor.getAbsolutePosition().x,
+            y: prevState.position.y,
+          },
+        }));
+
+        selectedBlock.fire('transform');
       }
     }
-    // else {
-    //   transformer.setSize({ width: 0, height: 0 });
-    //   transformer.position({ x: 0, y: 0 });
-    //   leftAnchor.position({ x: 0, y: 0 });
-    //   rightAnchor.position({ x: 0, y: 0 });
-    // }
+  };
+
+  handleDragEnd: Konva.HandlerFunc<MouseEvent> = () => {
+    const { transforming, position, size } = this.state;
+
+    if (transforming) {
+      this.setState({ transforming: false });
+
+      const selectedBlock = this.getNode();
+
+      const transformer = this.transformer.current!;
+
+      if (selectedBlock) {
+        selectedBlock.fire('transformend', { transformer });
+      }
+
+      // this.setState({
+      //   // size: { width: 0, height: 0 },
+      //   // position: { x: 0, y: 0 },
+      // });
+    }
   };
 
   render() {
     const { selectedIndex, theme } = this.props;
+    const { transforming, position, size, anchorSize } = this.state;
 
     return (
-      <Group ref={this.transformer} visible={selectedIndex >= 0}>
+      <Group
+        ref={this.transformer}
+        visible={typeof selectedIndex === 'number' && selectedIndex >= 0}
+        width={size.width}
+        height={size.height}
+        x={position.x}
+        y={position.y}
+        name="transformer"
+      >
+        <Rect
+          ref={this.rect}
+          width={size.width}
+          height={size.height}
+          x={0}
+          y={0}
+          stroke={theme.pallete.primary[4]}
+          strokeWidth={2}
+          fill={transforming ? theme.pallete.primary[4] : 'transparent'}
+          opacity={0.4}
+          listening={false}
+          name="transformer-rect"
+        />
         <Rect
           ref={this.leftAnchor}
           width={8}
           height={8}
+          x={0}
+          y={size.height / 2}
+          offsetX={anchorSize / 2}
           stroke={theme.pallete.primary[4]}
           strokeWidth={1}
           fill="#fff"
           name="anchor-left"
           draggable
-          dragDistance={0}
+          dragBoundFunc={pos => ({
+            x: pos.x,
+            y: this.leftAnchor.current!.getAbsolutePosition().y,
+          })}
+          onDragStart={this.handleDragStart}
+          onDragMove={this.handleDragMove}
+          onDragEnd={this.handleDragEnd}
         />
         <Rect
           ref={this.rightAnchor}
           width={8}
           height={8}
+          x={size.width}
+          y={size.height / 2}
+          offsetX={anchorSize / 2}
           stroke={theme.pallete.primary[4]}
           strokeWidth={1}
           fill="#fff"
           name="anchor-right"
           draggable
-          dragDistance={0}
+          dragBoundFunc={pos => ({
+            x: pos.x,
+            y: this.rightAnchor.current!.getAbsolutePosition().y,
+          })}
+          onDragStart={this.handleDragStart}
+          onDragMove={this.handleDragMove}
+          onDragEnd={this.handleDragEnd}
         />
       </Group>
     );
   }
 }
 
-export default withTheme(Transformer);
+export default withSize(withTheme(Transformer));

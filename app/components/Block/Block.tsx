@@ -8,6 +8,10 @@ import Konva from 'konva';
 import { Subtitle } from '../../models/subtitle';
 import { unfocus } from '../../utils/ui';
 
+type TransformHandlerFunc<E = Event> = ((
+  e: { transformer: Konva.Shape },
+) => void);
+
 interface Props {
   index: number;
   duration: number;
@@ -44,6 +48,22 @@ class Block extends PureComponent<Props> {
     block.cache();
   };
 
+  calculateTimes = (block: Konva.Shape) => {
+    const { duration, zoomMultiple } = this.props;
+
+    const startTime =
+      (block.x() / block.getLayer().width() / zoomMultiple) * duration * 1000;
+    const endTime =
+      ((block.x() + block.width()) / block.getLayer().width() / zoomMultiple) *
+      duration *
+      1000;
+
+    return {
+      startTime,
+      endTime,
+    };
+  };
+
   handleMouseDown = () => {
     const { selectSubtitle, index } = this.props;
     selectSubtitle([index]);
@@ -56,21 +76,19 @@ class Block extends PureComponent<Props> {
     endSeek(false);
   };
 
-  handleDragMove: Konva.HandlerFunc = () => {
+  handleDragMove: Konva.HandlerFunc = ({ target }) => {
     unfocus(window);
+
+    const layer = this.block.current!.getLayer();
+    const transformer = layer.findOne('.transformer');
+
+    transformer.position(target.getPosition());
   };
 
   handleDragEnd: Konva.HandlerFunc = ({ target }) => {
-    const { index, texts, duration, zoomMultiple, updateSubtitle } = this.props;
+    const { index, texts, updateSubtitle } = this.props;
 
-    const startTime =
-      (target.x() / target.getLayer().width() / zoomMultiple) * duration * 1000;
-    const endTime =
-      ((target.x() + target.width()) /
-        target.getLayer().width() /
-        zoomMultiple) *
-      duration *
-      1000;
+    const { startTime, endTime } = this.calculateTimes(target);
 
     updateSubtitle({
       index,
@@ -80,6 +98,27 @@ class Block extends PureComponent<Props> {
         texts,
       },
     });
+  };
+
+  handleTransform: Konva.HandlerFunc = () => {
+    unfocus(window);
+  };
+
+  handleTransformEnd: TransformHandlerFunc = ({ transformer }) => {
+    const { index, texts, updateSubtitle } = this.props;
+
+    const { startTime, endTime } = this.calculateTimes(transformer);
+
+    updateSubtitle({
+      index,
+      subtitle: {
+        startTime,
+        endTime,
+        texts,
+      },
+    });
+
+    console.log(event);
   };
 
   componentDidMount() {
@@ -134,6 +173,8 @@ class Block extends PureComponent<Props> {
         dragBoundFunc={pos => ({ x: pos.x, y: blockY })}
         onDragMove={this.handleDragMove}
         onDragEnd={this.handleDragEnd}
+        onTransform={this.handleTransform}
+        onTransformEnd={this.handleTransformEnd}
         onMouseDown={this.handleMouseDown}
         onDblClick={this.handleDoubleClick}
       >
