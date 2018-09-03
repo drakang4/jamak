@@ -36,7 +36,7 @@ const createWindow = async () => {
   if (isDevMode) {
     try {
       BrowserWindow.addDevToolsExtension(
-        'C:/Users/draka/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.3.1_0',
+        'C:/Users/draka/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.3.2_0',
       );
       mainWindow.webContents.openDevTools();
       // require('devtron').install();

@@ -5,7 +5,7 @@ import {
   openVideoDialog,
   saveAsSubtitleDialog,
 } from './fileDialogs';
-const license = require('../LICENSE.md');
+import { getVersion, getLicense } from './utils';
 
 const ipcSender = (channel: string, ...args: any[]) => (
   menuItem: Electron.MenuItem,
@@ -131,6 +131,13 @@ const template: Electron.MenuItemConstructorOptions[] = [
     submenu: [
       {
         label: 'Info',
+        click: (menuItem, browserWindow) => {
+          dialog.showMessageBox(browserWindow, {
+            title: 'Info',
+            message: getVersion(),
+            type: 'info',
+          });
+        },
       },
       {
         label: 'Official Website',
@@ -143,7 +150,8 @@ const template: Electron.MenuItemConstructorOptions[] = [
         click: (menuItem, browserWindow) => {
           dialog.showMessageBox(browserWindow, {
             title: 'LICENSE',
-            message: htmlToText.fromString(license),
+            message: getLicense(),
+            type: 'info',
           });
         },
       },
