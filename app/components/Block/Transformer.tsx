@@ -83,7 +83,7 @@ class Transformer extends Component<Props, State> {
 
   handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
     const { zoomMultiple } = this.props;
-    const { transforming } = this.state;
+    const { transforming, size } = this.state;
 
     const leftAnchor = this.leftAnchor.current!;
     const rightAnchor = this.rightAnchor.current!;
@@ -95,20 +95,17 @@ class Transformer extends Component<Props, State> {
 
       if (selectedBlock) {
         const width =
-          Math.abs(rightAnchor.getAbsolutePosition().x) -
-          Math.abs(leftAnchor.getAbsolutePosition().x);
+          Math.abs(rightAnchor.getPosition().x) -
+          Math.abs(leftAnchor.getPosition().x);
 
-        // TODO: How can I calculate x?
-
-        console.log('right', rightAnchor.getAbsolutePosition());
-        console.log('left', leftAnchor.getAbsolutePosition());
+        const x = this.state.position.x + leftAnchor.getPosition().x;
 
         this.setState(prevState => ({
           size: { width, height: prevState.size.height },
           position: {
             // x,
             // This works fine when zoomMultiple value is 1.
-            x: leftAnchor.getAbsolutePosition().x,
+            x,
             y: prevState.position.y,
           },
         }));
