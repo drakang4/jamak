@@ -95,8 +95,8 @@ class Transformer extends Component<Props, State> {
 
       if (selectedBlock) {
         const width =
-          Math.abs(rightAnchor.getPosition().x) -
-          Math.abs(leftAnchor.getPosition().x);
+          Math.abs(rightAnchor.getAbsolutePosition().x) -
+          Math.abs(leftAnchor.getAbsolutePosition().x);
 
         const x = this.state.position.x + leftAnchor.getPosition().x;
 
