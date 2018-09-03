@@ -4,6 +4,14 @@ import { stripIndent } from 'common-tags';
 const { version, homepage } = require('../package.json');
 const license = require('../LICENSE.md');
 
+export const ipcSender = (channel: string, ...args: any[]) => (
+  menuItem: Electron.MenuItem,
+  browserWindow: Electron.BrowserWindow,
+  event: Event,
+) => {
+  browserWindow.webContents.send(channel, ...args);
+};
+
 export const getVersion = () => {
   const info = stripIndent`
     Version: ${version}

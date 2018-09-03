@@ -4,15 +4,7 @@ import {
   openVideoDialog,
   saveAsSubtitleDialog,
 } from './fileDialogs';
-import { getVersion, getLicense, openWebsite } from './utils';
-
-const ipcSender = (channel: string, ...args: any[]) => (
-  menuItem: Electron.MenuItem,
-  browserWindow: Electron.BrowserWindow,
-  event: Event,
-) => {
-  browserWindow.webContents.send(channel, ...args);
-};
+import { ipcSender, getVersion, getLicense, openWebsite } from './utils';
 
 const template: Electron.MenuItemConstructorOptions[] = [
   {
