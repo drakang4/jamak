@@ -9,6 +9,21 @@ module.exports = {
         test: /.tsx?$/,
         use: 'ts-loader',
       },
+      {
+        test: /\.md$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+          {
+            loader: 'markdown-loader',
+            options: {
+              pedantic: true,
+              sanitize: true,
+            },
+          },
+        ],
+      },
     ],
   },
 };

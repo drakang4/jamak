@@ -1,9 +1,11 @@
-import { Menu, shell } from 'electron';
+import { Menu, shell, dialog } from 'electron';
+import htmlToText from 'html-to-text';
 import {
   openSubtitleDialog,
   openVideoDialog,
   saveAsSubtitleDialog,
 } from './fileDialogs';
+const license = require('../LICENSE.md');
 
 const ipcSender = (channel: string, ...args: any[]) => (
   menuItem: Electron.MenuItem,
@@ -136,7 +138,15 @@ const template: Electron.MenuItemConstructorOptions[] = [
           shell.openExternal('https://github.com/drakang4/jamak');
         },
       },
-      { label: 'License' },
+      {
+        label: 'License',
+        click: (menuItem, browserWindow) => {
+          dialog.showMessageBox(browserWindow, {
+            title: 'LICENSE',
+            message: htmlToText.fromString(license),
+          });
+        },
+      },
       {
         label: 'Toggle Developer Tools',
         role: 'toggleDevTools',
