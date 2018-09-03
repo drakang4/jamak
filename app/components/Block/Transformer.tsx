@@ -38,7 +38,7 @@ class Transformer extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.selectedIndex !== prevProps.selectedIndex) {
+    if (this.props !== prevProps) {
       this.attachNode();
     }
   }
