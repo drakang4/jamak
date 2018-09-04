@@ -64,7 +64,7 @@ class ProgressBar extends React.Component<Props, State> {
           onMouseUp={this.endSeek}
         >
           <Rect
-            x={-4}
+            x={-5}
             y={0}
             width={9}
             height={16}
@@ -73,7 +73,7 @@ class ProgressBar extends React.Component<Props, State> {
           <Line
             points={[0, 0, 0, height]}
             stroke={theme.pallete.primary[6]}
-            strokeWidth={2}
+            strokeWidth={1}
           />
         </Group>
       </Layer>
