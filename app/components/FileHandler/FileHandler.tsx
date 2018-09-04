@@ -1,6 +1,8 @@
 import React from 'react';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { Subtitle } from '../../models/subtitle';
+
+const { dialog } = remote;
 
 interface Props {
   data: Subtitle[];
@@ -44,12 +46,46 @@ class FileHandler extends React.Component<Props> {
     });
   };
 
+  handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    const { needSave } = this.props;
+
+    if (needSave) {
+      const browserWindow = remote.getCurrentWindow();
+
+      const response = dialog.showMessageBox(browserWindow, {
+        title: 'Jamak',
+        message: 'Will you save the subtitle before close?',
+        buttons: ['Save', 'Discard', 'Cancel'],
+        cancelId: 2,
+      });
+
+      switch (response) {
+        // Save
+        case 0:
+          this.handleSaveOrSaveAs();
+          break;
+        // Discard
+        case 1:
+          break;
+        // Cancel
+        case 2:
+          event.returnValue = false;
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   componentDidMount() {
     ipcRenderer.on('open-video', this.handleOpenVideo);
     ipcRenderer.on('open-subtitle', this.handleOpenSubtitle);
     ipcRenderer.on('new-subtitle', this.handleNewSubtitle);
     ipcRenderer.on('save-or-save-as', this.handleSaveOrSaveAs);
     ipcRenderer.on('save-subtitle', this.handleSaveSubtitle);
+
+    // Prevent close when the file needs save.
+    window.onbeforeunload = this.handleBeforeUnload;
   }
 
   componentWillUnmount() {
@@ -58,6 +94,8 @@ class FileHandler extends React.Component<Props> {
     ipcRenderer.removeListener('new-subtitle', this.handleNewSubtitle);
     ipcRenderer.removeListener('save-or-save-as', this.handleSaveOrSaveAs);
     ipcRenderer.removeListener('save-subtitle', this.handleSaveSubtitle);
+
+    window.onbeforeunload = null;
   }
 
   render() {

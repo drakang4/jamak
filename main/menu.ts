@@ -1,4 +1,4 @@
-import { Menu, shell, dialog } from 'electron';
+import { Menu, dialog } from 'electron';
 import {
   openSubtitleDialog,
   openVideoDialog,
