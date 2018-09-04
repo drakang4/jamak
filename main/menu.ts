@@ -149,6 +149,7 @@ const template: Electron.MenuItemConstructorOptions[] = [
       {
         label: 'Toggle Developer Tools',
         role: 'toggleDevTools',
+        enabled: process.env.NODE_ENV === 'development',
         visible: process.env.NODE_ENV === 'development',
       },
     ],
