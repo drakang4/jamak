@@ -1,4 +1,6 @@
 import React from 'react';
+import Helmet from 'react-helmet';
+import path from 'path';
 import { ipcRenderer, remote } from 'electron';
 import { Subtitle } from '../../models/subtitle';
 
@@ -99,6 +101,19 @@ class FileHandler extends React.Component<Props> {
   }
 
   render() {
+    const { filepath, needSave } = this.props;
+
+    if (filepath) {
+      return (
+        <Helmet>
+          <title>
+            {needSave ? '● ' : ''}
+            {path.basename(filepath)} - Jamak
+          </title>
+        </Helmet>
+      );
+    }
+
     return null;
   }
 }

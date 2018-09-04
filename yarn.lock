@@ -229,6 +229,12 @@
     "@types/node" "*"
     "@types/react" "*"
 
+"@types/react-helmet@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-5.0.7.tgz#1cae65b2c37fe54cf56f40cd388836d4619dbc51"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^6.0.6":
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-6.0.6.tgz#87f1d0a6ea901b93fcaf95fa57641ff64079d277"
@@ -1447,6 +1453,10 @@ decompress-zip@0.3.0:
     q "^1.1.2"
     readable-stream "^1.1.8"
     touch "0.0.3"
+
+deep-equal@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
 deep-extend@^0.6.0:
   version "0.6.0"
@@ -4149,6 +4159,15 @@ react-dom@^16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-helmet@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.0.tgz#a81811df21313a6d55c5f058c4aeba5d6f3d97a7"
+  dependencies:
+    deep-equal "^1.0.1"
+    object-assign "^4.1.1"
+    prop-types "^15.5.4"
+    react-side-effect "^1.1.0"
+
 react-hot-loader@^4.3.5:
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.5.tgz#d8659839d8072d4b78938a776f29f5f1d2a40170"
@@ -4229,7 +4248,7 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-side-effect@^1.1.5:
+react-side-effect@^1.1.0, react-side-effect@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.1.5.tgz#f26059e50ed9c626d91d661b9f3c8bb38cd0ff2d"
   dependencies:
