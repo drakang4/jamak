@@ -54,12 +54,12 @@ const template: Electron.MenuItemConstructorOptions[] = [
   {
     label: 'Edit',
     submenu: [
-      { label: 'Undo' },
-      { label: 'Redo' },
+      { label: 'Undo', role: 'undo' },
+      { label: 'Redo', role: 'redo' },
       { type: 'separator' },
-      { label: 'Cut' },
-      { label: 'Copy' },
-      { label: 'Paste' },
+      { label: 'Cut', role: 'cut' },
+      { label: 'Copy', role: 'copy' },
+      { label: 'Paste', role: 'paste' },
     ],
   },
   {
