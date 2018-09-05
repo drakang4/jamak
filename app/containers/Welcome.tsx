@@ -1,9 +1,11 @@
 import path from 'path';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { RootState } from '../reducers';
+import { RootState } from '../store/rootReducer';
 import Welcome from '../components/Welcome';
-import { newData } from '../actions/subtitle';
+import { actions as subtitleActions } from '../store/modules/subtitle';
+
+const { newData } = subtitleActions;
 
 const mapStateToProps = (state: RootState) => ({
   subtitleReady: state.welcome.subtitleReady,

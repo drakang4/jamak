@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, Middleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from '../reducers';
+import rootReducer from './rootReducer';
 
-import fileHandlerMiddleware from '../middlewares/fileHandler';
-import loggerMiddleware from '../middlewares/logger';
-import subtitleMiddleware from '../middlewares/subtitle';
+import fileHandlerMiddleware from './middlewares/fileHandler';
+import loggerMiddleware from './middlewares/logger';
+import subtitleMiddleware from './middlewares/subtitle';
 
 export default function configureStore(preloadedState: object) {
   const middlewares: Middleware[] = [
@@ -20,7 +20,7 @@ export default function configureStore(preloadedState: object) {
   const store = createStore(rootReducer, preloadedState, composedEnhancers);
 
   if (process.env.NODE_ENV !== 'production' && module.hot) {
-    module.hot.accept('../reducers', () => store.replaceReducer(rootReducer));
+    module.hot.accept('./rootReducer', () => store.replaceReducer(rootReducer));
   }
 
   return store;

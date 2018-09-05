@@ -38,7 +38,7 @@ const Row = styled.div`
 interface Props {
   subtitles: Subtitle[];
   theme: ThemeInterface;
-  selectSubtitle(indexes: number[]): void;
+  selectSubtitle(indexes: Set<number>): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
 }

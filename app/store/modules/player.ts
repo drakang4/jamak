@@ -1,5 +1,32 @@
-import { ActionType, getType } from 'typesafe-actions';
-import * as actions from '../actions/player';
+import { createStandardAction, ActionType } from 'typesafe-actions';
+
+const LOAD_VIDEO = 'jamak/player/LOAD_VIDEO';
+const LOADED = 'jamak/player/LOADED';
+const PLAY = 'jamak/player/PLAY';
+const PAUSE = 'jamak/player/PAUSE';
+const STOP = 'jamak/player/STOP';
+const MUTE = 'jamak/player/MUTE';
+const UNMUTE = 'jamak/player/UNMUTE';
+const SET_VOLUME = 'jamak/player/SET_VOLUME';
+const SET_SPEED = 'jamak/player/SET_SPEED';
+const TIME_UPDATE = 'jamak/player/TIME_UPDATE';
+const SEEK = 'jamak/player/SEEK';
+const END_SEEK = 'jamak/plyaer/END_SEEK';
+
+export const actions = {
+  loadVideo: createStandardAction(LOAD_VIDEO)<string>(),
+  loaded: createStandardAction(LOADED)<number>(),
+  play: createStandardAction(PLAY)<void>(),
+  pause: createStandardAction(PAUSE)<void>(),
+  stop: createStandardAction(STOP)<void>(),
+  mute: createStandardAction(MUTE)<void>(),
+  unmute: createStandardAction(UNMUTE)<void>(),
+  setVolume: createStandardAction(SET_VOLUME)<number>(),
+  setSpeed: createStandardAction(SET_SPEED)<number>(),
+  timeUpdate: createStandardAction(TIME_UPDATE)<number>(),
+  seek: createStandardAction(SEEK)<number>(),
+  endSeek: createStandardAction(END_SEEK)<boolean>(),
+};
 
 export interface PlayerState {
   readonly loaded: boolean;
@@ -32,7 +59,7 @@ export default function reducer(
   action: PlayerAction,
 ): PlayerState {
   switch (action.type) {
-    case getType(actions.loadVideo):
+    case LOAD_VIDEO:
       return {
         ...state,
         loaded: false,
@@ -43,7 +70,7 @@ export default function reducer(
         playbackRate: 1,
         source: action.payload,
       };
-    case getType(actions.loaded):
+    case LOADED:
       return {
         ...state,
         loaded: true,
@@ -53,56 +80,56 @@ export default function reducer(
         duration: action.payload,
         playbackRate: 1,
       };
-    case getType(actions.play):
+    case PLAY:
       return {
         ...state,
         playing: true,
       };
-    case getType(actions.pause):
+    case PAUSE:
       return {
         ...state,
         playing: false,
       };
-    case getType(actions.stop):
+    case STOP:
       return {
         ...state,
         currentTime: 0,
         playing: false,
       };
-    case getType(actions.mute):
+    case MUTE:
       return {
         ...state,
         muted: true,
       };
-    case getType(actions.unmute):
+    case UNMUTE:
       return {
         ...state,
         muted: false,
       };
-    case getType(actions.setVolume):
+    case SET_VOLUME:
       return {
         ...state,
         muted: false,
         volume: action.payload,
       };
-    case getType(actions.setSpeed):
+    case SET_SPEED:
       return {
         ...state,
         playbackRate: action.payload,
       };
-    case getType(actions.timeUpdate):
+    case TIME_UPDATE:
       return {
         ...state,
         currentTime: action.payload,
       };
-    case getType(actions.seek):
+    case SEEK:
       return {
         ...state,
         currentTime: action.payload,
         playing: false,
         seeking: true,
       };
-    case getType(actions.endSeek):
+    case END_SEEK:
       return {
         ...state,
         playing: action.payload,

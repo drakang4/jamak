@@ -1,18 +1,13 @@
 import { Middleware } from 'redux';
 import { getType } from 'typesafe-actions';
-import {
-  addSubtitle,
-  deleteSubtitle,
-  updateSubtitle,
-  sortSubtitle,
-} from '../actions/subtitle';
-import { RootState } from '../reducers';
+import { actions as subtitleActions } from '../modules/subtitle';
+import { RootState } from '../rootReducer';
 
 const subtitle: Middleware<{}, RootState> = store => next => action => {
   switch (action.type) {
-    case getType(addSubtitle):
-    case getType(updateSubtitle):
-    case getType(deleteSubtitle):
+    case getType(subtitleActions.addSubtitle):
+    case getType(subtitleActions.updateSubtitle):
+    case getType(subtitleActions.deleteSubtitle):
       next(action);
 
       const sorted = store
@@ -27,7 +22,7 @@ const subtitle: Middleware<{}, RootState> = store => next => action => {
             return 0;
           }
         });
-      store.dispatch(sortSubtitle(sorted));
+      store.dispatch(subtitleActions.sortSubtitle(sorted));
 
       // TODO: Update selectedIndex
       return;

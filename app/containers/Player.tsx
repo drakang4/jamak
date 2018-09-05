@@ -1,7 +1,7 @@
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { RootState } from '../reducers';
-import * as actions from '../actions/player';
+import { RootState } from '../store/rootReducer';
+import { actions as playerActions } from '../store/modules/player';
 import Player from '../components/Player';
 
 const mapStateToProps = (state: RootState) => ({
@@ -16,7 +16,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(actions, dispatch);
+  bindActionCreators(playerActions, dispatch);
 
 export default connect(
   mapStateToProps,

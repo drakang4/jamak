@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import * as fs from 'fs';
 import { promisify } from 'util';
-import { RootState } from '../reducers';
+import { RootState } from '../store/rootReducer';
 import AudioGraph from '../components/AudioGraph';
 import Loading from '../components/AudioGraph/Loading';
 import WaveformData from '../utils/waveformData';

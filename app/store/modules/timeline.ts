@@ -1,5 +1,10 @@
-import { ActionType, getType } from 'typesafe-actions';
-import * as actions from '../actions/timeline';
+import { createStandardAction, ActionType } from 'typesafe-actions';
+
+const SET_MULTIPLE = 'jamak/timeline/SET_MULTIPLE';
+
+export const actions = {
+  setMultiple: createStandardAction(SET_MULTIPLE)<number>(),
+};
 
 export interface TimelineState {
   readonly multiple: number;
@@ -16,7 +21,7 @@ export default function reducer(
   action: TimelineAction,
 ): TimelineState {
   switch (action.type) {
-    case getType(actions.setMultiple):
+    case SET_MULTIPLE:
       return {
         ...state,
         multiple: action.payload,

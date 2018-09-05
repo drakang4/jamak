@@ -1,15 +1,19 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { RootState } from '../reducers';
-import { seek, endSeek } from '../actions/player';
-import {
+import { RootState } from '../store/rootReducer';
+import { actions as playerActions } from '../store/modules/player';
+import { actions as subtitleActions } from '../store/modules/subtitle';
+import { actions as timelineActions } from '../store/modules/timeline';
+import Timeline from '../components/Timeline';
+
+const { seek, endSeek } = playerActions;
+const {
   selectSubtitle,
   addSubtitle,
   updateSubtitle,
   deleteSubtitle,
-} from '../actions/subtitle';
-import { setMultiple } from '../actions/timeline';
-import Timeline from '../components/Timeline';
+} = subtitleActions;
+const { setMultiple } = timelineActions;
 
 const mapStateToProps = (state: RootState) => ({
   loaded: state.player.loaded,

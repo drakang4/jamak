@@ -43,11 +43,11 @@ interface Props {
   playing: boolean;
   seeking: boolean;
   subtitles: Subtitle[];
-  selectedIndex: number[];
+  selectedIndex: Set<number>;
   multiple: number;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
-  selectSubtitle(indexes: number[]): void;
+  selectSubtitle(indexes: Set<number>): void;
   addSubtitle(subtitle: Subtitle): void;
   updateSubtitle({
     index,

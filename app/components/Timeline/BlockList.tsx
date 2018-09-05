@@ -6,9 +6,9 @@ import { Subtitle } from '../../models/subtitle';
 
 interface Props {
   subtitles: Subtitle[];
-  selectedIndex: number[];
+  selectedIndex: Set<number>;
   duration: number;
-  selectSubtitle(indexes: number[]): void;
+  selectSubtitle(indexes: Set<number>): void;
   updateSubtitle({
     index,
     subtitle,
@@ -42,7 +42,7 @@ class BlockList extends PureComponent<Props> {
             startTime={subtitle.startTime}
             endTime={subtitle.endTime}
             texts={subtitle.texts}
-            selected={selectedIndex.includes(index)}
+            selected={selectedIndex.has(index)}
             selectSubtitle={selectSubtitle}
             updateSubtitle={updateSubtitle}
             seek={seek}
@@ -50,7 +50,9 @@ class BlockList extends PureComponent<Props> {
           />
         ))}
         <Transformer
-          selectedIndex={selectedIndex[Math.max(selectedIndex.length - 1, 0)]}
+          selectedIndex={
+            [...selectedIndex][Math.max(selectedIndex.size - 1, 0)]
+          }
         />
       </Layer>
     );

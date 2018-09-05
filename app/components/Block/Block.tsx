@@ -23,7 +23,7 @@ interface Props {
   width: number;
   height: number;
   zoomMultiple: number;
-  selectSubtitle(indexes: number[]): void;
+  selectSubtitle(indexes: Set<number>): void;
   updateSubtitle({
     index,
     subtitle,
@@ -64,19 +64,23 @@ class Block extends PureComponent<Props> {
     };
   };
 
-  handleMouseDown = () => {
+  handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
     const { selectSubtitle, index } = this.props;
-    selectSubtitle([index]);
+
+    if (evt.ctrlKey) {
+      // selectSubtitle(se)
+    }
+    selectSubtitle(new Set([index]));
   };
 
-  handleDoubleClick = () => {
+  handleDoubleClick: Konva.HandlerFunc<MouseEvent> = () => {
     const { startTime, seek, endSeek } = this.props;
 
     seek(startTime / 1000);
     endSeek(false);
   };
 
-  handleDragMove: Konva.HandlerFunc = ({ target }) => {
+  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
     const { zoomMultiple } = this.props;
 
     unfocus(window);
@@ -97,7 +101,7 @@ class Block extends PureComponent<Props> {
     transformer.position(target.getPosition());
   };
 
-  handleDragEnd: Konva.HandlerFunc = ({ target }) => {
+  handleDragEnd: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
     const { index, texts, updateSubtitle } = this.props;
 
     const { startTime, endTime } = this.calculateTimes(target);
@@ -112,7 +116,7 @@ class Block extends PureComponent<Props> {
     });
   };
 
-  handleTransform: Konva.HandlerFunc = () => {
+  handleTransform: Konva.HandlerFunc<MouseEvent> = () => {
     unfocus(window);
   };
 

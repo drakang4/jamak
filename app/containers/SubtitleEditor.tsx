@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { updateSubtitle } from '../actions/subtitle';
-import { RootState } from '../reducers';
+import { RootState } from '../store/rootReducer';
+import { actions as subtitleActions } from '../store/modules/subtitle';
 import { Subtitle } from '../models/subtitle';
 import SubtitleEditor from '../components/SubtitleEditor';
 
@@ -39,18 +39,15 @@ class SubtitleEditorContainer extends PureComponent<Props> {
   }
 }
 
+const { updateSubtitle } = subtitleActions;
+
 const mapStateToProps = (state: RootState) => ({
   currentTime: state.player.currentTime,
   subtitles: state.subtitle.data,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      updateSubtitle,
-    },
-    dispatch,
-  );
+  bindActionCreators({ updateSubtitle }, dispatch);
 
 export default connect(
   mapStateToProps,
