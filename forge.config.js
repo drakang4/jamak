@@ -1,11 +1,17 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    asar: true,
+    ignore: ['/sample-media/'],
+  },
   makers: [
     {
+      name: '@electron-forge/maker-zip',
+    },
+    {
       name: '@electron-forge/maker-squirrel',
-      config: {
-        name: 'jamak',
-      },
+    },
+    {
+      name: '@electron-forge/maker-dmg',
     },
   ],
   plugins: [
