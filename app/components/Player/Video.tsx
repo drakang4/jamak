@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import styled from '../../styles/styled-components';
 import SubtitleEditorContainer from '../../containers/SubtitleEditor';
 
@@ -28,7 +28,7 @@ interface Props {
   onEnded(): void;
 }
 
-class Video extends React.Component<Props> {
+class Video extends PureComponent<Props> {
   video = React.createRef<HTMLVideoElement>();
 
   componentDidUpdate(prevProps: Props) {
