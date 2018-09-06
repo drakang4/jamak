@@ -177,6 +177,7 @@ class Timeline extends React.Component<Props, State> {
                         appendSelection={appendSelection}
                         popSelection={popSelection}
                         updateSubtitle={updateSubtitle}
+                        deleteSubtitle={deleteSubtitle}
                         seek={seek}
                         endSeek={endSeek}
                       />

@@ -18,6 +18,7 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
+  deleteSubtitle(index: number): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
 }
@@ -32,6 +33,7 @@ class BlockList extends PureComponent<Props> {
       appendSelection,
       popSelection,
       updateSubtitle,
+      deleteSubtitle,
       seek,
       endSeek,
     } = this.props;
@@ -51,6 +53,7 @@ class BlockList extends PureComponent<Props> {
             appendSelection={appendSelection}
             popSelection={popSelection}
             updateSubtitle={updateSubtitle}
+            deleteSubtitle={deleteSubtitle}
             seek={seek}
             endSeek={endSeek}
           />

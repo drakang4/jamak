@@ -1,5 +1,6 @@
 import React, { PureComponent, createRef } from 'react';
 import { Group, Rect, Text } from 'react-konva';
+import { remote } from 'electron';
 import { withTheme } from '../../styles/styled-components';
 import formatMs from '../../utils/formatMs';
 import { ThemeInterface } from '../../styles/theme';
@@ -7,6 +8,8 @@ import withSize from '../Timeline/withSize';
 import Konva from 'konva';
 import { Subtitle } from '../../models/subtitle';
 import { unfocus } from '../../utils/ui';
+
+const { Menu } = remote;
 
 type TransformHandlerFunc<E = Event> = ((
   e: { transformer: Konva.Shape },
@@ -33,6 +36,7 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
+  deleteSubtitle(index: number): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
 }
@@ -82,6 +86,18 @@ class Block extends PureComponent<Props> {
     } else {
       selected ? appendSelection(newSelction) : setSelection(newSelction);
     }
+
+    // Fire drag event to all selcted blocks except for this one.
+    // TODO: More optimization
+
+    const layer = this.block.current!.getLayer();
+    const selectedBlocks = layer.find('.selected');
+
+    selectedBlocks.each(block => {
+      if (!block.isDragging) {
+        block.startDrag();
+      }
+    });
   };
 
   handleDoubleClick: Konva.HandlerFunc<MouseEvent> = () => {
@@ -91,8 +107,21 @@ class Block extends PureComponent<Props> {
     endSeek(false);
   };
 
-  handleDragStart: Konva.HandlerFunc<MouseEvent> = () => {
-    // Fire drag event to all selcted blocks except for this one.
+  handleContextMenu: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
+    evt.preventDefault();
+
+    const { deleteSubtitle, index } = this.props;
+
+    const menu = Menu.buildFromTemplate([
+      {
+        label: 'Delete',
+        click: () => {
+          deleteSubtitle(index);
+        },
+      },
+    ]);
+
+    menu.popup({ window: remote.getCurrentWindow() });
   };
 
   handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
@@ -103,6 +132,7 @@ class Block extends PureComponent<Props> {
     const layer = this.block.current!.getLayer();
     const transformer = layer.findOne('.transformer');
 
+    console.log(target);
     // Bound block in timeline and between previous and next blocks.
     if (target.getPosition().x < 0) {
       target.x(0);
@@ -191,20 +221,20 @@ class Block extends PureComponent<Props> {
     return (
       <Group
         ref={this.block}
-        name={`${index}`}
+        name={`${index} ${selected ? 'selected' : ''}`}
         x={blockX}
         y={blockY}
         width={blockWidth}
         height={blockHeight}
         draggable
         dragBoundFunc={pos => ({ x: pos.x, y: blockY })}
-        onDragStart={this.handleDragStart}
         onDragMove={this.handleDragMove}
         onDragEnd={this.handleDragEnd}
         onTransform={this.handleTransform}
         onTransformEnd={this.handleTransformEnd}
         onMouseDown={this.handleMouseDown}
         onDblClick={this.handleDoubleClick}
+        onContextMenu={this.handleContextMenu}
       >
         <Rect
           x={0}
