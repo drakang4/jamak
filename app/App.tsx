@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from './styles/styled-components';
 import { theme } from './styles/theme';
-import configureStore from './store/configureStore';
+import configureStore from './store/configure';
 
 const store = configureStore({});
 
