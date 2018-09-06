@@ -14,6 +14,8 @@ import { ThemeInterface } from '../../styles/theme';
 import { Subtitle } from '../../models/subtitle';
 import formatMs from '../../utils/formatMs';
 import { unfocus } from '../../utils/ui';
+import { ActionType } from 'typesafe-actions';
+import { actions as subtitleActions } from '../../store/modules/subtitle';
 
 const HeaderRow = styled.div`
   background-color: ${props => props.theme.pallete.gray[9]};
@@ -38,7 +40,7 @@ const Row = styled.div`
 interface Props {
   subtitles: Subtitle[];
   theme: ThemeInterface;
-  selectSubtitle(indexes: Set<number>): void;
+  setSelection(selectedIndex: Set<number>): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
 }
@@ -170,11 +172,11 @@ class Table extends React.Component<Props> {
   textRenderer: TableCellRenderer = ({ cellData }) => cellData.join(' ');
 
   handleRowDoubleClick = ({ index }: RowMouseEventHandlerParams) => {
-    const { subtitles, selectSubtitle, seek, endSeek } = this.props;
+    const { subtitles, setSelection, seek, endSeek } = this.props;
 
     unfocus(window);
 
-    selectSubtitle([index]);
+    setSelection(new Set([index]));
     seek(subtitles[index].startTime / 1000);
     endSeek(false);
   };

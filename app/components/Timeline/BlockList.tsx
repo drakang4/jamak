@@ -8,7 +8,9 @@ interface Props {
   subtitles: Subtitle[];
   selectedIndex: Set<number>;
   duration: number;
-  selectSubtitle(indexes: Set<number>): void;
+  setSelection(selectedIndex: Set<number>): void;
+  appendSelection(selectedIndex: Set<number>): void;
+  popSelection(selectedIndex: Set<number>): void;
   updateSubtitle({
     index,
     subtitle,
@@ -26,7 +28,9 @@ class BlockList extends PureComponent<Props> {
       subtitles,
       duration,
       selectedIndex,
-      selectSubtitle,
+      setSelection,
+      appendSelection,
+      popSelection,
       updateSubtitle,
       seek,
       endSeek,
@@ -43,7 +47,9 @@ class BlockList extends PureComponent<Props> {
             endTime={subtitle.endTime}
             texts={subtitle.texts}
             selected={selectedIndex.has(index)}
-            selectSubtitle={selectSubtitle}
+            setSelection={setSelection}
+            appendSelection={appendSelection}
+            popSelection={popSelection}
             updateSubtitle={updateSubtitle}
             seek={seek}
             endSeek={endSeek}

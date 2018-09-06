@@ -8,7 +8,9 @@ import Timeline from '../components/Timeline';
 
 const { seek, endSeek } = playerActions;
 const {
-  selectSubtitle,
+  setSelection,
+  appendSelection,
+  popSelection,
   addSubtitle,
   updateSubtitle,
   deleteSubtitle,
@@ -31,7 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     {
       seek,
       endSeek,
-      selectSubtitle,
+      setSelection,
+      appendSelection,
+      popSelection,
       addSubtitle,
       updateSubtitle,
       deleteSubtitle,

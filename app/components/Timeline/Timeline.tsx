@@ -47,7 +47,9 @@ interface Props {
   multiple: number;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
-  selectSubtitle(indexes: Set<number>): void;
+  setSelection(indexes: Set<number>): void;
+  appendSelection(indexes: Set<number>): void;
+  popSelection(indexes: Set<number>): void;
   addSubtitle(subtitle: Subtitle): void;
   updateSubtitle({
     index,
@@ -108,7 +110,9 @@ class Timeline extends React.Component<Props, State> {
       multiple,
       seek,
       endSeek,
-      selectSubtitle,
+      setSelection,
+      appendSelection,
+      popSelection,
       addSubtitle,
       updateSubtitle,
       deleteSubtitle,
@@ -161,7 +165,9 @@ class Timeline extends React.Component<Props, State> {
                         subtitles={subtitles}
                         selectedIndex={selectedIndex}
                         duration={duration}
-                        selectSubtitle={selectSubtitle}
+                        setSelection={setSelection}
+                        appendSelection={appendSelection}
+                        popSelection={popSelection}
                         updateSubtitle={updateSubtitle}
                         seek={seek}
                         endSeek={endSeek}

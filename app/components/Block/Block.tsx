@@ -23,7 +23,9 @@ interface Props {
   width: number;
   height: number;
   zoomMultiple: number;
-  selectSubtitle(indexes: Set<number>): void;
+  setSelection(selectedIndex: Set<number>): void;
+  appendSelection(selectedIndex: Set<number>): void;
+  popSelection(selectedIndex: Set<number>): void;
   updateSubtitle({
     index,
     subtitle,
@@ -65,12 +67,21 @@ class Block extends PureComponent<Props> {
   };
 
   handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
-    const { selectSubtitle, index } = this.props;
+    const {
+      setSelection,
+      appendSelection,
+      popSelection,
+      selected,
+      index,
+    } = this.props;
+
+    const newSelction = new Set([index]);
 
     if (evt.ctrlKey) {
-      // selectSubtitle(se)
+      selected ? popSelection(newSelction) : appendSelection(newSelction);
+    } else {
+      selected ? appendSelection(newSelction) : setSelection(newSelction);
     }
-    selectSubtitle(new Set([index]));
   };
 
   handleDoubleClick: Konva.HandlerFunc<MouseEvent> = () => {

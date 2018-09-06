@@ -5,7 +5,7 @@ import Table from '../components/Table';
 import { actions as subtitleActions } from '../store/modules/subtitle';
 import { actions as playerActions } from '../store/modules/player';
 
-const { selectSubtitle } = subtitleActions;
+const { setSelection } = subtitleActions;
 const { seek, endSeek } = playerActions;
 
 const mapStateToProps = (state: RootState) => ({
@@ -13,7 +13,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators({ selectSubtitle, seek, endSeek }, dispatch);
+  bindActionCreators({ setSelection, seek, endSeek }, dispatch);
 
 export default connect(
   mapStateToProps,

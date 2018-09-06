@@ -4,7 +4,9 @@ import { Subtitle } from '../../models/subtitle';
 const LOAD_DATA = 'jamak/subtitle/LOAD_DATA';
 const NEW_DATA = 'jamak/subtitle/NEW_DATA';
 const SAVE_DATA = 'jamak/subtitle/SAVE_DATA';
-const SELECT_SUBTITLE = 'jamak/subtitle/SELECT_SUBTITLE';
+const SET_SELECTION = 'jamak/subtitle/SET_SELECTION';
+const APPEND_SELECTION = 'jamak/subtitle/APPEND_SELECTION';
+const POP_SELECTION = 'jamak/subtitle/POP_SELECTION';
 const ADD_SUBTITLE = 'jamak/subtitle/ADD_SUBTITLE';
 const UPDATE_SUBTITLE = 'jamak/subtitle/UPDATE_SUBTITLE';
 const DELETE_SUBTITLE = 'jamak/subtitle/DELETE_SUBTITLE';
@@ -20,7 +22,9 @@ export const actions = {
     filepath: string;
     data: Subtitle[];
   }>(),
-  selectSubtitle: createStandardAction(SELECT_SUBTITLE)<Set<number>>(),
+  setSelection: createStandardAction(SET_SELECTION)<Set<number>>(),
+  appendSelection: createStandardAction(APPEND_SELECTION)<Set<number>>(),
+  popSelection: createStandardAction(POP_SELECTION)<Set<number>>(),
   addSubtitle: createStandardAction(ADD_SUBTITLE)<Subtitle>(),
   updateSubtitle: createStandardAction(UPDATE_SUBTITLE)<{
     index: number;
@@ -71,10 +75,32 @@ export default function reducer(
         ...state,
         needSave: false,
       };
-    case SELECT_SUBTITLE:
+    case SET_SELECTION:
       return {
         ...state,
         selectedIndex: action.payload,
+      };
+    case APPEND_SELECTION:
+      const appended = new Set(state.selectedIndex);
+
+      for (const v of action.payload.values()) {
+        appended.add(v);
+      }
+
+      return {
+        ...state,
+        selectedIndex: appended,
+      };
+    case POP_SELECTION:
+      const popped = new Set(state.selectedIndex);
+
+      for (const v of action.payload.values()) {
+        popped.delete(v);
+      }
+
+      return {
+        ...state,
+        selectedIndex: popped,
       };
     case ADD_SUBTITLE:
       return {
