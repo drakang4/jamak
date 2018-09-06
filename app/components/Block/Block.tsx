@@ -91,6 +91,10 @@ class Block extends PureComponent<Props> {
     endSeek(false);
   };
 
+  handleDragStart: Konva.HandlerFunc<MouseEvent> = () => {
+    // Fire drag event to all selcted blocks except for this one.
+  };
+
   handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
     const { zoomMultiple } = this.props;
 
@@ -194,6 +198,7 @@ class Block extends PureComponent<Props> {
         height={blockHeight}
         draggable
         dragBoundFunc={pos => ({ x: pos.x, y: blockY })}
+        onDragStart={this.handleDragStart}
         onDragMove={this.handleDragMove}
         onDragEnd={this.handleDragEnd}
         onTransform={this.handleTransform}

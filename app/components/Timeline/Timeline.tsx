@@ -1,5 +1,6 @@
 import React, { createRef } from 'react';
 import { Stage } from 'react-konva';
+import Konva from 'konva';
 import ResizeDetector from 'react-resize-detector';
 import styled from '../../styles/styled-components';
 import AudioGraphContainer from '../../containers/AudioGraph';
@@ -73,6 +74,12 @@ class Timeline extends React.Component<Props, State> {
     dx: 0,
     width: 0,
     height: 0,
+  };
+
+  handleStageClick: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
+    if (target.getType() !== 'Shape') {
+      this.props.setSelection(new Set());
+    }
   };
 
   handleWheel: React.WheelEventHandler = event => {
@@ -155,6 +162,7 @@ class Timeline extends React.Component<Props, State> {
                 x={-dx}
                 width={width}
                 height={height}
+                onClick={this.handleStageClick}
               >
                 <SizeContext.Provider
                   value={{ width, height, zoomMultiple: multiple }}
