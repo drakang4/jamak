@@ -182,7 +182,7 @@ class Timeline extends React.Component<Props, State> {
                         seek={seek}
                         endSeek={endSeek}
                       />
-                      {/* <AudioGraphContainer /> */}
+                      <AudioGraphContainer />
                     </>
                   )}
                   <ProgressBar
