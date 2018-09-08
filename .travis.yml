@@ -1,0 +1,20 @@
+os: osx
+
+osx_image: xcode8.4 # define OS X image which will be mounted
+
+language: node_js
+
+node_js: '8'
+
+install:
+  # On OS X we first need to install Yarn via Homebrew
+  - brew install yarn
+  # Install all dependencies listed in your package.json file
+  - yarn
+
+script:
+  - echo "Make app"
+  - if [["$TRAVIS_BRANCH" == "master"]]; then yarn make; fi
+
+  - echo "Deploy app to GitHub"
+  - if [["$TRAVIS_BRANCH" == "master"]]; then yarn publish; fi

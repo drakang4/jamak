@@ -32,5 +32,17 @@ module.exports = {
       },
     ],
   ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'drakang4',
+          name: 'jamak',
+        },
+        prerelease: process.env.IS_BETA ? true : false,
+      },
+    },
+  ],
   buildIdentifier: process.env.IS_BETA ? 'beta' : 'prod',
 };
