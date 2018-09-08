@@ -12,8 +12,8 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "make": "electron-forge make --targets=@electron-forge/maker-dmg,@electron-forge/maker-squirrel,@electron-forge/maker-zip",
+    "publish": "electron-forge publish --dry-run",
     "lint": "tslint --project tsconfig.json --type-check --force",
     "precommit": "pretty-quick --staged"
   },
