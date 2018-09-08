@@ -27,9 +27,10 @@ const Button = styled.button`
 interface Props {
   currentTime: number;
   duration: number;
+  selectedIndex: Set<number>;
   onAdd(subtitle: Subtitle): void;
   onClear({ index, subtitle }: { index: number; subtitle: Subtitle }): void;
-  onDelete(index: number): void;
+  onDelete(indexes: Set<number>): void;
 }
 
 class Controls extends React.Component<Props> {
@@ -57,7 +58,7 @@ class Controls extends React.Component<Props> {
   };
 
   handleDelete: React.MouseEventHandler = () => {
-    this.props.onDelete(1);
+    this.props.onDelete(this.props.selectedIndex);
   };
 
   handleFocus: React.FocusEventHandler<HTMLButtonElement> = event => {

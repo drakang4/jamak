@@ -36,7 +36,7 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
-  deleteSubtitle(index: number): void;
+  deleteSubtitle(indexes: Set<number>): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
 }
@@ -116,7 +116,7 @@ class Block extends PureComponent<Props> {
       {
         label: 'Delete',
         click: () => {
-          deleteSubtitle(index);
+          deleteSubtitle(new Set([index]));
         },
       },
     ]);

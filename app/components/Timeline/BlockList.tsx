@@ -18,7 +18,7 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
-  deleteSubtitle(index: number): void;
+  deleteSubtitle(indexes: Set<number>): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
 }

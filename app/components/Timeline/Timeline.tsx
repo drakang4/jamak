@@ -59,7 +59,7 @@ interface Props {
     index: number;
     subtitle: Subtitle;
   }): void;
-  deleteSubtitle(index: number): void;
+  deleteSubtitle(indexes: Set<number>): void;
   setMultiple(multiple: number): void;
 }
 
@@ -132,6 +132,7 @@ class Timeline extends React.Component<Props, State> {
         <Controls
           currentTime={currentTime}
           duration={duration}
+          selectedIndex={selectedIndex}
           onAdd={addSubtitle}
           onClear={updateSubtitle}
           onDelete={deleteSubtitle}

@@ -30,7 +30,7 @@ export const actions = {
     index: number;
     subtitle: Subtitle;
   }>(),
-  deleteSubtitle: createStandardAction(DELETE_SUBTITLE)<number>(),
+  deleteSubtitle: createStandardAction(DELETE_SUBTITLE)<Set<number>>(),
   sortSubtitle: createStandardAction(SORT_SUBTITLE)<Subtitle[]>(),
 };
 
@@ -126,8 +126,9 @@ export default function reducer(
     case DELETE_SUBTITLE:
       return {
         ...state,
-        data: state.data.filter((item, index) => index !== action.payload),
+        data: state.data.filter((item, index) => !action.payload.has(index)),
         needSave: true,
+        selectedIndex: new Set(),
       };
     case SORT_SUBTITLE:
       return {
