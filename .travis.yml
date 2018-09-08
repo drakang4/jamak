@@ -10,6 +10,8 @@ install:
   # Install all dependencies listed in your package.json file
   - yarn
 
+cache: yarn
+
 stages:
   - name: make
     if: branch = master
