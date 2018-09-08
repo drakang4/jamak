@@ -10,9 +10,15 @@ install:
   # Install all dependencies listed in your package.json file
   - yarn
 
-script:
-  - echo "Make app"
-  - if [["$TRAVIS_BRANCH" == "master"]]; then yarn make; fi
+stages:
+  - name: make
+    if: branch = master
+  - name: publish
+    if: branch = master
 
-  - echo "Deploy app to GitHub"
-  - if [["$TRAVIS_BRANCH" == "master"]]; then yarn publish; fi
+jobs:
+  include:
+    - stage: make
+      script: yarn make
+    - stage: publish
+      script: yarn publish
