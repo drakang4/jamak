@@ -17,8 +17,8 @@ interface Props {
 }
 
 class FileHandler extends React.Component<Props> {
-  handleOpenVideo = (event: Event, path: string) => {
-    this.props.loadVideo(path);
+  handleOpenVideo = (event: Event, filepath: string) => {
+    this.props.loadVideo(filepath);
   };
 
   handleOpenSubtitle = (event: Event, filepath: string, data: Subtitle[]) => {
