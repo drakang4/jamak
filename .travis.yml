@@ -7,6 +7,9 @@ language: node_js
 node_js: '8'
 
 install:
+  # Install mono and wine
+  - brew install mono
+  - brew install wine
   # Install all dependencies listed in your package.json file
   - yarn
 
