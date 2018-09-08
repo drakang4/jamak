@@ -7,8 +7,6 @@ language: node_js
 node_js: '8'
 
 install:
-  # On OS X we first need to install Yarn via Homebrew
-  - brew install yarn
   # Install all dependencies listed in your package.json file
   - yarn
 
