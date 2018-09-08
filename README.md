@@ -1,3 +1,7 @@
+# ⚠ Jamak is under refectoring. See [this branch](https://github.com/drakang4/jamak/tree/refactoring).
+
+![jamak](https://github.com/Heeryong-Kang/jamak/blob/master/jamak-icon.png?raw=true)
+
 # Jamak
 
 **Jamak** is a subtitle editor built with Electron, React and Redux.
