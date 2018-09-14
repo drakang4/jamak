@@ -12,16 +12,18 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               babelrc: false,
+              cacheDirectory: true,
               presets: [
                 [
                   '@babel/preset-env',
-                  { targets: { browsers: 'last 2 versions' } }, // or whatever your project requires
+                  { targets: { electron: '3' } }, // or whatever your project requires
                 ],
                 '@babel/preset-typescript',
                 '@babel/preset-react',
               ],
               plugins: [
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-proposal-object-rest-spread',
                 'react-hot-loader/babel',
               ],
             },
