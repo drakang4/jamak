@@ -1,5 +1,5 @@
 import React from 'react';
-import withSideEffect = require('react-side-effect');
+import withSideEffect from 'react-side-effect';
 
 interface Props {
   children?: React.ReactChild;
