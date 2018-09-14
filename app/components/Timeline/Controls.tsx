@@ -29,7 +29,7 @@ interface Props {
   duration: number;
   selectedIndex: Set<number>;
   onAdd(subtitle: Subtitle): void;
-  onClear({ index, subtitle }: { index: number; subtitle: Subtitle }): void;
+  onClear(param: { index: number; subtitle: Subtitle }): void;
   onDelete(indexes: Set<number>): void;
 }
 

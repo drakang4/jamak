@@ -9,13 +9,7 @@ import SubtitleEditor from '../components/SubtitleEditor';
 interface Props {
   currentTime: number;
   subtitles: Subtitle[];
-  updateSubtitle({
-    index,
-    subtitle,
-  }: {
-    index: number;
-    subtitle: Subtitle;
-  }): void;
+  updateSubtitle(param: { index: number; subtitle: Subtitle }): void;
 }
 
 class SubtitleEditorContainer extends PureComponent<Props> {

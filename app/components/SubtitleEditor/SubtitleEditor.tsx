@@ -34,13 +34,7 @@ const StyledTextArea = styled(TextArea)`
 interface Props {
   currentIndex: number;
   currentSubtitle: Subtitle | null;
-  updateSubtitle({
-    index,
-    subtitle,
-  }: {
-    index: number;
-    subtitle: Subtitle;
-  }): void;
+  updateSubtitle(param: { index: number; subtitle: Subtitle }): void;
 }
 
 class SubtitleEditor extends Component<Props> {

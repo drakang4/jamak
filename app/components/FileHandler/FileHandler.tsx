@@ -11,9 +11,9 @@ interface Props {
   filepath: string;
   needSave: boolean;
   loadVideo(path: string): void;
-  loadData({ filepath, data }: { filepath: string; data: Subtitle[] }): void;
+  loadData(param: { filepath: string; data: Subtitle[] }): void;
   newData(): void;
-  saveData({ filepath, data }: { filepath: string; data: Subtitle[] }): void;
+  saveData(param: { filepath: string; data: Subtitle[] }): void;
 }
 
 class FileHandler extends React.Component<Props> {

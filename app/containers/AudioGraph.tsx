@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import * as fs from 'fs';
+import fs from 'fs';
 import { promisify } from 'util';
 import { RootState } from '../store/rootReducer';
 import AudioGraph from '../components/AudioGraph';

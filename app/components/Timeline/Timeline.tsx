@@ -52,13 +52,7 @@ interface Props {
   appendSelection(indexes: Set<number>): void;
   popSelection(indexes: Set<number>): void;
   addSubtitle(subtitle: Subtitle): void;
-  updateSubtitle({
-    index,
-    subtitle,
-  }: {
-    index: number;
-    subtitle: Subtitle;
-  }): void;
+  updateSubtitle(param: { index: number; subtitle: Subtitle }): void;
   deleteSubtitle(indexes: Set<number>): void;
   setMultiple(multiple: number): void;
 }

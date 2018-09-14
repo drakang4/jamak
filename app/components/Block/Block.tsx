@@ -29,13 +29,7 @@ interface Props {
   setSelection(selectedIndex: Set<number>): void;
   appendSelection(selectedIndex: Set<number>): void;
   popSelection(selectedIndex: Set<number>): void;
-  updateSubtitle({
-    index,
-    subtitle,
-  }: {
-    index: number;
-    subtitle: Subtitle;
-  }): void;
+  updateSubtitle(param: { index: number; subtitle: Subtitle }): void;
   deleteSubtitle(indexes: Set<number>): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
