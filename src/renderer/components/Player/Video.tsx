@@ -29,7 +29,7 @@ interface Props {
 }
 
 class Video extends PureComponent<Props> {
-  video = React.createRef<HTMLVideoElement>();
+  video = React.createRef<StyledVideo>();
 
   componentDidUpdate(prevProps: Props) {
     const videoNode = this.video.current;
@@ -58,7 +58,7 @@ class Video extends PureComponent<Props> {
     return (
       <Wrapper>
         <StyledVideo
-          innerRef={this.video}
+          ref={this.video}
           src={source}
           muted={muted}
           preload="auto"

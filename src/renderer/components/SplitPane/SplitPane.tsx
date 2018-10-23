@@ -39,7 +39,7 @@ class SplitPane extends React.Component<Props, IState> {
     position: this.props.defaultSize,
   };
 
-  wrapper = React.createRef<HTMLDivElement>();
+  wrapper = React.createRef<Wrapper>();
   pane1 = React.createRef<Pane>();
   pane2 = React.createRef<Pane>();
   resizer = React.createRef<Resizer>();
@@ -59,7 +59,7 @@ class SplitPane extends React.Component<Props, IState> {
     const { active, position } = this.state;
 
     return (
-      <Wrapper innerRef={this.wrapper} type={type}>
+      <Wrapper ref={this.wrapper} type={type}>
         <Pane ref={this.pane1} type={type} size={position}>
           {children[0]}
         </Pane>

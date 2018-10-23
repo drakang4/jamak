@@ -2,14 +2,11 @@ import { app, BrowserWindow } from 'electron';
 import {
   default as installExtension,
   REACT_DEVELOPER_TOOLS,
-  //   // REDUX_DEVTOOLS,
+  REDUX_DEVTOOLS,
 } from 'electron-devtools-installer';
 
 import { createMenu } from './menu';
 import { createMessageListeners } from './listeners';
-
-declare var APP_WEBPACK_ENTRY: string;
-declare var APP_PRELOAD_WEBPACK_ENTRY: string;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -26,24 +23,23 @@ const createWindow = async () => {
     backgroundColor: '#212529',
     webPreferences: {
       webSecurity: false,
+      experimentalCanvasFeatures: true,
     },
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(APP_WEBPACK_ENTRY);
+  mainWindow.loadURL(
+    `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`,
+  );
 
   // Open the DevTools.
   if (isDevMode) {
     try {
-      BrowserWindow.addDevToolsExtension(
-        'C:/Users/draka/AppData/Local/Google/Chrome/User Data/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/3.3.2_0',
-      );
+      await installExtension(REACT_DEVELOPER_TOOLS);
+      await installExtension(REDUX_DEVTOOLS);
       mainWindow.webContents.openDevTools();
-      // require('devtron').install();
-      // await installExtension(REACT_DEVELOPER_TOOLS);
-      //   // await installExtension(REDUX_DEVTOOLS)
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   }
 
@@ -63,7 +59,6 @@ const createWindow = async () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', async () => {
-  // await createMenu();
   createWindow();
 });
 
