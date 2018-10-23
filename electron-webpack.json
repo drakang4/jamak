@@ -1,0 +1,11 @@
+{
+  "commonSourceDirectory": "src/common",
+  "main": {
+    "sourceDirectory": "src/main",
+    "webpackConfig": "webpack.main.config.js"
+  },
+  "renderer": {
+    "sourceDirectory": "src/renderer"
+  },
+  "whiteListedModules": ["normalize.css", "react-virtualized"]
+}
