@@ -156,6 +156,6 @@ const template: Electron.MenuItemConstructorOptions[] = [
   },
 ];
 
-export async function createMenu() {
+export function createMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
