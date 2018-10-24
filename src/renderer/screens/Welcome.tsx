@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
+import Helmet from 'react-helmet';
 import path from 'path';
 import { ipcRenderer } from 'electron';
 import styled from '../styles/styled-components';
@@ -87,6 +88,9 @@ class Welcome extends Component<any, State> {
         onDragLeave={this.handleDragLeave}
         onDrop={this.handleDrop}
       >
+        <Helmet>
+          <title>Jamak</title>
+        </Helmet>
         {dropzoneActive && <DropOverlay>Drop files here</DropOverlay>}
         <Header>Jamak</Header>
         <SubHeader>Load a subtitle and a video file.</SubHeader>
