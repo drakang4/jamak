@@ -50,7 +50,6 @@
     "@types/react-side-effect": "^1.1.1",
     "@types/react-textarea-autosize": "^4.3.3",
     "@types/react-virtualized": "^9.18.7",
-    "@types/request": "^2.47.1",
     "@types/rimraf": "^2.0.2",
     "@types/styled-components": "^4.0.1",
     "@types/webpack-env": "^1.13.6",
@@ -78,8 +77,8 @@
   "dependencies": {
     "@electron-forge/maker-squirrel": "^6.0.0-beta.29",
     "@electron-forge/maker-zip": "^6.0.0-beta.29",
+    "axios": "^0.18.0",
     "common-tags": "^1.8.0",
-    "decompress": "^4.2.0",
     "electron-debug": "^2.0.0",
     "electron-json-storage": "^4.1.2",
     "html-to-text": "^4.0.0",
@@ -101,11 +100,10 @@
     "react-virtualized": "^9.7.6",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
-    "request": "^2.88.0",
     "rimraf": "^2.6.2",
-    "source-map-support": "^0.5.9",
     "styled-components": "^4.0.2",
     "subtitle-utils": "^1.2.3",
-    "typesafe-actions": "^2.0.4"
+    "typesafe-actions": "^2.0.4",
+    "unzip-crx": "^0.2.0"
   }
 }
