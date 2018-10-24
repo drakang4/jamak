@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-// import installExtension, { REACT_DEVTOOLS } from './installExtension';
+import installExtension, { REACT_DEVTOOLS } from './installExtension';
 
 import { createMenu } from './menu';
 import { createMessageListeners } from './listeners';
@@ -32,14 +32,14 @@ const createWindow = async () => {
   // Open the DevTools.
   if (isDevMode) {
     try {
-      // await installExtension(REACT_DEVTOOLS);
+      await installExtension(REACT_DEVTOOLS);
       mainWindow.webContents.openDevTools();
     } catch (error) {
       console.error(error);
     }
   }
 
-  await createMenu();
+  createMenu();
 
   createMessageListeners(mainWindow.webContents);
 
