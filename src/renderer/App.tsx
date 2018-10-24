@@ -14,7 +14,7 @@ import FileHandlerContainer from './containers/FileHandler';
 
 import 'normalize.css';
 import 'react-virtualized/styles.css';
-import './styles/global.css';
+import GlobalStyle from './styles/global';
 
 const { subtitleReady, videoReady } = store.getState().welcome;
 
@@ -37,6 +37,7 @@ const App = () => (
             <Route path="/welcome" component={Welcome} />
           </Switch>
           <FileHandlerContainer />
+          <GlobalStyle />
         </>
       </MemoryRouter>
     </ThemeProvider>
