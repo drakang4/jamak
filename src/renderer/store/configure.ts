@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, Middleware, compose } from 'redux';
+import { createStore, applyMiddleware, Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './rootReducer';
 
@@ -14,10 +14,11 @@ export default function configureStore(preloadedState: object) {
   ];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
-  const enhancers = [middlewareEnhancer];
-  const composedEnhancers = composeWithDevTools(...enhancers);
-
-  const store = createStore(rootReducer, preloadedState, composedEnhancers);
+  const store = createStore(
+    rootReducer,
+    preloadedState,
+    composeWithDevTools(middlewareEnhancer),
+  );
 
   if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./rootReducer', () => store.replaceReducer(rootReducer));

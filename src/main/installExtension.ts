@@ -14,8 +14,8 @@ const installExtension = async (extensionID: string) => {
     const downloadPath = path.resolve(extensionPath, `${extensionID}.crx`);
     const unzipPath = path.resolve(extensionPath, extensionID);
 
-    rimraf.sync(extensionPath);
-    mkdirp.sync(extensionPath);
+    rimraf.sync(unzipPath);
+    mkdirp.sync(unzipPath);
 
     const res = await axios.get<ArrayBuffer>(url, {
       responseType: 'arraybuffer',
@@ -33,6 +33,7 @@ const installExtension = async (extensionID: string) => {
 };
 
 const REACT_DEVTOOLS = 'fmkadmapgofadopljbjfkapdkoienihi';
+const REDUX_DEVTOOLS = 'lmhkpmbekcpmknklioeibfkpmmfibljd';
 
 export default installExtension;
-export { REACT_DEVTOOLS };
+export { REACT_DEVTOOLS, REDUX_DEVTOOLS };
