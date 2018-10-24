@@ -1,12 +1,11 @@
 import { app, BrowserWindow } from 'electron';
-import {
-  default as installExtension,
-  REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS,
-} from 'electron-devtools-installer';
+// import installExtension, { REACT_DEVTOOLS } from './installExtension';
 
 import { createMenu } from './menu';
 import { createMessageListeners } from './listeners';
+
+declare var APP_WEBPACK_ENTRY: string;
+// declare var APP_PRELOAD_WEBPACK_ENTRY: string;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -28,15 +27,12 @@ const createWindow = async () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(
-    `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`,
-  );
+  mainWindow.loadURL(APP_WEBPACK_ENTRY);
 
   // Open the DevTools.
   if (isDevMode) {
     try {
-      await installExtension(REACT_DEVELOPER_TOOLS);
-      await installExtension(REDUX_DEVTOOLS);
+      // await installExtension(REACT_DEVTOOLS);
       mainWindow.webContents.openDevTools();
     } catch (error) {
       console.error(error);

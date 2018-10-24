@@ -1,5 +1,4 @@
 module.exports = {
-  entry: 'src/main/index.ts',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
@@ -7,6 +6,7 @@ module.exports = {
     rules: [
       {
         test: /.tsx?$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
@@ -15,31 +15,24 @@ module.exports = {
               presets: [
                 [
                   '@babel/preset-env',
-                  { targets: { node: '8' } }, // or whatever your project requires
+                  { targets: { electron: '3' } }, // or whatever your project requires
                 ],
                 '@babel/preset-typescript',
+                '@babel/preset-react',
               ],
               plugins: [
-                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-proposal-object-rest-spread',
+                'babel-plugin-styled-components',
+                'react-hot-loader/babel',
               ],
             },
           },
         ],
       },
       {
-        test: /\.md$/,
-        use: [
-          {
-            loader: 'html-loader',
-          },
-          {
-            loader: 'markdown-loader',
-            options: {
-              pedantic: true,
-              sanitize: true,
-            },
-          },
-        ],
+        test: /.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },
     ],
   },
