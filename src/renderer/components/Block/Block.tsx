@@ -7,6 +7,7 @@ import formatMs from '../../utils/formatMs';
 import { ThemeInterface } from '../../styles/theme';
 import { Subtitle } from '../../models/subtitle';
 import { unfocus } from '../../utils/ui';
+import SizeContext from '../Timeline/SizeContext';
 
 const { Menu } = remote;
 
@@ -29,6 +30,8 @@ interface Props {
 
 class Block extends PureComponent<Props> {
   block = createRef<Konva.Group>();
+
+  static contextType = SizeContext;
 
   cacheBlock = () => {
     const block = this.block.current;
