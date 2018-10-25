@@ -2,9 +2,6 @@ import { shell } from 'electron';
 import { stripIndent } from 'common-tags';
 import htmlToText from 'html-to-text';
 
-const { version, homepage } = require('../../package.json');
-const license = require('../../LICENSE.md');
-
 export const ipcSender = (channel: string, ...args: any[]) => (
   menuItem: Electron.MenuItem,
   browserWindow: Electron.BrowserWindow,
@@ -15,7 +12,7 @@ export const ipcSender = (channel: string, ...args: any[]) => (
 
 export const getVersion = () => {
   const info = stripIndent`
-    Version: ${version}
+    Version: ${require('../../package.json').version}
     Date: ${new Date().toLocaleString()}
     Electron: ${process.versions.electron}
     Chrome: ${process.versions.chrome}
@@ -27,9 +24,9 @@ export const getVersion = () => {
 };
 
 export const getLicense = () => {
-  return htmlToText.fromString(license);
+  return htmlToText.fromString(require('../../LICENSE.md'));
 };
 
 export const openWebsite = () => {
-  shell.openExternal(homepage);
+  shell.openExternal(require('../../package.json').homepage);
 };

@@ -3,30 +3,19 @@
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
-
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-
     "inlineSources": true,
     "sourceMap": true,
-
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-
     "noEmitOnError": true,
-
     "jsx": "react",
     "pretty": true
-    // "noEmit": true,
-    // "noEmitHelpers": true,
-    // "importHelpers": true,
-    // "esModuleInterop": true,
-    // "downlevelIteration": true,
-    // "plugins": [
-    //   {
-    //     "name": "typescript-styled-plugin"
-    //   }
-    // ]
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.json"]
 }
