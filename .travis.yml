@@ -1,29 +1,35 @@
-os: osx
-
-osx_image: xcode8.4 # define OS X image which will be mounted
+os:
+  - osx
+  - windows
 
 language: node_js
 
 node_js: '8'
 
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 install:
   # Install mono and wine
-  - brew install mono
-  - brew install wine
-  # Install all dependencies listed in your package.json file
-  - yarn
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    brew install mono;
+    brew install wine;
+    fi
 
-cache: yarn
+  # Install all dependencies listed in your package.json file
+  - npm install
+
+cache:
+  directories: node_modules
 
 stages:
   - name: make
     if: branch = master
-  - name: publish
-    if: branch = master
+  # - name: publish
+  #   if: branch = master
 
 jobs:
   include:
     - stage: make
-      script: yarn run make
-    - stage: publish
-      script: yarn run publish
+      script: npm run make
+    # - stage: publish
+    #   script: npm run publish
