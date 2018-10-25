@@ -1,16 +1,12 @@
 import React, { PureComponent, createRef } from 'react';
 import { FastLayer, Shape, Layer } from 'react-konva';
 import Konva from 'konva';
-import withSize from '../Timeline/withSize';
 import { withTheme } from '../../styles/styled-components';
 import { ThemeInterface } from '../../styles/theme';
 import WaveformData from '../../utils/waveformData';
 
 interface Props {
   waveformData: WaveformData;
-  width: number;
-  height: number;
-  zoomMultiple: number;
   theme: ThemeInterface;
 }
 
@@ -18,11 +14,12 @@ class AudioGraph extends PureComponent<Props> {
   waveform = createRef<Konva.Shape>();
 
   scaleY = (amplitude: number) => {
-    return amplitude * this.props.height * 0.4;
+    return amplitude * this.context.height * 0.4;
   };
 
   sceneFunc = (context: Konva.Context, shape: Konva.Shape) => {
-    const { width, zoomMultiple, waveformData } = this.props;
+    const { waveformData } = this.props;
+    const { width, zoomMultiple } = this.context;
 
     context.beginPath();
 
@@ -66,7 +63,8 @@ class AudioGraph extends PureComponent<Props> {
   }
 
   render() {
-    const { height, theme } = this.props;
+    const { theme } = this.props;
+    const { height } = this.context;
 
     return (
       <FastLayer>
@@ -86,4 +84,4 @@ class AudioGraph extends PureComponent<Props> {
   }
 }
 
-export default withSize(withTheme(AudioGraph));
+export default withTheme(AudioGraph);

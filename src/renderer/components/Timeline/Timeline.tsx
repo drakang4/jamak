@@ -1,8 +1,11 @@
-import React, { createRef } from 'react';
+import React, { Context, ProviderProps } from 'react';
 import { Stage } from 'react-konva';
 import Konva from 'konva';
 import ResizeDetector from 'react-resize-detector';
-import styled from '../../styles/styled-components';
+import styled, {
+  ThemeProvider,
+  ThemeConsumer,
+} from '../../styles/styled-components';
 import AudioGraphContainer from '../../containers/AudioGraph';
 import BlockList from './BlockList';
 import Controls from './Controls';
@@ -10,6 +13,7 @@ import TimeBar from './TimeBar';
 import ProgressBar from './ProgressBar';
 import { Subtitle } from '../../models/subtitle';
 import SizeContext from './SizeContext';
+import { ThemeInterface } from '../../styles/theme';
 
 const Wrapper = styled.div`
   display: flex;
@@ -69,6 +73,11 @@ class Timeline extends React.Component<Props, State> {
     width: 0,
     height: 0,
   };
+
+  // static contextType: Context<ThemeInterface> = {
+  //   Provider: ThemeProvider,
+  //   Consumer: ThemeConsumer,
+  // };
 
   handleStageClick: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
     if (target.getType() !== 'Shape') {
@@ -145,50 +154,56 @@ class Timeline extends React.Component<Props, State> {
               onWheel={this.handleWheel}
               style={{ width: `${multiple * 100}%` }}
             >
-              {/* TODO: Perfomance optimization
-              https://stackoverflow.com/a/42787941/7785932 */}
-              <Stage
-                style={{
-                  transform: `translate(${dx}px`,
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                }}
-                x={-dx}
-                width={width}
-                height={height}
-                onClick={this.handleStageClick}
-              >
-                <SizeContext.Provider
-                  value={{ width, height, zoomMultiple: multiple }}
-                >
-                  {loaded && (
-                    <>
-                      <BlockList
-                        subtitles={subtitles}
-                        selectedIndex={selectedIndex}
-                        duration={duration}
-                        setSelection={setSelection}
-                        appendSelection={appendSelection}
-                        popSelection={popSelection}
-                        updateSubtitle={updateSubtitle}
-                        deleteSubtitle={deleteSubtitle}
-                        seek={seek}
-                        endSeek={endSeek}
-                      />
-                      <AudioGraphContainer />
-                    </>
-                  )}
-                  <ProgressBar
-                    currentTime={currentTime}
-                    duration={duration}
-                    playing={playing}
-                    seeking={seeking}
-                    onSeek={seek}
-                    onEndSeek={endSeek}
-                  />
-                </SizeContext.Provider>
-              </Stage>
+              <ThemeConsumer>
+                {theme => (
+                  // TODO: Perfomance optimization
+                  // https://stackoverflow.com/a/42787941/7785932
+                  <Stage
+                    style={{
+                      transform: `translate(${dx}px`,
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                    }}
+                    x={-dx}
+                    width={width}
+                    height={height}
+                    onClick={this.handleStageClick}
+                  >
+                    <ThemeProvider theme={theme}>
+                      <SizeContext.Provider
+                        value={{ width, height, zoomMultiple: multiple }}
+                      >
+                        {loaded && (
+                          <>
+                            <BlockList
+                              subtitles={subtitles}
+                              selectedIndex={selectedIndex}
+                              duration={duration}
+                              setSelection={setSelection}
+                              appendSelection={appendSelection}
+                              popSelection={popSelection}
+                              updateSubtitle={updateSubtitle}
+                              deleteSubtitle={deleteSubtitle}
+                              seek={seek}
+                              endSeek={endSeek}
+                            />
+                            <AudioGraphContainer />
+                          </>
+                        )}
+                        <ProgressBar
+                          currentTime={currentTime}
+                          duration={duration}
+                          playing={playing}
+                          seeking={seeking}
+                          onSeek={seek}
+                          onEndSeek={endSeek}
+                        />
+                      </SizeContext.Provider>
+                    </ThemeProvider>
+                  </Stage>
+                )}
+              </ThemeConsumer>
             </SizedWrapper>
           </ScrollableWrapper>
         </InnerWrapper>

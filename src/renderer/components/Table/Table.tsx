@@ -9,13 +9,10 @@ import {
   TableRowRenderer,
   RowMouseEventHandlerParams,
 } from 'react-virtualized';
-import styled, { withTheme } from '../../styles/styled-components';
-import { ThemeInterface } from '../../styles/theme';
+import styled, { ThemeConsumer } from '../../styles/styled-components';
 import { Subtitle } from '../../models/subtitle';
 import formatMs from '../../utils/formatMs';
 import { unfocus } from '../../utils/ui';
-import { ActionType } from 'typesafe-actions';
-import { actions as subtitleActions } from '../../store/modules/subtitle';
 
 const HeaderRow = styled.div`
   background-color: ${props => props.theme.pallete.gray[9]};
@@ -39,7 +36,6 @@ const Row = styled.div`
 
 interface Props {
   subtitles: Subtitle[];
-  theme: ThemeInterface;
   setSelection(selectedIndex: Set<number>): void;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
@@ -47,57 +43,59 @@ interface Props {
 
 class Table extends React.Component<Props> {
   render() {
-    const { subtitles, theme } = this.props;
-
-    const gridStyles = { backgroundColor: theme.pallete.gray[8] };
+    const { subtitles } = this.props;
 
     return (
-      <AutoSizer>
-        {({ width, height }) => (
-          <VirtualTable
-            width={width}
-            height={height}
-            gridStyle={gridStyles}
-            headerHeight={32}
-            headerRowRenderer={this.headerRowRenderer}
-            rowCount={subtitles.length}
-            rowGetter={this.rowGetter}
-            rowHeight={32}
-            rowRenderer={this.rowRenderer}
-            onRowDoubleClick={this.handleRowDoubleClick}
-            overscanRowCount={10}
-          >
-            <Column
-              label="#"
-              dataKey="index"
-              cellRenderer={this.indexRenderer}
-              headerRenderer={this.headerRenderer}
-              width={60}
-            />
-            <Column
-              label="시작 시간"
-              dataKey="startTime"
-              cellRenderer={this.timeRenderer}
-              headerRenderer={this.headerRenderer}
-              width={120}
-            />
-            <Column
-              label="종료 시간"
-              dataKey="endTime"
-              cellRenderer={this.timeRenderer}
-              headerRenderer={this.headerRenderer}
-              width={120}
-            />
-            <Column
-              label="자막"
-              dataKey="texts"
-              cellRenderer={this.textRenderer}
-              width={120}
-              flexGrow={1}
-            />
-          </VirtualTable>
+      <ThemeConsumer>
+        {theme => (
+          <AutoSizer>
+            {({ width, height }) => (
+              <VirtualTable
+                width={width}
+                height={height}
+                gridStyle={{ backgroundColor: theme.pallete.gray[8] }}
+                headerHeight={32}
+                headerRowRenderer={this.headerRowRenderer}
+                rowCount={subtitles.length}
+                rowGetter={this.rowGetter}
+                rowHeight={32}
+                rowRenderer={this.rowRenderer}
+                onRowDoubleClick={this.handleRowDoubleClick}
+                overscanRowCount={10}
+              >
+                <Column
+                  label="#"
+                  dataKey="index"
+                  cellRenderer={this.indexRenderer}
+                  headerRenderer={this.headerRenderer}
+                  width={60}
+                />
+                <Column
+                  label="시작 시간"
+                  dataKey="startTime"
+                  cellRenderer={this.timeRenderer}
+                  headerRenderer={this.headerRenderer}
+                  width={120}
+                />
+                <Column
+                  label="종료 시간"
+                  dataKey="endTime"
+                  cellRenderer={this.timeRenderer}
+                  headerRenderer={this.headerRenderer}
+                  width={120}
+                />
+                <Column
+                  label="자막"
+                  dataKey="texts"
+                  cellRenderer={this.textRenderer}
+                  width={120}
+                  flexGrow={1}
+                />
+              </VirtualTable>
+            )}
+          </AutoSizer>
         )}
-      </AutoSizer>
+      </ThemeConsumer>
     );
   }
 
@@ -182,4 +180,4 @@ class Table extends React.Component<Props> {
   };
 }
 
-export default withTheme(Table);
+export default Table;

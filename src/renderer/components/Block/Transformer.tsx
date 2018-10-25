@@ -1,16 +1,12 @@
 import React, { Component, createRef } from 'react';
 import { Group, Rect } from 'react-konva';
 import Konva from 'konva';
-import withSize from '../Timeline/withSize';
 import { withTheme } from '../../styles/styled-components';
 import { ThemeInterface } from '../../styles/theme';
 
 interface Props {
   selectedIndex: number | undefined;
   theme: ThemeInterface;
-  width: number;
-  height: number;
-  zoomMultiple: number;
 }
 
 interface State {
@@ -221,4 +217,4 @@ class Transformer extends Component<Props, State> {
   }
 }
 
-export default withSize(withTheme(Transformer));
+export default withTheme(Transformer);

@@ -1,20 +1,15 @@
 import React, { createRef } from 'react';
 import Konva from 'konva';
 import { Layer, Group, Rect, Line } from 'react-konva';
-import { withTheme } from '../../styles/styled-components';
-import { ThemeInterface } from '../../styles/theme';
-import withSize from './withSize';
+import { ThemeConsumer } from '../../styles/styled-components';
 import { unfocus } from '../../utils/ui';
+import SizeContext from './SizeContext';
 
 interface Props {
   currentTime: number;
   duration: number;
   playing: boolean;
   seeking: boolean;
-  theme: ThemeInterface;
-  width: number;
-  height: number;
-  zoomMultiple: number;
   onSeek(nextTime: number): void;
   onEndSeek(playbackOnSeekEnd: boolean): void;
 }
@@ -28,60 +23,60 @@ class ProgressBar extends React.Component<Props, State> {
     playbackOnSeekEnd: false,
   };
 
+  static contextType = SizeContext;
+
   indicator = createRef<Konva.Group>();
 
   render() {
-    const {
-      currentTime,
-      duration,
-      theme,
-      width,
-      height,
-      zoomMultiple,
-    } = this.props;
+    const { currentTime, duration } = this.props;
+    const { width, height, zoomMultiple } = this.context;
 
     const position = width * zoomMultiple * (currentTime / duration) || 0;
 
     return (
-      <Layer>
-        <Rect
-          x={0}
-          y={0}
-          width={width * zoomMultiple}
-          height={16}
-          fill={theme.pallete.gray[7]}
-          onMouseDown={this.handleMouseDown}
-        />
-        <Group
-          ref={this.indicator}
-          x={position}
-          y={0}
-          draggable
-          dragBoundFunc={pos => ({ x: pos.x, y: 0 })}
-          onDragStart={this.handleDragStart}
-          onDragMove={this.handleDragMove}
-          onDragEnd={this.handleDragEnd}
-          onMouseUp={this.endSeek}
-        >
-          <Rect
-            x={-5}
-            y={0}
-            width={9}
-            height={16}
-            fill={theme.pallete.primary[6]}
-          />
-          <Line
-            points={[0, 0, 0, height]}
-            stroke={theme.pallete.primary[6]}
-            strokeWidth={1}
-          />
-        </Group>
-      </Layer>
+      <ThemeConsumer>
+        {theme => (
+          <Layer>
+            <Rect
+              x={0}
+              y={0}
+              width={width * zoomMultiple}
+              height={16}
+              fill={theme.pallete.gray[7]}
+              onMouseDown={this.handleMouseDown}
+            />
+            <Group
+              ref={this.indicator}
+              x={position}
+              y={0}
+              draggable
+              dragBoundFunc={pos => ({ x: pos.x, y: 0 })}
+              onDragStart={this.handleDragStart}
+              onDragMove={this.handleDragMove}
+              onDragEnd={this.handleDragEnd}
+              onMouseUp={this.endSeek}
+            >
+              <Rect
+                x={-5}
+                y={0}
+                width={9}
+                height={16}
+                fill={theme.pallete.primary[6]}
+              />
+              <Line
+                points={[0, 0, 0, height]}
+                stroke={theme.pallete.primary[6]}
+                strokeWidth={1}
+              />
+            </Group>
+          </Layer>
+        )}
+      </ThemeConsumer>
     );
   }
 
   getBarWidth = () => {
-    const { width, zoomMultiple } = this.props;
+    const { width, zoomMultiple } = this.context;
 
     const barWidth = width * zoomMultiple;
 
@@ -149,4 +144,4 @@ class ProgressBar extends React.Component<Props, State> {
   };
 }
 
-export default withSize(withTheme(ProgressBar));
+export default ProgressBar;

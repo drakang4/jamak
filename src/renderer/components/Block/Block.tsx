@@ -1,19 +1,14 @@
 import React, { PureComponent, createRef } from 'react';
+import Konva from 'konva';
 import { Group, Rect, Text } from 'react-konva';
 import { remote } from 'electron';
 import { withTheme } from '../../styles/styled-components';
 import formatMs from '../../utils/formatMs';
 import { ThemeInterface } from '../../styles/theme';
-import withSize from '../Timeline/withSize';
-import Konva from 'konva';
 import { Subtitle } from '../../models/subtitle';
 import { unfocus } from '../../utils/ui';
 
 const { Menu } = remote;
-
-type TransformHandlerFunc<E = Event> = ((
-  e: { transformer: Konva.Shape },
-) => void);
 
 interface Props {
   index: number;
@@ -23,9 +18,6 @@ interface Props {
   texts: string[];
   selected: boolean;
   theme: ThemeInterface;
-  width: number;
-  height: number;
-  zoomMultiple: number;
   setSelection(selectedIndex: Set<number>): void;
   appendSelection(selectedIndex: Set<number>): void;
   popSelection(selectedIndex: Set<number>): void;
@@ -49,7 +41,8 @@ class Block extends PureComponent<Props> {
   };
 
   calculateTimes = (block: Konva.Shape) => {
-    const { duration, zoomMultiple } = this.props;
+    const { duration } = this.props;
+    const { zoomMultiple } = this.context;
 
     const startTime =
       (block.x() / block.getLayer().width() / zoomMultiple) * duration * 1000;
@@ -119,7 +112,7 @@ class Block extends PureComponent<Props> {
   };
 
   handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    const { zoomMultiple } = this.props;
+    const { zoomMultiple } = this.context;
 
     unfocus(window);
 
@@ -155,11 +148,11 @@ class Block extends PureComponent<Props> {
     });
   };
 
-  handleTransform: Konva.HandlerFunc<MouseEvent> = () => {
+  handleTransform: Konva.HandlerFunc = () => {
     unfocus(window);
   };
 
-  handleTransformEnd: TransformHandlerFunc = ({ transformer }) => {
+  handleTransformEnd: Konva.HandlerFunc = ({ transformer }) => {
     const { index, texts, updateSubtitle } = this.props;
 
     const { startTime, endTime } = this.calculateTimes(transformer);
@@ -201,10 +194,9 @@ class Block extends PureComponent<Props> {
       texts,
       selected,
       theme,
-      width,
-      height,
-      zoomMultiple,
     } = this.props;
+
+    const { width, height, zoomMultiple } = this.context;
 
     const length = (endTime - startTime) / 1000;
     const blockX = (startTime / 1000 / duration) * width * zoomMultiple;
@@ -263,4 +255,4 @@ class Block extends PureComponent<Props> {
   }
 }
 
-export default withSize(withTheme(Block));
+export default withTheme(Block);
