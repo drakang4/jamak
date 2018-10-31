@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
+  will-change: transform;
 `;
 
 const CurrentTime = styled.span`

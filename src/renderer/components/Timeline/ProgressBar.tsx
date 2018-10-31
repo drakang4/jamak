@@ -1,9 +1,37 @@
 import React, { createRef } from 'react';
-import Konva from 'konva';
-import { Layer, Group, Rect, Line } from 'react-konva';
-import { ThemeConsumer } from '../../styles/styled-components';
+import styled from '../../styles/styled-components';
 import { unfocus } from '../../utils/ui';
 import SizeContext from './SizeContext';
+
+const StyledBar = styled.div`
+  width: 100%;
+  height: 16px;
+  background-color: ${({ theme }) => theme.pallete.gray[7]};
+  will-change: transform;
+`;
+
+const Indicator = styled.span<{ lineHeight: number }>`
+  z-index: 1;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: -4px;
+  width: 9px;
+  height: 16px;
+  background-color: ${({ theme }) => theme.pallete.primary[6]};
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: ${props => props.lineHeight}px;
+    left: 4px;
+    border-right: 1px solid ${({ theme }) => theme.pallete.primary[6]};
+  }
+`;
 
 interface Props {
   currentTime: number;
@@ -25,53 +53,22 @@ class ProgressBar extends React.Component<Props, State> {
 
   static contextType = SizeContext;
 
-  indicator = createRef<Konva.Group>();
+  indicator = 'Indicator' || createRef<HTMLSpanElement>();
 
   render() {
     const { currentTime, duration } = this.props;
-    const { width, height, zoomMultiple } = this.context;
 
-    const position = width * zoomMultiple * (currentTime / duration) || 0;
+    const barWidth = this.getBarWidth();
+    const position = barWidth * (currentTime / duration) || 0;
 
     return (
-      <ThemeConsumer>
-        {theme => (
-          <Layer>
-            <Rect
-              x={0}
-              y={0}
-              width={width * zoomMultiple}
-              height={16}
-              fill={theme.pallete.gray[7]}
-              onMouseDown={this.handleMouseDown}
-            />
-            <Group
-              ref={this.indicator}
-              x={position}
-              y={0}
-              draggable
-              dragBoundFunc={pos => ({ x: pos.x, y: 0 })}
-              onDragStart={this.handleDragStart}
-              onDragMove={this.handleDragMove}
-              onDragEnd={this.handleDragEnd}
-              onMouseUp={this.endSeek}
-            >
-              <Rect
-                x={-5}
-                y={0}
-                width={9}
-                height={16}
-                fill={theme.pallete.primary[6]}
-              />
-              <Line
-                points={[0, 0, 0, height]}
-                stroke={theme.pallete.primary[6]}
-                strokeWidth={1}
-              />
-            </Group>
-          </Layer>
-        )}
-      </ThemeConsumer>
+      <StyledBar onMouseDown={this.handleBarMouseDown}>
+        <Indicator
+          ref={this.indicator}
+          lineHeight={this.context.height}
+          style={{ transform: `translateX(${position}px)` }}
+        />
+      </StyledBar>
     );
   }
 
@@ -102,45 +99,46 @@ class ProgressBar extends React.Component<Props, State> {
     }
   };
 
-  handleMouseDown: Konva.HandlerFunc<MouseEvent> = ({ evt }) => {
-    this.startSeek(evt.layerX);
+  handleBarMouseDown: React.MouseEventHandler<HTMLDivElement> = event => {
+    console.log('handleBarMouseDown');
 
-    const indicator = this.indicator.current;
+    const {
+      left: barLeft,
+      width: barWidth,
+    } = event.currentTarget.getBoundingClientRect();
 
-    if (indicator) {
-      indicator.startDrag();
-    }
-  };
+    let initialPosition = event.clientX - barLeft;
 
-  handleDragStart: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    const { seeking } = this.props;
+    this.startSeek(initialPosition);
 
-    if (!seeking) {
-      const { x } = target.getPosition();
+    const handleBarMouseMove = (closureEvent: MouseEvent) => {
+      const { duration, seeking, onSeek } = this.props;
 
-      this.startSeek(x);
-    }
-  };
+      if (seeking) {
+        initialPosition += closureEvent.movementX;
 
-  handleDragMove: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    const { duration, seeking, onSeek } = this.props;
+        let rate = initialPosition / barWidth;
 
-    if (seeking) {
-      let rate = target.getPosition().x / this.getBarWidth();
+        if (rate < 0) {
+          rate = 0;
+        } else if (rate > 1) {
+          rate = 1;
+        }
 
-      if (rate < 0) {
-        rate = 0;
-      } else if (rate > 1) {
-        rate = 1;
+        unfocus(window);
+        onSeek(rate * duration);
       }
+    };
 
-      unfocus(window);
-      onSeek(rate * duration);
-    }
-  };
+    const handleBarMouseUp = () => {
+      this.endSeek();
 
-  handleDragEnd: Konva.HandlerFunc<MouseEvent> = () => {
-    this.endSeek();
+      window.removeEventListener('mousemove', handleBarMouseMove);
+      window.removeEventListener('mouseup', handleBarMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleBarMouseMove);
+    window.addEventListener('mouseup', handleBarMouseUp);
   };
 }
 

@@ -1,11 +1,6 @@
-import React, { Context, ProviderProps } from 'react';
-import { Stage } from 'react-konva';
-import Konva from 'konva';
+import React from 'react';
 import ResizeDetector from 'react-resize-detector';
-import styled, {
-  ThemeProvider,
-  ThemeConsumer,
-} from '../../styles/styled-components';
+import styled from '../../styles/styled-components';
 import AudioGraphContainer from '../../containers/AudioGraph';
 import BlockList from './BlockList';
 import Controls from './Controls';
@@ -13,13 +8,13 @@ import TimeBar from './TimeBar';
 import ProgressBar from './ProgressBar';
 import { Subtitle } from '../../models/subtitle';
 import SizeContext from './SizeContext';
-import { ThemeInterface } from '../../styles/theme';
 
 const Wrapper = styled.div`
   display: flex;
   flex: 1;
   width: 100%;
   height: 100%;
+  will-change: transform;
 `;
 
 const InnerWrapper = styled.div`
@@ -27,9 +22,11 @@ const InnerWrapper = styled.div`
   flex: 1;
   flex-direction: column;
   background-color: ${props => props.theme.pallete.gray[9]};
+  will-change: transform;
 `;
 
 const ScrollableWrapper = styled.div`
+  position: relative;
   flex: 1;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -37,7 +34,6 @@ const ScrollableWrapper = styled.div`
 
 const SizedWrapper = styled.div`
   overflow: hidden;
-  position: relative;
   height: 100%;
 `;
 
@@ -49,7 +45,6 @@ interface Props {
   seeking: boolean;
   subtitles: Subtitle[];
   selectedIndex: Set<number>;
-  multiple: number;
   seek(nextTime: number): void;
   endSeek(playbackOnSeekEnd: boolean): void;
   setSelection(indexes: Set<number>): void;
@@ -58,54 +53,43 @@ interface Props {
   addSubtitle(subtitle: Subtitle): void;
   updateSubtitle(param: { index: number; subtitle: Subtitle }): void;
   deleteSubtitle(indexes: Set<number>): void;
-  setMultiple(multiple: number): void;
 }
 
 interface State {
-  dx: number;
-  width: number;
-  height: number;
+  scrollLeft: number;
+  zoomMultiple: number;
 }
 
 class Timeline extends React.Component<Props, State> {
   state = {
-    dx: 0,
-    width: 0,
-    height: 0,
+    scrollLeft: 0,
+    zoomMultiple: 1,
   };
 
-  // static contextType: Context<ThemeInterface> = {
-  //   Provider: ThemeProvider,
-  //   Consumer: ThemeConsumer,
-  // };
-
-  handleStageClick: Konva.HandlerFunc<MouseEvent> = ({ target }) => {
-    if (target.getType() !== 'Shape') {
+  handleWorkStageClick: React.MouseEventHandler<HTMLDivElement> = event => {
+    if (event.target === event.currentTarget) {
       this.props.setSelection(new Set());
     }
   };
 
-  handleWheel: React.WheelEventHandler = event => {
-    const { multiple, setMultiple } = this.props;
+  handleScroll: React.UIEventHandler<HTMLDivElement> = event => {
+    this.setState({ scrollLeft: event.currentTarget.scrollLeft });
+  };
+
+  handleZoom: React.WheelEventHandler = event => {
     if (event.altKey) {
       if (event.deltaY > 0) {
-        if (multiple > 1) {
-          setMultiple(multiple / 2);
+        if (this.state.zoomMultiple > 1) {
+          this.setState(prevState => ({
+            zoomMultiple: prevState.zoomMultiple / 2,
+          }));
         }
       } else {
-        setMultiple(multiple * 2);
+        this.setState(prevState => ({
+          zoomMultiple: prevState.zoomMultiple * 2,
+        }));
       }
     }
-  };
-
-  handleScroll: React.ReactEventHandler = event => {
-    const dx = event.currentTarget.scrollLeft;
-
-    this.setState({ dx });
-  };
-
-  handleResize = (width: number, height: number) => {
-    this.setState({ width, height });
   };
 
   render() {
@@ -117,7 +101,6 @@ class Timeline extends React.Component<Props, State> {
       seeking,
       subtitles,
       selectedIndex,
-      multiple,
       seek,
       endSeek,
       setSelection,
@@ -128,7 +111,7 @@ class Timeline extends React.Component<Props, State> {
       deleteSubtitle,
     } = this.props;
 
-    const { dx, width, height } = this.state;
+    const { zoomMultiple, scrollLeft } = this.state;
 
     return (
       <Wrapper>
@@ -142,69 +125,51 @@ class Timeline extends React.Component<Props, State> {
         />
         <InnerWrapper>
           <TimeBar currentTime={currentTime} duration={duration} />
-          <ScrollableWrapper onScroll={this.handleScroll}>
+          <ScrollableWrapper
+            onScroll={this.handleScroll}
+            onWheel={this.handleZoom}
+          >
+            {/* <- 이게 실제로 스크롤 되는 Box임 */}
             <ResizeDetector
               handleWidth
               handleHeight
               refreshMode="debounce"
               refreshRate={16} // ~60fps
-              onResize={this.handleResize}
-            />
-            <SizedWrapper
-              onWheel={this.handleWheel}
-              style={{ width: `${multiple * 100}%` }}
             >
-              <ThemeConsumer>
-                {theme => (
-                  // TODO: Perfomance optimization
-                  // https://stackoverflow.com/a/42787941/7785932
-                  <Stage
-                    style={{
-                      transform: `translate(${dx}px`,
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                    }}
-                    x={-dx}
-                    width={width}
-                    height={height}
-                    onClick={this.handleStageClick}
-                  >
-                    <ThemeProvider theme={theme}>
-                      <SizeContext.Provider
-                        value={{ width, height, zoomMultiple: multiple }}
-                      >
-                        {loaded && (
-                          <>
-                            <BlockList
-                              subtitles={subtitles}
-                              selectedIndex={selectedIndex}
-                              duration={duration}
-                              setSelection={setSelection}
-                              appendSelection={appendSelection}
-                              popSelection={popSelection}
-                              updateSubtitle={updateSubtitle}
-                              deleteSubtitle={deleteSubtitle}
-                              seek={seek}
-                              endSeek={endSeek}
-                            />
-                            <AudioGraphContainer />
-                          </>
-                        )}
-                        <ProgressBar
-                          currentTime={currentTime}
+              {(width: number, height: number) => (
+                <SizeContext.Provider
+                  value={{ width, height, zoomMultiple, scrollLeft }}
+                >
+                  <SizedWrapper style={{ width: `${zoomMultiple * 100}%` }}>
+                    <ProgressBar
+                      currentTime={currentTime}
+                      duration={duration}
+                      playing={playing}
+                      seeking={seeking}
+                      onSeek={seek}
+                      onEndSeek={endSeek}
+                    />
+                    {loaded && (
+                      <>
+                        <BlockList
+                          subtitles={subtitles}
+                          selectedIndex={selectedIndex}
                           duration={duration}
-                          playing={playing}
-                          seeking={seeking}
-                          onSeek={seek}
-                          onEndSeek={endSeek}
+                          setSelection={setSelection}
+                          appendSelection={appendSelection}
+                          popSelection={popSelection}
+                          updateSubtitle={updateSubtitle}
+                          deleteSubtitle={deleteSubtitle}
+                          seek={seek}
+                          endSeek={endSeek}
                         />
-                      </SizeContext.Provider>
-                    </ThemeProvider>
-                  </Stage>
-                )}
-              </ThemeConsumer>
-            </SizedWrapper>
+                        <AudioGraphContainer />
+                      </>
+                    )}
+                  </SizedWrapper>
+                </SizeContext.Provider>
+              )}
+            </ResizeDetector>
           </ScrollableWrapper>
         </InnerWrapper>
       </Wrapper>
