@@ -1,87 +1,133 @@
-import React, { PureComponent, createRef } from 'react';
-import { FastLayer, Shape, Layer } from 'react-konva';
-import Konva from 'konva';
-import { withTheme } from '../../styles/styled-components';
-import { ThemeInterface } from '../../styles/theme';
-import WaveformData from '../../utils/waveformData';
+import React, { Component, createRef } from 'react';
+import WaveformData, { buildWaveformData } from '../../utils/WaveformData';
+import { promisify } from 'util';
+import { readFile } from 'fs';
+import Loading from './Loading';
+import SizeContext from '../Timeline/SizeContext';
 
 interface Props {
-  waveformData: WaveformData;
-  theme: ThemeInterface;
+  source: string;
 }
 
-class AudioGraph extends PureComponent<Props> {
-  waveform = createRef<Konva.Shape>();
+interface State {
+  loading: boolean;
+  waveformData: WaveformData | null;
+}
 
-  scaleY = (amplitude: number) => {
-    return amplitude * this.context.height * 0.4;
+class AudioGraph extends Component<Props, State> {
+  state = {
+    loading: false,
+    waveformData: null,
   };
 
-  sceneFunc = (context: Konva.Context, shape: Konva.Shape) => {
-    const { waveformData } = this.props;
-    const { width, zoomMultiple } = this.context;
+  static contextType = SizeContext;
 
-    context.beginPath();
+  canvas = createRef<HTMLCanvasElement>();
 
-    for (let x = 0; x < width * zoomMultiple; x++) {
-      const amplitude = waveformData.at(x, width * zoomMultiple);
+  loadData = async () => {
+    try {
+      const { source } = this.props;
 
-      context.lineTo(x + 0.5, this.scaleY(amplitude) + 0.5);
+      console.time('readFile');
+      const { buffer } = await promisify(readFile)(source);
+      console.timeEnd('readFile');
+
+      console.time('decodeAudioData');
+      const audioContext = new AudioContext();
+      const audioBuffer = await audioContext.decodeAudioData(
+        buffer as ArrayBuffer,
+      );
+      console.timeEnd('decodeAudioData');
+
+      console.log(
+        audioBuffer.length,
+        audioBuffer.sampleRate,
+        audioBuffer.duration,
+        audioBuffer.numberOfChannels,
+      );
+
+      console.time('buildWaveformData');
+      const waveformData = buildWaveformData(audioBuffer);
+      console.timeEnd('buildWaveformData');
+
+      this.setState({
+        loading: false,
+        waveformData,
+      });
+    } catch (error) {
+      throw error;
     }
-
-    context.closePath();
-
-    context.fillShape(shape);
   };
 
-  cacheWaveform = () => {
-    const waveform = this.waveform.current;
+  drawWaveform = () => {
+    const canvas = this.canvas.current;
+    const { waveformData } = this.state;
 
-    if (!waveform) {
-      return;
+    if (canvas && waveformData) {
+      const { width, height, zoomMultiple, scrollLeft } = this.context;
+
+      const ctx = canvas.getContext('2d')!;
+
+      const resampled = (waveformData as WaveformData).resample(
+        width,
+        scrollLeft,
+        zoomMultiple,
+      );
+
+      ctx.strokeStyle = '#fff';
+      ctx.beginPath();
+      for (let i = 0; i < width; i++) {
+        const x = i;
+        const y =
+          (waveformData as WaveformData).at(i, canvas.width) * canvas.height;
+
+        console.log(y);
+
+        ctx.moveTo(x, canvas.height);
+        ctx.lineTo(x + 1, y);
+        ctx.stroke();
+      }
+      ctx.restore();
     }
-
-    waveform.cache();
   };
 
   componentDidMount() {
-    this.cacheWaveform();
+    this.loadData();
   }
 
-  componentDidUpdate() {
-    this.cacheWaveform();
-  }
-
-  componentWillUnmount() {
-    const waveform = this.waveform.current;
-
-    if (!waveform) {
-      return;
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.source !== this.props.source) {
+      this.loadData();
     }
 
-    waveform.clearCache();
+    this.drawWaveform();
   }
 
   render() {
-    const { theme } = this.props;
-    const { height } = this.context;
+    const { loading, waveformData } = this.state;
+
+    if (loading) {
+      return null;
+    }
+
+    const { width, height, zoomMultiple, scrollLeft } = this.context;
+
+    const canvasWidth = width;
+    const canvasHeight = height * 0.4;
 
     return (
-      <FastLayer>
-        <Shape
-          fill={theme.pallete.gray[7]}
-          y={height}
-          scaleY={-1}
-          sceneFunc={this.sceneFunc}
-          dashEnabled={false}
-          strokeEnabled={false}
-          listening={false}
-          shadowForStrokeEnabled={false}
-          perfectDrawEnabled={false}
-        />
-      </FastLayer>
+      <canvas
+        ref={this.canvas}
+        style={{
+          width: canvasWidth,
+          height: canvasHeight,
+          left: scrollLeft,
+          bottom: 0,
+          position: 'absolute',
+        }}
+      />
     );
   }
 }
 
-export default withTheme(AudioGraph);
+export default AudioGraph;

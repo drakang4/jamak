@@ -1,15 +1,22 @@
-interface WaveformDataOptions {}
+interface WaveformDataOptions {
+  dataLength: number;
+  duration: number;
+  sampleRate: number;
+
+  // Actually dataLength == duration * sampleRate
+}
 
 export default class WaveformData {
   data: Float32Array;
-  audioContext = new AudioContext();
+  options: WaveformDataOptions;
 
-  constructor(rawData: Float32Array, options?: WaveformDataOptions) {
-    this.data = rawData;
+  constructor(data: Float32Array, options: WaveformDataOptions) {
+    this.data = data;
+    this.options = options;
   }
 
-  // 1. Bucket raw data
-  // 2. Get bucketed data by position
+  resample(size: number, offset: number, zoomLevel: number) {}
+
   at(position: number, ofSize: number) {
     const binningSize = Math.floor(this.data.length / ofSize);
 
@@ -31,3 +38,29 @@ export default class WaveformData {
     return rms;
   }
 }
+
+export const buildWaveformData = (audioBuffer: AudioBuffer) => {
+  const channels = [...new Array(audioBuffer.numberOfChannels)].map(
+    (_, index) => audioBuffer.getChannelData(index),
+  );
+
+  const reducedChannel = new Float32Array(audioBuffer.length);
+
+  for (let i = 0; i < audioBuffer.length; i++) {
+    let sample = 0;
+
+    for (const channel of channels) {
+      sample += channel[i];
+    }
+
+    sample = sample / channels.length;
+
+    reducedChannel[i] = sample;
+  }
+
+  return new WaveformData(reducedChannel, {
+    dataLength: audioBuffer.length,
+    duration: audioBuffer.duration,
+    sampleRate: audioBuffer.sampleRate,
+  });
+};
