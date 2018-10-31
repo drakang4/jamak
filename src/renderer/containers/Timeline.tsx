@@ -3,7 +3,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { RootState } from '../store/rootReducer';
 import { actions as playerActions } from '../store/modules/player';
 import { actions as subtitleActions } from '../store/modules/subtitle';
-import { actions as timelineActions } from '../store/modules/timeline';
 import Timeline from '../components/Timeline';
 
 const { seek, endSeek } = playerActions;
@@ -15,7 +14,6 @@ const {
   updateSubtitle,
   deleteSubtitle,
 } = subtitleActions;
-const { setMultiple } = timelineActions;
 
 const mapStateToProps = (state: RootState) => ({
   loaded: state.player.loaded,
@@ -25,7 +23,6 @@ const mapStateToProps = (state: RootState) => ({
   seeking: state.player.seeking,
   subtitles: state.subtitle.data,
   selectedIndex: state.subtitle.selectedIndex,
-  multiple: state.timeline.multiple,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -39,7 +36,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       addSubtitle,
       updateSubtitle,
       deleteSubtitle,
-      setMultiple,
     },
     dispatch,
   );
