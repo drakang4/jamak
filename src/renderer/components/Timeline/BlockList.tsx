@@ -34,87 +34,6 @@ interface Props {
 class BlockList extends Component<Props> {
   static contextType = SizeContext;
 
-  filterByTimeRange = () => {
-    const { scrollLeft, width, zoomMultiple } = this.context;
-
-    const start = scrollLeft;
-    const end = scrollLeft + width;
-    const full = width * zoomMultiple;
-    const { duration } = this.props;
-
-    const { startTime, endTime } = getTimeRange(start, end, full, duration);
-
-    const filteredSubtitles = this.props.subtitles.filter(
-      subtitle =>
-        subtitle.startTime >= startTime && subtitle.endTime <= endTime,
-    );
-
-    return filteredSubtitles;
-  };
-
-  renderVisibleBlocks = () => {
-    const { subtitles } = this.props;
-
-    const { scrollLeft, width, zoomMultiple } = this.context;
-
-    const start = scrollLeft;
-    const end = scrollLeft + width;
-    const full = width * zoomMultiple;
-    const {
-      duration,
-      selectedIndex,
-      setSelection,
-      appendSelection,
-      popSelection,
-      updateSubtitle,
-      deleteSubtitle,
-      seek,
-      endSeek,
-    } = this.props;
-
-    const { startTime, endTime } = getTimeRange(start, end, full, duration);
-
-    const visibleBlocks = new Map<number, ISubtitle>();
-
-    subtitles.forEach((subtitle, index) => {
-      const visible =
-        subtitle.startTime >= startTime && subtitle.endTime <= endTime;
-      // (subtitle.startTime < startTime && subtitle.endTime > startTime) ||
-      // (subtitle.startTime < endTime && subtitle.endTime < endTime);
-
-      if (visible) {
-        visibleBlocks.set(index, subtitle);
-      }
-    });
-
-    const renderingBlocks = [];
-
-    for (const block of visibleBlocks) {
-      const [index, subtitle] = block;
-
-      renderingBlocks.push(
-        <Block
-          key={index}
-          index={index}
-          duration={duration}
-          startTime={subtitle.startTime}
-          endTime={subtitle.endTime}
-          texts={subtitle.texts}
-          selected={selectedIndex.has(index)}
-          setSelection={setSelection}
-          appendSelection={appendSelection}
-          popSelection={popSelection}
-          updateSubtitle={updateSubtitle}
-          deleteSubtitle={deleteSubtitle}
-          seek={seek}
-          endSeek={endSeek}
-        />,
-      );
-    }
-
-    return renderingBlocks;
-  };
-
   handleDragStart = () => {};
 
   handleDragMove = () => {};
@@ -179,44 +98,55 @@ class BlockList extends Component<Props> {
     endSeek(false);
   };
 
-  render() {
+  renderVisibleBlocks = () => {
     const { subtitles, duration, selectedIndex } = this.props;
 
-    return (
-      <VirtualView>
-        {subtitles.map((subtitle, index) => {
-          const selected = selectedIndex.has(index);
+    const { scrollLeft, width, zoomMultiple } = this.context;
 
-          return (
-            <Draggable
-              key={index}
-              direction="horizontal"
-              onDragStart={this.handleDragStart}
-              onDragMove={this.handleDragMove}
-              onDragEnd={this.handleDragEnd(index)}
-            >
-              <Block
-                index={index}
-                duration={duration}
-                startTime={subtitle.startTime}
-                endTime={subtitle.endTime}
-                texts={subtitle.texts}
-                selected={selected}
-                onSelect={this.handleSelect(index, selected)}
-                onContextMenu={this.handleContextMenu(index)}
-                onDoubleClick={this.handleDoubleClick(subtitle.startTime)}
-              />
-            </Draggable>
-          );
-        })}
-        {/* {this.renderVisibleBlocks()} */}
-        {/* <Transformer
-            selectedIndex={
-              [...selectedIndex][Math.max(selectedIndex.size - 1, 0)]
-            }
-          /> */}
-      </VirtualView>
-    );
+    const start = scrollLeft;
+    const end = scrollLeft + width;
+    const full = width * zoomMultiple;
+
+    const { startTime, endTime } = getTimeRange(start, end, full, duration);
+
+    const visibleBlocks: React.ReactNode[] = [];
+
+    subtitles.forEach((subtitle, index) => {
+      const visible =
+        subtitle.startTime <= endTime && subtitle.endTime >= startTime;
+
+      if (visible) {
+        const selected = selectedIndex.has(index);
+
+        visibleBlocks.push(
+          <Draggable
+            key={index}
+            direction="horizontal"
+            onDragStart={this.handleDragStart}
+            onDragMove={this.handleDragMove}
+            onDragEnd={this.handleDragEnd(index)}
+          >
+            <Block
+              index={index}
+              duration={duration}
+              startTime={subtitle.startTime}
+              endTime={subtitle.endTime}
+              texts={subtitle.texts}
+              selected={selected}
+              onSelect={this.handleSelect(index, selected)}
+              onContextMenu={this.handleContextMenu(index)}
+              onDoubleClick={this.handleDoubleClick(subtitle.startTime)}
+            />
+          </Draggable>,
+        );
+      }
+    });
+
+    return visibleBlocks;
+  };
+
+  render() {
+    return <VirtualView>{this.renderVisibleBlocks()}</VirtualView>;
   }
 }
 
