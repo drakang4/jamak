@@ -25,7 +25,6 @@ const createWindow = async () => {
     backgroundColor: '#212529',
     webPreferences: {
       webSecurity: false,
-      experimentalCanvasFeatures: true,
     },
   });
 
