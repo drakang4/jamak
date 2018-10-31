@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Pane from './Pane';
 import Resizer from './Resizer';
-import { getElementNode } from '../../utils/node';
 import { unfocus } from '../../utils/ui';
 
 const Wrapper = styled.div<{ type: 'vertical' | 'horizontal' }>`
@@ -101,9 +100,7 @@ class SplitPane extends React.Component<Props, IState> {
     if (!resizeDisabled && active) {
       unfocus(window);
 
-      const node = getElementNode(this.pane1.current);
-
-      if (node !== null) {
+      if (this.pane1.current !== null) {
         const wrapperSize =
           type === 'vertical'
             ? this.wrapper.current!.clientWidth
