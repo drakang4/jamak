@@ -5,8 +5,7 @@ import Transformer from '../Block/Transformer';
 import { Subtitle } from '../../models/subtitle';
 import styled from '../../styles/styled-components';
 import SizeContext from './SizeContext';
-import { getTimeRange } from '../../utils/time';
-import { ISubtitle } from 'subtitle-utils';
+import { getTimeRange, dxToTime, timeToDx } from '../../utils/time';
 import Draggable from '../Block/Draggable';
 
 const { Menu } = remote;
@@ -43,7 +42,7 @@ class BlockList extends Component<Props> {
 
     const { width, zoomMultiple } = this.context;
 
-    const diffTime = (x / (width * zoomMultiple)) * duration * 1000;
+    const diffTime = dxToTime(x, width, zoomMultiple, duration);
 
     const startTime = subtitles[index].startTime + diffTime;
     const endTime = subtitles[index].endTime + diffTime;
@@ -56,6 +55,39 @@ class BlockList extends Component<Props> {
         texts: subtitles[index].texts,
       },
     });
+  };
+
+  getBound = (index: number) => {
+    const { subtitles, duration } = this.props;
+    const { width, zoomMultiple } = this.context;
+
+    const currentSubtitle = subtitles[index];
+    const prevSubtitle = index > 0 ? subtitles[index - 1] : null;
+    const nextSubtitle =
+      index < subtitles.length - 1 ? subtitles[index + 1] : null;
+
+    // get distance between prev and current and next and current
+
+    console.log(index);
+    const prevTime = prevSubtitle === null ? 0 : prevSubtitle.endTime;
+    const nextTime = nextSubtitle === null ? duration : nextSubtitle.startTime;
+
+    const dxPrev = timeToDx(
+      currentSubtitle.startTime,
+      prevTime,
+      width,
+      zoomMultiple,
+      duration,
+    );
+    const dxNext = timeToDx(
+      currentSubtitle.endTime,
+      nextTime,
+      width,
+      zoomMultiple,
+      duration,
+    );
+
+    return { min: { x: dxPrev, y: 0 }, max: { x: dxNext, y: 0 } };
   };
 
   handleSelect = (index: number, selected: boolean) => (
@@ -118,10 +150,15 @@ class BlockList extends Component<Props> {
       if (visible) {
         const selected = selectedIndex.has(index);
 
+        const { min, max } = this.getBound(index);
+
+        console.log(min, max);
         visibleBlocks.push(
           <Draggable
             key={index}
             direction="horizontal"
+            min={min}
+            max={max}
             onDragStart={this.handleDragStart}
             onDragMove={this.handleDragMove}
             onDragEnd={this.handleDragEnd(index)}

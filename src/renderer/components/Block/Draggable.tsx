@@ -3,8 +3,10 @@ import { unfocus } from '../../utils/ui';
 
 interface Props {
   direction?: 'horizontal' | 'vertical';
+  min?: { x: number; y: number };
+  max?: { x: number; y: number };
   onDragStart?(): void;
-  onDragMove?(x: number, y: number): void;
+  onDragMove?(): void;
   onDragEnd?(x: number, y: number): void;
 }
 
@@ -22,7 +24,14 @@ export default class Draggable extends Component<Props, State> {
   };
 
   handleMouseDown: React.MouseEventHandler<HTMLDivElement> = event => {
-    const { direction, onDragStart, onDragMove, onDragEnd } = this.props;
+    const {
+      direction,
+      min,
+      max,
+      onDragStart,
+      onDragMove,
+      onDragEnd,
+    } = this.props;
 
     let xPosition = 0;
     let yPosition = 0;
@@ -43,8 +52,26 @@ export default class Draggable extends Component<Props, State> {
         yPosition += moveEvent.movementY;
       }
 
+      if (min) {
+        if (xPosition < min.x) {
+          xPosition = min.x;
+        }
+        if (yPosition < min.y) {
+          yPosition = min.y;
+        }
+      }
+
+      if (max) {
+        if (xPosition > max.x) {
+          xPosition = max.x;
+        }
+        if (yPosition > max.y) {
+          yPosition = max.y;
+        }
+      }
+
       if (onDragMove) {
-        onDragMove(xPosition, yPosition);
+        onDragMove();
       }
 
       this.setState({ x: xPosition, y: yPosition });
