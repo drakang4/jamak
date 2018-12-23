@@ -7,7 +7,7 @@ import styled from '../styles/styled-components';
 import WelcomeContainer from '../containers/Welcome';
 import { subtitleExt, videoExt } from '../../common/fileExtSet';
 
-const Wrapper = styled(Dropzone)`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -48,25 +48,9 @@ const SubHeader = styled.h2`
   color: ${props => props.theme.pallete.gray[5]};
 `;
 
-interface State {
-  dropzoneActive: boolean;
-}
-
-class Welcome extends Component<any, State> {
-  state = { dropzoneActive: false };
-
-  handleDragEnter = () => {
-    this.setState({ dropzoneActive: true });
-  };
-
-  handleDragLeave = () => {
-    this.setState({ dropzoneActive: false });
-  };
-
-  handleDrop = (files: File[]) => {
-    this.setState({ dropzoneActive: false });
-
-    files.forEach(file => {
+class Welcome extends Component {
+  handleDrop = (acceptedFiles: File[], rejectedFiles: File[]) => {
+    acceptedFiles.forEach(file => {
       const ext = path.extname(file.path);
 
       if (videoExt.has(ext)) {
@@ -78,24 +62,22 @@ class Welcome extends Component<any, State> {
   };
 
   render() {
-    const { dropzoneActive } = this.state;
-
     return (
-      <Wrapper
-        disableClick
-        style={{ position: 'absolute' }}
-        onDragEnter={this.handleDragEnter}
-        onDragLeave={this.handleDragLeave}
-        onDrop={this.handleDrop}
-      >
-        <Helmet>
-          <title>Jamak</title>
-        </Helmet>
-        {dropzoneActive && <DropOverlay>Drop files here</DropOverlay>}
-        <Header>Jamak</Header>
-        <SubHeader>Load a subtitle and a video file.</SubHeader>
-        <WelcomeContainer />
-      </Wrapper>
+      <Dropzone accept="video/*, audio/*" disableClick onDrop={this.handleDrop}>
+        {({ isDragActive }) => {
+          return (
+            <Wrapper>
+              <Helmet>
+                <title>Jamak</title>
+              </Helmet>
+              {isDragActive && <DropOverlay>Drop files here</DropOverlay>}
+              <Header>Jamak</Header>
+              <SubHeader>Load a subtitle and a video file.</SubHeader>
+              <WelcomeContainer />
+            </Wrapper>
+          );
+        }}
+      </Dropzone>
     );
   }
 }
