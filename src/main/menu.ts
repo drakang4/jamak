@@ -31,7 +31,7 @@ const template: Electron.MenuItemConstructorOptions[] = [
       { type: 'separator' },
       {
         label: 'Open Recent',
-        submenu: [{}],
+        // submenu: [{}],
       },
       { type: 'separator' },
       {
