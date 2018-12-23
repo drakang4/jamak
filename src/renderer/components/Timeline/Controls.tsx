@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '../../styles/styled-components';
 import { Subtitle } from '../../models/subtitle';
+import shortid from 'shortid';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ class Controls extends React.Component<Props> {
         : startTime + 3000;
 
     this.props.onAdd({
+      id: shortid.generate(),
       startTime,
       endTime,
       texts: [''],
@@ -51,10 +53,10 @@ class Controls extends React.Component<Props> {
   };
 
   handleClear: React.MouseEventHandler = () => {
-    this.props.onClear({
-      index: 1,
-      subtitle: { startTime: 0, endTime: 0, texts: [''] },
-    });
+    // this.props.onClear({
+    //   index: this.props.selectedIndex,
+    //   subtitle: { id: 's', startTime: 0, endTime: 0, texts: [''] },
+    // });
   };
 
   handleDelete: React.MouseEventHandler = () => {

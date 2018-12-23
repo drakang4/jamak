@@ -1,3 +1,6 @@
-import { ISubtitle } from 'subtitle-utils';
-
-export type Subtitle = ISubtitle;
+export interface Subtitle {
+  id: string;
+  startTime: number;
+  endTime: number;
+  texts: string[];
+}

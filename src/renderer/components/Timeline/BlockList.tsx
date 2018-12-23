@@ -155,7 +155,7 @@ class BlockList extends Component<Props> {
         console.log(min, max);
         visibleBlocks.push(
           <Draggable
-            key={index}
+            key={subtitle.id}
             direction="horizontal"
             min={min}
             max={max}

@@ -151,7 +151,7 @@ class Table extends React.Component<Props> {
 
     return (
       <Row
-        key={`row-${index}`}
+        key={rowData.id}
         role="row"
         aria-label="row"
         className={className}

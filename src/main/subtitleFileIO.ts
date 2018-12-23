@@ -1,6 +1,7 @@
 import util from 'util';
 import fs from 'fs';
 import Subtitle from 'subtitle-utils';
+import shortid from 'shortid';
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
@@ -11,7 +12,12 @@ export const readSubtitleFile = async (path: string) => {
 
     const { subtitles } = Subtitle.fromSRT(rawData.toString());
 
-    return subtitles;
+    const keyedSubtitles = subtitles.map(subtitle => ({
+      ...subtitle,
+      id: shortid.generate(),
+    }));
+
+    return keyedSubtitles;
   } catch (error) {
     throw error;
   }
