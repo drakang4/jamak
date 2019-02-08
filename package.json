@@ -31,7 +31,7 @@
     "@babel/preset-typescript": "7.1.0",
     "@electron-forge/cli": "6.0.0-beta.30",
     "@electron-forge/maker-dmg": "6.0.0-beta.30",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.30",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.33",
     "@electron-forge/publisher-github": "6.0.0-beta.30",
     "@types/common-tags": "1.8.0",
     "@types/decompress": "4.2.3",
