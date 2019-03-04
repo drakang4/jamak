@@ -44,7 +44,7 @@
     "@types/react-dom": "16.0.11",
     "@types/react-helmet": "5.0.7",
     "@types/react-redux": "6.0.11",
-    "@types/react-resize-detector": "3.1.0",
+    "@types/react-resize-detector": "3.1.1",
     "@types/react-router-dom": "4.3.1",
     "@types/react-side-effect": "1.1.1",
     "@types/react-textarea-autosize": "4.3.3",
