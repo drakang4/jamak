@@ -54,7 +54,7 @@
     "@types/webpack-env": "1.13.6",
     "babel-loader": "8.0.4",
     "babel-plugin-styled-components": "1.10.0",
-    "css-loader": "2.0.2",
+    "css-loader": "2.1.1",
     "electron": "4.0.2",
     "electron-builder": "20.38.4",
     "electron-devtools-installer": "2.2.4",
