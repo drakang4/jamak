@@ -40,7 +40,7 @@
     "@types/html-to-text": "1.4.31",
     "@types/mkdirp": "0.5.2",
     "@types/parse-ms": "1.0.0",
-    "@types/react": "16.7.18",
+    "@types/react": "16.8.23",
     "@types/react-dom": "16.0.11",
     "@types/react-helmet": "5.0.7",
     "@types/react-redux": "6.0.11",
