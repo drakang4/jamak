@@ -50,7 +50,7 @@
     "@types/react-textarea-autosize": "4.3.3",
     "@types/react-virtualized": "9.18.11",
     "@types/rimraf": "2.0.2",
-    "@types/styled-components": "4.1.4",
+    "@types/styled-components": "4.1.18",
     "@types/webpack-env": "1.13.6",
     "babel-loader": "8.0.4",
     "babel-plugin-styled-components": "1.10.0",
